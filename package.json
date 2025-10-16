@@ -1,0 +1,56 @@
+{
+  "name": "tbwllm",
+  "version": "0.1.0",
+  "description": "Trading Bot with LLM - Algorithmic trading system with TypeScript + Python",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts",
+    "start": "node dist/index.js",
+    "backtest": "tsx src/backtest/run.ts",
+    "bot:paper": "tsx src/bot/paper-trader.ts",
+    "bot:webhook": "tsx src/bot/webhook-server.ts"
+  },
+  "keywords": [
+    "trading",
+    "algorithmic-trading",
+    "bot",
+    "cryptocurrency",
+    "backtesting",
+    "technical-analysis"
+  ],
+  "author": "LyonSsS",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LyonSsS/tbwllm.git"
+  },
+  "dependencies": {
+    "ccxt": "^4.2.25",
+    "zod": "^3.22.4",
+    "pino": "^8.17.2",
+    "pino-pretty": "^10.3.1",
+    "technicalindicators": "^3.1.0",
+    "fastify": "^4.25.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/jest": "^29.5.11",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+
