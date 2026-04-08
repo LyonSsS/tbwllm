@@ -66,3 +66,5 @@ temp/
 # OS
 Thumbs.db
 
+# Claude (local settings only — CLAUDE.md is at root and tracked separately)
+.claude/

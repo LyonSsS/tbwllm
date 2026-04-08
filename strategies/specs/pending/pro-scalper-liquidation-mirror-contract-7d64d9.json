@@ -1,0 +1,39 @@
+{
+  "id": "pro-scalper-liquidation-mirror-contract-7d64d9",
+  "name": "Pro Scalper: Liquidation Mirror (Contract)",
+  "source": "https://www.tradingview.com/script/7guLYvHJ",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    },
+    {
+      "type": "MACD",
+      "params": {},
+      "outputKey": "macd"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH"
+  },
+  "parameters": {
+    "emaLength": 50,
+    "stFactor": 3,
+    "stPeriod": 10,
+    "breakoutLen": 20,
+    "volLimit": 1.5,
+    "adxMin": 30,
+    "showEma": true,
+    "showLiqBg": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "rawHash": "7d64d92c1c6b0c71",
+  "createdAt": 1775655574125
+}

@@ -1,0 +1,89 @@
+{
+  "id": "a-l-p-h-a-x-institutional-confluence-suite-53f6f2",
+  "name": "[ A L P H A X ] Institutional Confluence Suite",
+  "source": "https://www.tradingview.com/script/ZzQHSyCH-A-L-P-H-A-X-Institutional-Confluence-Suite",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "ema50"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "ema200"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "ema20"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullSignal and confluenceScore >= 80",
+      "bullSignal and confluenceScore >= 65 and confluenceScore < 80"
+    ]
+  },
+  "parameters": {
+    "vp_enabled": true,
+    "vp_lookback": 100,
+    "vp_rows": 24,
+    "vp_showPOC": true,
+    "vp_showVA": true,
+    "vp_showHVN": true,
+    "vp_vaPercent": 0.68,
+    "ob_enabled": true,
+    "ob_lookback": 20,
+    "ob_showBull": true,
+    "ob_showBear": true,
+    "ob_extend": 20,
+    "fvg_enabled": true,
+    "fvg_threshold": 0.3,
+    "fvg_extend": 30,
+    "fvg_showBull": true,
+    "fvg_showBear": true,
+    "liq_enabled": true,
+    "liq_lookback": 20,
+    "liq_threshold": 0.5,
+    "mtf_enabled": true,
+    "mtf_m1": true,
+    "mtf_m5": true,
+    "mtf_m15": true,
+    "mtf_h1": true,
+    "mtf_h4": true,
+    "mtf_d1": true,
+    "flow_enabled": true,
+    "flow_len": 14,
+    "flow_smoothing": 3,
+    "ms_enabled": true,
+    "ms_lookback": 50,
+    "sig_enabled": true,
+    "sig_minScore": 60,
+    "sig_cooldown": 3,
+    "dash_show": true,
+    "dash_position": "Top Right",
+    "dash_compact": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "53f6f27f08be3c41",
+  "createdAt": 1775655562164
+}

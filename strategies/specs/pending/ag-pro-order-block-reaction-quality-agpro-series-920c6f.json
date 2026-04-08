@@ -1,0 +1,38 @@
+{
+  "id": "ag-pro-order-block-reaction-quality-agpro-series-920c6f",
+  "name": "AG Pro Order Block Reaction Quality [AGPro Series]",
+  "source": "https://www.tradingview.com/script/5AzLaR58-AG-Pro-Order-Block-Reaction-Quality-AGPro-Series",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "newBull"
+    ]
+  },
+  "parameters": {
+    "atrLen": 14,
+    "impMult": 1.5,
+    "obSearch": 10,
+    "zoneMode": "Full Candle",
+    "maxZones": 10,
+    "maxAge": 200,
+    "showBull": true,
+    "showBear": true,
+    "showBrk": true,
+    "rxBars": 5,
+    "zoneExt": 60,
+    "showMid": true,
+    "showImp": true,
+    "lblSz": "Small",
+    "showPnl": true,
+    "pnlPos": "Top Right",
+    "pnlTheme": "Navy",
+    "pnlFont": "Normal"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "920c6fa147d89024",
+  "createdAt": 1775655676713
+}

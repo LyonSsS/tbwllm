@@ -1,0 +1,29 @@
+{
+  "id": "cisd-market-structure-with-fvg-filter-clever-80600b",
+  "name": "CISD Market Structure with FVG Filter [CLEVER]",
+  "source": "https://www.tradingview.com/script/7gXIgdIj-CISD-Market-Structure-with-FVG-Filter-CLEVER",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "signalBuyRetest"
+    ]
+  },
+  "parameters": {
+    "noiseTolerance": 0.7,
+    "swingLookback": 12,
+    "expiryThreshold": 100,
+    "sweepWindow": 10,
+    "maxScanBars": 150,
+    "useMTF": false,
+    "bodyOpacity": 90,
+    "wickOpacity": 40,
+    "acknowledgeRisk": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "80600bea1fcdf172",
+  "createdAt": 1775655683613
+}

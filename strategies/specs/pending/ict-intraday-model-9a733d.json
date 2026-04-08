@@ -1,0 +1,39 @@
+{
+  "id": "ict-intraday-model-9a733d",
+  "name": "ICT Intraday Model",
+  "source": "https://www.tradingview.com/script/Bf8qDh04-ICT-Intraday-Model",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "longSignal",
+      "mssUp"
+    ]
+  },
+  "parameters": {
+    "biasLookback": 5,
+    "showBiasTable": true,
+    "mssLength": 5,
+    "showBOS": true,
+    "showOB": true,
+    "obMaxBoxes": 5,
+    "obMitigated": true,
+    "showFVG": true,
+    "fvgFilter": 0,
+    "fvgMitigated": true,
+    "showLiq": true,
+    "liqLookback": 20,
+    "showKZ": true,
+    "showSetup": true,
+    "riskPercent": 1,
+    "tp1RR": 2,
+    "tp2RR": 3,
+    "tp3RR": 5
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "9a733d8ad3a2e73a",
+  "createdAt": 1775655582085
+}

@@ -1,0 +1,39 @@
+{
+  "id": "smart-magnetic-zones-stc-dashboard-73aafd",
+  "name": "Smart Magnetic Zones & STC Dashboard",
+  "source": "https://www.tradingview.com/script/8YhNeXEG-smart-magnetic-zones-stc-dashboard",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullConfluence"
+    ]
+  },
+  "parameters": {
+    "tablePos": "top_right",
+    "textSize": "size.normal",
+    "maxLevels": 5,
+    "pivotPeriod": 20,
+    "zoneWidth": 0.15,
+    "volThreshold": 1.5,
+    "stcLen": 10,
+    "stcFast": 23,
+    "stcSlow": 50,
+    "useRepaint": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "73aafd95e62383fc",
+  "createdAt": 1775655609524
+}

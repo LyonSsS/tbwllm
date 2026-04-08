@@ -1,0 +1,33 @@
+{
+  "id": "pvsra-candles-hunter-v1-2-723b50",
+  "name": "PVSRA Candles Hunter v1.2",
+  "source": "https://www.tradingview.com/script/8wxp5iud-PVSRA-Candles-Hunter-v1-2",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "va == 1 and isBull",
+      "va == 1 and not isBull"
+    ]
+  },
+  "parameters": {
+    "overrideSym": false,
+    "lookback": 10,
+    "climaxVolMult": 2,
+    "aboveAvgMult": 1.5,
+    "displayMode": "Candle Color",
+    "showLabel": false,
+    "showStats": false,
+    "labelSize": "tiny",
+    "tableYPos": "bottom",
+    "tableXPos": "left",
+    "bgTransClimax": 80,
+    "bgTransAbove": 85
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "723b50425c2ece13",
+  "createdAt": 1775655707610
+}
