@@ -27,10 +27,6 @@ coverage/
 *.lcov
 .nyc_output
 
-# Production
-dist/
-build/
-
 # Logs
 logs/
 *.log
