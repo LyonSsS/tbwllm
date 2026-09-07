@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { createBrowser, scrapeScriptUrls, scrapeScriptSource, randomDelay } from './scraper.js';
+import {
+  createBrowser, scrapeScriptUrls, scrapeScriptSource, randomDelay, ScraperBlockedError,
+} from './scraper.js';
 import { analyzePineScript } from './analyzer.js';
 import { enrichWithLLM, buildSpecFromStatic } from './parser.js';
 import {
@@ -11,6 +13,13 @@ import {
 } from './db.js';
 
 const SPECS_DIR = 'strategies/specs/pending';
+const RAW_DIR = 'strategies/raw';
+const UNKNOWN_INDICATORS_FILE = 'strategies/unknown-indicators.json';
+
+// Abort the run after this many consecutive ScraperBlockedError — means
+// TradingView changed its markup or this IP is being walled; continuing is
+// pointless and looks more bot-like.
+const MAX_CONSECUTIVE_BLOCKS = 3;
 
 // Only call LLM when static confidence is below threshold AND the script's
 // complexity doesn't cap it below the threshold naturally.
@@ -30,6 +39,30 @@ function saveSpec(spec: object, specId: string): void {
   fs.mkdirSync(SPECS_DIR, { recursive: true });
   const filePath = path.join(SPECS_DIR, `${specId}.json`);
   fs.writeFileSync(filePath, JSON.stringify(spec, null, 2));
+}
+
+// Persist the raw Pine source, content-addressed by hash. This decouples
+// scraping from analysis: an improved analyzer can be re-run over these
+// offline, with no re-scraping. Written for every fetched script, including
+// ones that fail the tradeable check.
+function saveRawSource(source: string, rawHash: string): void {
+  fs.mkdirSync(RAW_DIR, { recursive: true });
+  fs.writeFileSync(path.join(RAW_DIR, `${rawHash}.pine`), source);
+}
+
+// Running tally of ta.* calls the analyzer can't extract, most-frequent first.
+function tallyUnknownIndicators(fns: string[]): void {
+  let tally: Record<string, number> = {};
+  try {
+    tally = JSON.parse(fs.readFileSync(UNKNOWN_INDICATORS_FILE, 'utf8'));
+  } catch {
+    // first write — start empty
+  }
+  for (const fn of fns) tally[fn] = (tally[fn] ?? 0) + 1;
+  const sorted = Object.fromEntries(
+    Object.entries(tally).sort((a, b) => b[1] - a[1]),
+  );
+  fs.writeFileSync(UNKNOWN_INDICATORS_FILE, JSON.stringify(sorted, null, 2));
 }
 
 // ─── Main pipeline ───────────────────────────────────────────────────────────
@@ -53,6 +86,8 @@ export async function runPipeline(options: {
     'Accept-Language': 'en-US,en;q=0.9',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
   });
+
+  let consecutiveBlocks = 0;
 
   try {
     for (let pageNum = startPage; pageNum <= endPage; pageNum++) {
@@ -98,8 +133,23 @@ export async function runPipeline(options: {
         let source: string | null = null;
         try {
           source = await scrapeScriptSource(page, url);
+          consecutiveBlocks = 0;
           await randomDelay(3000, 6000);
         } catch (err) {
+          if (err instanceof ScraperBlockedError) {
+            consecutiveBlocks++;
+            console.error(
+              `[pipeline] BLOCKED (${consecutiveBlocks}/${MAX_CONSECUTIVE_BLOCKS}): ${String(err)}`,
+            );
+            if (consecutiveBlocks >= MAX_CONSECUTIVE_BLOCKS) {
+              throw new Error(
+                `Aborting run: ${MAX_CONSECUTIVE_BLOCKS} consecutive blocked pages — ` +
+                `TradingView markup changed or this IP is walled.`,
+              );
+            }
+            await randomDelay(3000, 6000);
+            continue;
+          }
           if (!dryRun) markError(url, String(err));
           console.error(`[pipeline] Scrape error: ${String(err)}`);
           continue;
@@ -113,6 +163,17 @@ export async function runPipeline(options: {
 
         // Static analysis
         const analysis = analyzePineScript(source, url);
+
+        // Persist raw source, content-addressed by hash, so an improved
+        // analyzer can be re-run over it later without re-scraping.
+        if (!dryRun) saveRawSource(source, analysis.rawHash);
+
+        if (analysis.unknownIndicators.length > 0) {
+          console.log(
+            `[pipeline] Unrecognized ta.* calls: ${analysis.unknownIndicators.join(', ')}`,
+          );
+          if (!dryRun) tallyUnknownIndicators(analysis.unknownIndicators);
+        }
 
         if (!analysis.isTradeable) {
           if (!dryRun) markSkipped(url, analysis.skipReason ?? 'not_tradeable');

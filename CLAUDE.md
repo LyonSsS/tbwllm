@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 yarn dev              # Run with hot reload (tsx watch)
-yarn build            # Compile TypeScript to dist/
+yarn typecheck        # Type-check only (tsc --noEmit) — no build artifact
 yarn test             # Run Jest tests
 yarn test:watch       # Run tests in watch mode
 yarn lint             # ESLint on src/
@@ -40,7 +40,7 @@ StrategySpec files live in `strategies/specs/`. Approved ones (passed backtest c
 
 **Pipeline stages:**
 1. **Ingestion** (`src/ingestion/`) — Playwright scraper + Claude API parser → StrategySpec JSON
-2. **Assembly** (`src/assembly/`) — StrategySpec → TS strategy function using `technicalindicators` library
+2. **Assembly** (`src/assembly/`) — StrategySpec → TS strategy function using `trading-signals` (Layer 1) + custom indicators (Layer 3)
 3. **Backtest** (`python/backtest/`) — vectorbt runs 3-5yr history; Optuna does parameter sweeps
 4. **Live** (`src/bot/`) — ccxt websocket feed (Binance CEX), paper trade first
 
@@ -51,7 +51,7 @@ StrategySpec files live in `strategies/specs/`. Approved ones (passed backtest c
 | Path | Purpose |
 |------|---------|
 | `src/core/types.ts` | All Zod schemas: `Candle`, `Signal`, `StrategySpec`, `IndicatorConfig`, etc. |
-| `src/core/indicators/` | Re-exports from `technicalindicators` library — do not reimplement indicators |
+| `src/core/indicators/` | Layer 1: re-exports from `trading-signals`. Layer 3: custom indicators under `./custom`. See `docs/indicators.md` |
 | `src/ingestion/scraper.ts` | Playwright scraper: URL or local file → raw text + image URLs |
 | `src/ingestion/parser.ts` | Claude API call: ScrapeResult → StrategySpec (validated by Zod) |
 | `src/assembly/assembler.ts` | StrategySpec → runnable TS strategy function |
@@ -67,7 +67,7 @@ StrategySpec files live in `strategies/specs/`. Approved ones (passed backtest c
 
 ### Indicator library
 
-**Always use `technicalindicators` — never reimplement indicators.** The assembler maps `StrategySpec.indicators[].type` to library calls. Supported: RSI, SMA, EMA, MACD, BollingerBands, Stochastic, ATR. To add support for a new indicator type, add it to the `INDICATOR_MAP` in `src/assembly/assembler.ts`.
+**Standard indicators come from `trading-signals` (Layer 1) — never reimplement one that exists there.** The assembler maps `StrategySpec.indicators[].type` to a function via `INDICATOR_MAP` in `src/assembly/assembler.ts`; add a row to support a new type. Indicators `trading-signals` lacks (SMC / ICT / bespoke) are hand-written under `src/core/indicators/custom/` (Layer 3). Full plan and the assemble/skip decision logic: `docs/indicators.md`.
 
 ### TypeScript config notes
 
@@ -81,7 +81,7 @@ StrategySpec files live in `strategies/specs/`. Approved ones (passed backtest c
 - `@anthropic-ai/sdk` — LLM parsing (Claude API)
 - `playwright` — web scraping
 - `ccxt` — exchange connectivity and websocket live feed
-- `technicalindicators` — all indicator calculations
+- `trading-signals` — standard indicator calculations (Layer 1)
 - `pino` — structured logging
 - `tsx` — runs TypeScript directly in dev/scripts
 

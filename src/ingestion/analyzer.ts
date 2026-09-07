@@ -13,6 +13,7 @@ export interface AnalysisResult {
   partial: Partial<StrategySpec>;
   rawHash: string;
   complexity: 'simple' | 'medium' | 'complex';
+  unknownIndicators: string[]; // ta.* calls with no matching INDICATOR_PATTERN
 }
 
 // ─── Known indicator patterns ────────────────────────────────────────────────
@@ -42,10 +43,38 @@ const INDICATOR_PATTERNS: Array<{
   { regex: /ta\.hma\s*\(\s*\w+\s*,\s*(\d+)/g,         type: 'HMA',           paramKeys: ['period'] },
 ];
 
+// `ta.*` function names already covered by INDICATOR_PATTERNS above.
+// Keep in sync when adding a pattern.
+const KNOWN_TA_FUNCTIONS = new Set([
+  'rsi', 'ema', 'sma', 'atr', 'macd', 'bb', 'stoch', 'mom', 'tsi', 'vwap',
+  'pivothigh', 'pivotlow', 'highest', 'lowest', 'adx', 'cci', 'wma', 'hma',
+]);
+
+// `ta.*` helpers that are comparison / series utilities, not indicators to
+// implement — excluded from the unknown-indicator report as noise.
+const TA_HELPERS = new Set([
+  'crossover', 'crossunder', 'cross', 'change', 'barssince', 'valuewhen',
+  'rising', 'falling', 'cum', 'highestbars', 'lowestbars', 'pivot_point_levels',
+]);
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function hash(src: string): string {
   return crypto.createHash('sha256').update(src).digest('hex').slice(0, 16);
+}
+
+// Every `ta.<fn>(` call whose <fn> isn't in KNOWN_TA_FUNCTIONS — i.e. an
+// indicator the static analyzer currently can't extract. Surfaced by the
+// pipeline so the gap can be prioritised (see docs/indicators.md, Phase I3).
+function extractUnknownIndicators(src: string): string[] {
+  const re = /\bta\.([a-zA-Z_]\w*)\s*\(/g;
+  const unknown = new Set<string>();
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(src)) !== null) {
+    const fn = m[1].toLowerCase();
+    if (!KNOWN_TA_FUNCTIONS.has(fn) && !TA_HELPERS.has(fn)) unknown.add(fn);
+  }
+  return [...unknown].sort();
 }
 
 function extractInputs(src: string): Record<string, number | string | boolean> {
@@ -199,6 +228,7 @@ function buildEntryFromAlerts(
 
 export function analyzePineScript(src: string, url: string): AnalysisResult {
   const rawHash = hash(src);
+  const unknownIndicators = extractUnknownIndicators(src);
 
   // 1. Is this tradeable at all?
   const { tradeable, reason } = isTradeable(src);
@@ -210,6 +240,7 @@ export function analyzePineScript(src: string, url: string): AnalysisResult {
       partial: {},
       rawHash,
       complexity: 'simple',
+      unknownIndicators,
     };
   }
 
@@ -257,5 +288,6 @@ export function analyzePineScript(src: string, url: string): AnalysisResult {
     partial,
     rawHash,
     complexity,
+    unknownIndicators,
   };
 }

@@ -5,7 +5,26 @@ import { chromium, Browser, Page } from 'playwright';
 // ============================================================================
 
 const BASE_URL = 'https://www.tradingview.com';
-const SCRIPTS_URL = `${BASE_URL}/scripts/`;
+
+// Listing to crawl. Default: open-source only — this pre-filters out closed-
+// source scripts on the server side, so we don't pay the per-page cost of
+// opening a script page only to discard it. Override via TV_SCRIPTS_PATH
+// (e.g. '/scripts/editors-picks/', '/scripts/top/').
+const SCRIPTS_PATH = process.env.TV_SCRIPTS_PATH ?? '/scripts/opensource/';
+const SCRIPTS_URL = `${BASE_URL}${SCRIPTS_PATH}`;
+
+/**
+ * Thrown when a page loads but does not look like a TradingView script page at
+ * all — no `window.initData` (bot wall, redirect, or a TradingView markup
+ * change). Distinct from a script simply being closed-source, which returns
+ * `null`. The pipeline aborts the run after several of these in a row.
+ */
+export class ScraperBlockedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ScraperBlockedError';
+  }
+}
 
 // Delay between requests to avoid rate limiting
 function sleep(ms: number): Promise<void> {
@@ -75,23 +94,33 @@ export async function scrapeScriptSource(
     await page.goto(url, { waitUntil: 'networkidle', timeout: 45000 });
     await sleep(1500);
 
-    // Extract PUB ID from window.initData
-    const pubId = await page.evaluate(() => {
+    // Probe window.initData for the PUB ID.
+    const probe = await page.evaluate(() => {
       const initData = (window as unknown as Record<string, unknown>).initData;
+      const hasInitData = initData !== undefined && initData !== null;
       const str = JSON.stringify(initData ?? '');
       const m = str.match(/PUB;([a-f0-9]{32})/i);
-      return m ? m[1] : null;
+      return { hasInitData, pubId: m ? m[1] : null };
     });
 
-    if (!pubId) {
-      console.warn(`[scraper] No PUB ID found on: ${url}`);
+    if (!probe.hasInitData) {
+      // Page rendered without initData at all — not a script page as we expect
+      // it. Treat as a scraper failure, not a closed-source script.
+      throw new ScraperBlockedError(`window.initData absent on ${url}`);
+    }
+
+    if (!probe.pubId) {
+      console.warn(`[scraper] initData present but no PUB id (not a standard script): ${url}`);
       return null;
     }
 
-    // Fetch source from pine-facade API (accessible without auth for open-source scripts)
+    const pubId = probe.pubId;
+
+    // Fetch source from pine-facade API (accessible without auth for open-source
+    // scripts). `/last` = latest published revision (not `/1`, the first).
     const result = await page.evaluate(async (id: string) => {
       const res = await fetch(
-        `https://pine-facade.tradingview.com/pine-facade/get/PUB%3B${id}/1?no_4xx=true`
+        `https://pine-facade.tradingview.com/pine-facade/get/PUB%3B${id}/last?no_4xx=true`
       );
       if (!res.ok) return null;
       const json = await res.json() as {
@@ -110,6 +139,7 @@ export async function scrapeScriptSource(
     console.warn(`[scraper] Script not open-source or no source: ${url}`);
     return null;
   } catch (err) {
+    if (err instanceof ScraperBlockedError) throw err;
     console.error(`[scraper] Error fetching ${url}: ${String(err)}`);
     return null;
   }
