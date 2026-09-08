@@ -86,12 +86,16 @@ function extractUnknownIndicators(src: string): string[] {
   return [...unknown].sort();
 }
 
+// Input names that are chart-display cosmetics, not strategy tunables.
+const UI_PARAM_RE = /^(show|hide|draw|display|enable|disable)|colou?r$|_col$/i;
+
 function extractInputs(src: string): Record<string, number | string | boolean> {
   const params: Record<string, number | string | boolean> = {};
   const re = /(\w+)\s*=\s*input\.(int|float|bool|string)\s*\(\s*([^,)]+)/g;
   let m: RegExpExecArray | null;
   while ((m = re.exec(src)) !== null) {
     const [, varName, type, rawVal] = m;
+    if (UI_PARAM_RE.test(varName)) continue; // skip display toggles / colours
     const val = rawVal.trim();
     if (type === 'int' || type === 'float') {
       const n = parseFloat(val);
@@ -128,6 +132,66 @@ function extractIndicators(src: string): IndicatorConfig[] {
   }
 
   return indicators;
+}
+
+// Find `name = <expr>` (or `name := <expr>`, or `var name = <expr>`) in the
+// source and return the right-hand side, single line only, comment stripped.
+function findAssignment(src: string, name: string): string | null {
+  const re = new RegExp(`(?:^|\\n)\\s*(?:var\\s+|varip\\s+)?${name}\\s*(?::=|=)(?!=)\\s*([^\\n]+)`);
+  const m = src.match(re);
+  if (!m) return null;
+  return m[1].replace(/\/\/.*$/, '').trim();
+}
+
+// A condition string that is just a bare identifier carries no logic an
+// assembler can evaluate. Expand it to its definition, up to `depth` hops,
+// stopping once it's an expression (has an operator / ta. call / and-or).
+function resolveCondition(src: string, cond: string, depth = 2): string {
+  let cur = cond.trim();
+  for (let i = 0; i < depth; i++) {
+    if (!/^[A-Za-z_]\w*$/.test(cur)) break; // already an expression
+    const rhs = findAssignment(src, cur);
+    if (!rhs || rhs === cur) break;
+    cur = rhs;
+  }
+  return cur;
+}
+
+// Does this condition carry evaluable logic (vs. an unresolved bare name)?
+function isEvaluableCondition(cond: string): boolean {
+  return /[<>]=?|[!=]==?|\bta\.|\b(and|or|not)\b|\bcross/i.test(cond);
+}
+
+// Chart-marker signals are often gated on a display toggle:
+// `showSignals and oversoldSignal`. Drop those toggle terms from an
+// AND-chain so only the real logic remains.
+function stripUiGates(cond: string): string {
+  const parts = cond.split(/\s+and\s+/i);
+  const kept = parts.filter(p => !/^(show|hide|draw|display|enable|disable)\w*$/i.test(p.trim()));
+  return (kept.length ? kept.join(' and ') : cond).replace(/\s+/g, ' ').trim();
+}
+
+// Many indicator-style scripts emit their entry signal only through a chart
+// marker: `plotshape(longSig, "Buy", shape.triangleup, location.belowbar, …)`.
+// Pull the series arg from those and label it bull/bear by the call's styling.
+function extractPlotSignals(src: string): { bull: string[]; bear: string[] } {
+  const bull: string[] = [];
+  const bear: string[] = [];
+  const re = /plot(?:shape|char|arrow)\s*\(\s*([^,\n]+?)\s*,([^\n]*)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(src)) !== null) {
+    let series = m[1].trim();
+    const tern = series.match(/^(.+?)\s*\?/); // `cond ? x : na` → cond
+    if (tern) series = tern[1].trim();
+    if (!/^[A-Za-z_]\w*$/.test(series) && !isEvaluableCondition(series)) continue;
+
+    const rest = m[2].toLowerCase();
+    const isBull = /buy|long|bull|belowbar|triangleup|labelup|arrowup/.test(rest);
+    const isBear = /sell|short|bear|abovebar|triangledown|labeldown|arrowdown/.test(rest);
+    if (isBull && !isBear) bull.push(series);
+    else if (isBear && !isBull) bear.push(series);
+  }
+  return { bull, bear };
 }
 
 function extractAlertConditions(src: string): string[] {
@@ -200,7 +264,12 @@ function computeConfidence(
   if (partial.strategyType) score += 0.2;
   if (partial.indicators && partial.indicators.length > 0) score += 0.2;
   if (partial.entry?.direction) score += 0.2;
-  if (partial.entry?.conditions?.length || partial.entry?.trigger) score += 0.2;
+  // Only credit an entry we could actually resolve to evaluable logic —
+  // a bare unresolved identifier ("bullCross") doesn't count.
+  const hasEntryLogic =
+    !!partial.entry?.trigger ||
+    !!partial.entry?.conditions?.some(isEvaluableCondition);
+  if (hasEntryLogic) score += 0.2;
   if (partial.parameters && Object.keys(partial.parameters).length > 0) score += 0.1;
   if (partial.exit) score += 0.1;
 
@@ -270,6 +339,27 @@ export function analyzePineScript(src: string, url: string): AnalysisResult {
     };
   } else {
     entry = buildEntryFromAlerts(alerts, strategyType);
+  }
+
+  // 3b. No conditions from alerts? Try chart-marker (plotshape) signals.
+  if (!entry.conditions?.length) {
+    const { bull, bear } = extractPlotSignals(src);
+    if (bull.length || bear.length) {
+      entry = {
+        direction: bull.length && bear.length ? 'BOTH' : bull.length ? 'BUY' : 'SELL',
+        conditions: [...bull, ...bear].slice(0, 3),
+      };
+    }
+  }
+
+  // 3c. Clean and expand conditions: strip display-toggle gates, expand
+  // bare identifiers to their source definitions, strip gates again in case
+  // the expansion introduced one, drop bare literals.
+  if (entry.conditions?.length) {
+    entry.conditions = entry.conditions
+      .map(c => resolveCondition(src, stripUiGates(c)))
+      .map(c => stripUiGates(c))
+      .filter(c => c && !/^(true|false|na)$/i.test(c));
   }
 
   // 4. Infer name from indicator title
