@@ -1,0 +1,37 @@
+{
+  "id": "ema-rsi-vwap-targets-dcc640",
+  "name": "EMA + RSI + VWAP Targets",
+  "source": "https://www.tradingview.com/script/lCYXHUx0-EMA-RSI-VWAP-Targets",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "VWAP",
+      "params": {},
+      "outputKey": "vwap"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "buyCondition and not buyCondition[1]",
+      "sellCondition and not sellCondition[1]"
+    ]
+  },
+  "parameters": {
+    "emaLength": 200,
+    "rsiLength": 14,
+    "rsiBuyLevel": 50,
+    "rsiSellLevel": 50,
+    "target1Percent": 1,
+    "target2Percent": 2,
+    "target3Percent": 3,
+    "useStopLoss": true,
+    "stopLossPercent": 1
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "dcc640cf08af5dbc",
+  "createdAt": 1788873265721
+}

@@ -1,0 +1,47 @@
+{
+  "id": "implied-market-structure-78857d",
+  "name": "Implied Market Structure",
+  "source": "https://www.tradingview.com/script/sMhnCi0K-Implied-Market-Structure",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "picking and not picking[1]",
+      "tape and not tape[1]",
+      "stress and not stress[1]"
+    ]
+  },
+  "parameters": {
+    "i_conf": true,
+    "i_lb": 252,
+    "i_smooth": 5,
+    "i_hyst": true,
+    "i_band": 21,
+    "i_tr_n": 5,
+    "i_tr_min": 0.2,
+    "i_zones": true,
+    "i_trend": true,
+    "i_bands": false,
+    "i_dspx_ln": false,
+    "i_cor_ln": false,
+    "i_matrix": true,
+    "i_bg_mode": "Position",
+    "i_bg_int": 85,
+    "i_candles": true,
+    "i_candle_tr": 20,
+    "i_dash": true,
+    "i_dash_sz": "Normal",
+    "i_wm": true,
+    "i_wm_sz": "Large",
+    "i_theme": "EdgeTools",
+    "i_dark": true,
+    "i_glow": false,
+    "i_alerts": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "78857d8177eba72b",
+  "createdAt": 1788873265707
+}

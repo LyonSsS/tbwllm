@@ -1,0 +1,22 @@
+{
+  "id": "run-length-base-rate-gauge-bsl-64e334",
+  "name": "Run-Length Base Rate Gauge [BSL]",
+  "source": "https://www.tradingview.com/script/6Gk3N6S2-Run-Length-Base-Rate-Gauge-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "trialOutcome == 1",
+      "trialOutcome == -1"
+    ]
+  },
+  "parameters": {
+    "thresholdInput": 5
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "64e3340e8330eef9",
+  "createdAt": 1788873265702
+}

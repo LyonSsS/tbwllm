@@ -1,0 +1,44 @@
+{
+  "id": "unknown-strategy-0fcf3e",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/MIUcoyUu-Volatility-Supply-and-Demand-Zones",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "atr50"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "f_openZone(false, pivLow, bar_index - pivotLen)",
+      "deadBuy > 0",
+      "f_openZone(true, pivHigh, bar_index - pivotLen)",
+      "deadSell > 0"
+    ]
+  },
+  "parameters": {
+    "pivotLen": 10,
+    "zoneDepth": 2.5,
+    "zoneMemory": 20,
+    "brokenMode": "Remove",
+    "useWick": false,
+    "useGuard": true,
+    "guardMult": 2,
+    "structSpan": 5,
+    "strictRun": true,
+    "scanCap": 300,
+    "structKeep": 20,
+    "zSizeIn": "Small"
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "0fcf3e6f2040893f",
+  "createdAt": 1788873265687
+}

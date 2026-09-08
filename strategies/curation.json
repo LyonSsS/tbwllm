@@ -1,0 +1,71 @@
+{
+  "ca7e76e9eacf689e": {
+    "skip": "PVSRA volume-classification indicator (vector / climax candles); no directional entry"
+  },
+  "c395d3f46867762f": {
+    "skip": "macro context oscillator — 52-week z-score of DXY; extreme-reading markers, not an entry model"
+  },
+  "1bf405b39eda24b7": {
+    "skip": "TGIF Friday weekly hi/lo reversion model; bracket-entry semantics need dedicated session modeling"
+  },
+  "681d371eeeda6b20": {
+    "skip": "sector-rotation dashboard — flags a leadership change across sectors, not an instrument entry"
+  },
+  "6bf2871928e0eb2a": {
+    "skip": "relative-strength regime indicator (is tech leading the market); context tool, not a strategy"
+  },
+  "1005a8cc467fda8a": {
+    "skip": "cycle-analysis tool (daily / weekly / yearly cycle lows); discretionary timing aid, not a mechanical entry"
+  },
+
+  "3f97630c1a013610": {
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "close > open and volume >= avgVol * volSpikeMult and range > avgRange * absRangePct / 100",
+        "close < open and volume >= avgVol * volSpikeMult and range > avgRange * absRangePct / 100"
+      ]
+    },
+    "notes": "Intra-candle volume spike without price absorption; direction by candle close. avgVol / avgRange are lower-timeframe averages within the bar."
+  },
+  "8699621894dfbf78": {
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "low < prevDayLow and close > prevDayLow and close > open",
+        "high > prevDayHigh and close < prevDayHigh and close < open"
+      ]
+    },
+    "notes": "Liquidity sweep of the prior-day high / low then a reversal close (confirmed within sweepConfirmBars, ATR distance filter). Script also carries ATR / weekly / monthly level variants and breakout-continuation signals not captured here."
+  },
+  "767509f2f1855028": {
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "allowLongs and flat and frequencyOk and marketOk and longTrendOk and longTrigger",
+        "allowShorts and flat and frequencyOk and marketOk and shortTrendOk and shortTrigger"
+      ]
+    },
+    "notes": "strategy() script. Entry gated by market / frequency / flat-position filters plus a trend-OK check and a directional trigger."
+  },
+  "e5529e6ca24f99ec": {
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "boundaryObservedTurn and rawDirection == -1",
+        "boundaryObservedTurn and rawDirection == 1"
+      ]
+    },
+    "notes": "Parabolic SAR side-change: SAR flips below price (bullish, rawDirection -1) or above price (bearish, rawDirection 1). Approximation of the script's 'side change observed' event."
+  },
+  "d11d17843a03e29a": {
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "barstate.isconfirmed and baselineReady and freshBullBreak and bullDistanceAtr >= minimumBreakAtr and volumeZ >= volumeZThreshold",
+        "barstate.isconfirmed and baselineReady and freshBearBreak and bearDistanceAtr >= minimumBreakAtr and volumeZ >= volumeZThreshold"
+      ]
+    },
+    "notes": "Relative-volume breakout: a fresh directional break beyond the baseline, minimum ATR distance, and a volume z-score above threshold. Dropped 'activeDirection == 0' (a position-state guard, not entry logic)."
+  }
+}

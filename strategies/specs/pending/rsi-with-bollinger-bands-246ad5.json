@@ -1,0 +1,25 @@
+{
+  "id": "rsi-with-bollinger-bands-246ad5",
+  "name": "RSI with Bollinger Bands",
+  "source": "https://www.tradingview.com/script/5Nje4Zof-RSI-with-Bollinger-Bands",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "rsiValue > upperBand",
+      "rsiValue < lowerBand"
+    ]
+  },
+  "parameters": {
+    "rsiLength": 14,
+    "bbLength": 20,
+    "bbUp": 2,
+    "bbDown": 2
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "rawHash": "246ad5a2674ce87f",
+  "createdAt": 1788873265694
+}

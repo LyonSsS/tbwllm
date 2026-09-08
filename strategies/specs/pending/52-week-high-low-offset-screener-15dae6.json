@@ -1,0 +1,34 @@
+{
+  "id": "52-week-high-low-offset-screener-15dae6",
+  "name": "52 Week High/Low Offset Screener",
+  "source": "https://www.tradingview.com/script/48vB0ple",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "sideOk and inRange(nearerDist, enNearer, nearerMin, nearerMax) and inRange(distHigh, enHigh, highMin, highMax) and inRange(distLow, enLow, lowMin, lowMax) and belowLowOk and aboveHighOk"
+    ]
+  },
+  "parameters": {
+    "basis": "Highs/Lows",
+    "offsetWeeks": 52,
+    "filterSide": "All",
+    "enNearer": false,
+    "nearerMin": -50,
+    "nearerMax": 50,
+    "enHigh": false,
+    "highMin": -30,
+    "highMax": 5,
+    "enLow": false,
+    "lowMin": -20,
+    "lowMax": 10,
+    "onlyBelowLow": false,
+    "onlyAboveHigh": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "15dae6686c0d7bef",
+  "createdAt": 1788873265689
+}

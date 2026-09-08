@@ -1,0 +1,39 @@
+{
+  "id": "signal-follow-through-ledger-mqlsoftware-30269f",
+  "name": "Signal Follow-Through Ledger [MQLSoftware]",
+  "source": "https://www.tradingview.com/script/6Sflxjmd-Signal-Follow-Through-Ledger-MQLSoftware",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "dirSign == 1",
+      "resAdv or s.outcome == OC_ADV",
+      "dirSign == -1"
+    ]
+  },
+  "parameters": {
+    "evMode": "EV_XUR",
+    "lvl": 0,
+    "refMode": "REF_MA",
+    "refLen": 50,
+    "extLen": 20,
+    "dirMode": "DIR_AUTO",
+    "favMult": 1,
+    "advMult": 1,
+    "horizon": 20,
+    "atrLen": 14,
+    "ovMode": "OV_ONE",
+    "cdBars": 5,
+    "maxKeep": 300,
+    "minN": 20,
+    "boxN": 20,
+    "alrNew": true,
+    "alrRes": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "30269f46cf9fc985",
+  "createdAt": 1788873265696
+}

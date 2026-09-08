@@ -86,8 +86,11 @@ function extractUnknownIndicators(src: string): string[] {
   return [...unknown].sort();
 }
 
-// Input names that are chart-display cosmetics, not strategy tunables.
-const UI_PARAM_RE = /^(show|hide|draw|display|enable|disable)|colou?r$|_col$/i;
+// Input names that are chart-display cosmetics, not strategy tunables:
+// a display-verb prefix, a label/table prefix, or a styling suffix
+// (optionally with a trailing "Input", as many scripts name them).
+const UI_PARAM_RE =
+  /^(show|hide|draw|display|enable|disable|label|table)|(colou?r|style|width|transp(arency)?|size|pos(ition)?|offset|decimals|linewidth|textsize)(input)?$|_col$/i;
 
 function extractInputs(src: string): Record<string, number | string | boolean> {
   const params: Record<string, number | string | boolean> = {};
@@ -284,22 +287,18 @@ function buildEntryFromAlerts(
   alerts: string[],
   _strategyType: StrategySpec['strategyType']
 ): Partial<StrategySpec['entry']> {
-  // Try to identify bull/bear signal variable names from alert conditions
-  const bullPatterns = alerts.filter(a =>
-    /bull|long|buy|up|cross.*over/i.test(a)
-  );
-  const bearPatterns = alerts.filter(a =>
-    /bear|short|sell|down|cross.*under/i.test(a)
-  );
+  if (alerts.length === 0) return { direction: 'BOTH' };
 
-  if (bullPatterns.length > 0 || bearPatterns.length > 0) {
-    return {
-      direction: bullPatterns.length > 0 && bearPatterns.length > 0 ? 'BOTH' : bullPatterns.length > 0 ? 'BUY' : 'SELL',
-      conditions: bullPatterns.slice(0, 2),
-    };
+  const bull = alerts.filter(a => /bull|long|buy|\bup\b|cross.*over/i.test(a));
+  const bear = alerts.filter(a => /bear|short|sell|\bdown\b|cross.*under/i.test(a));
+
+  if (bull.length && bear.length) {
+    return { direction: 'BOTH', conditions: [...bull.slice(0, 2), ...bear.slice(0, 2)] };
   }
-
-  return { direction: 'BOTH' };
+  if (bull.length) return { direction: 'BUY', conditions: bull.slice(0, 3) };
+  if (bear.length) return { direction: 'SELL', conditions: bear.slice(0, 3) };
+  // No directional keyword — keep the alert conditions anyway (direction unknown).
+  return { direction: 'BOTH', conditions: alerts.slice(0, 3) };
 }
 
 // ─── Main export ─────────────────────────────────────────────────────────────

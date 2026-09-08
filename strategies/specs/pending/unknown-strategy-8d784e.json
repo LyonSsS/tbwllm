@@ -1,0 +1,28 @@
+{
+  "id": "unknown-strategy-8d784e",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/Dy1wZuka",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullCHoCH and htfAlignedLong",
+      "bullCHoCH and not validLong",
+      "bearCHoCH and htfAlignedShort",
+      "bearCHoCH and not validShort"
+    ]
+  },
+  "parameters": {
+    "langSel": "English",
+    "swingLen": 5,
+    "useClose": true,
+    "useHTF": true,
+    "extendBars": 40
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "8d784e6ddaffb74a",
+  "createdAt": 1788873265712
+}

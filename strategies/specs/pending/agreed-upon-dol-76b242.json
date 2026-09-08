@@ -1,0 +1,39 @@
+{
+  "id": "agreed-upon-dol-76b242",
+  "name": "Agreed Upon DOL",
+  "source": "https://www.tradingview.com/script/41H9PF1K-Agreed-Upon-DOL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "hitUp or hitDn",
+      "(na(upP) != na(lastUp)) or (na(dnP) != na(lastDn)) or (not na(upP) and upP != lastUp) or (not na(dnP) and dnP != lastDn)"
+    ]
+  },
+  "parameters": {
+    "i_e1": true,
+    "i_e2": true,
+    "i_e3": true,
+    "i_pl": 4,
+    "i_pr": 2,
+    "i_min": 0,
+    "i_maxg": 6,
+    "i_maxp": 10,
+    "i_clear": true,
+    "i_sobs": true,
+    "i_tzO": "America/New_York",
+    "i_flash": 30,
+    "i_mark": true,
+    "i_only": true,
+    "i_othr": false,
+    "i_pool": true,
+    "i_tbl": true,
+    "i_ext": 300
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "76b2428e806d662f",
+  "createdAt": 1788873265706
+}

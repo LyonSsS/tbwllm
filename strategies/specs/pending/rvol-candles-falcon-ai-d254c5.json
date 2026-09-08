@@ -1,0 +1,25 @@
+{
+  "id": "rvol-candles-falcon-ai-d254c5",
+  "name": "RVOL Candles | Falcon AI",
+  "source": "https://www.tradingview.com/script/ybycOQyx-RVOL-Candles-Falcon-AI",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "not na(rvol) and rvol >= extremeMult"
+    ]
+  },
+  "parameters": {
+    "lookback": 20,
+    "elevatedMult": 1.5,
+    "highMult": 2,
+    "extremeMult": 3,
+    "onlyHighlight": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "d254c5881cfe3411",
+  "createdAt": 1788873265721
+}

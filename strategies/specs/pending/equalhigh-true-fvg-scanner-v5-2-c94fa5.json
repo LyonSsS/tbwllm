@@ -1,0 +1,59 @@
+{
+  "id": "equalhigh-true-fvg-scanner-v5-2-c94fa5",
+  "name": "Equalhigh — True FVG Scanner v5.2",
+  "source": "https://www.tradingview.com/script/Y5IbwnEo-Equalhigh-True-FVG-Scanner",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "barstate.isconfirmed and rawBullFVG and displacementBull and (not requireBOS or bosBull) and bullScore >= minimumScore",
+      "barstate.isconfirmed and rawBearFVG and displacementBear and (not requireBOS or bosBear) and bearScore >= minimumScore"
+    ]
+  },
+  "parameters": {
+    "minGapAtr": 0.1,
+    "minBodyAtr": 0.8,
+    "minBodyPercent": 65,
+    "requireBOS": true,
+    "structureLength": 10,
+    "minimumScore": 70,
+    "sweepLength": 10,
+    "pdLength": 50,
+    "useSession": false,
+    "sessionTimezone": "Etc/UTC",
+    "extendBars": 40,
+    "maxZones": 30,
+    "removeFilled": true,
+    "invalidateClose": true,
+    "nearestOnly": true,
+    "zonesPerSide": 2,
+    "pivotLeft": 5,
+    "pivotRight": 5,
+    "pivotLimit": 20,
+    "pivotsPerSide": 2,
+    "autoGapTF": true,
+    "gapMinTicks": 2,
+    "gapMinATR": 0.05,
+    "gapStorage": 40,
+    "gapNearest": true,
+    "gapPerSide": 2,
+    "gapScaleLabels": true,
+    "gapPriceLabels": false,
+    "gapStatus": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "c94fa5b0a72704bd",
+  "createdAt": 1788873265718
+}

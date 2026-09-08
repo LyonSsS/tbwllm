@@ -1,0 +1,24 @@
+{
+  "id": "anchored-vwap-w-4-stdev-pip-atr-bands-cb058f",
+  "name": "Anchored VWAP w/ 4 StDev-Pip-ATR Bands",
+  "source": "https://www.tradingview.com/script/vU3e9uxG-Anchored-VWAP-w-4-StDev-Pip-ATR-Bands",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "started and not started[1]"
+    ]
+  },
+  "parameters": {
+    "bandType": "Stdev",
+    "mult": 1,
+    "atrLen": 14,
+    "fillBands": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "rawHash": "cb058f2e7ed6fe15",
+  "createdAt": 1788873265719
+}

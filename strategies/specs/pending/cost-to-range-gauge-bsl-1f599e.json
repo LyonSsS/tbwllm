@@ -1,0 +1,23 @@
+{
+  "id": "cost-to-range-gauge-bsl-1f599e",
+  "name": "Cost-to-Range Gauge [BSL]",
+  "source": "https://www.tradingview.com/script/B5mAJySH-Cost-to-Range-Gauge-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "barstate.isconfirmed and not na(rangeToCost) and rangeToCost < 1.0"
+    ]
+  },
+  "parameters": {
+    "spreadTicksInput": 2,
+    "commissionTicksInput": 1,
+    "windowInput": 500
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "1f599e81fff25b2d",
+  "createdAt": 1788873265693
+}

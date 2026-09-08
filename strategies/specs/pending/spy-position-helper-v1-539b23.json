@@ -1,0 +1,57 @@
+{
+  "id": "spy-position-helper-v1-539b23",
+  "name": "SPY Position Helper v1",
+  "source": "https://www.tradingview.com/script/AC5HkrwL-SPY-Position-Helper-v1",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "ema200"
+    },
+    {
+      "type": "MACD",
+      "params": {},
+      "outputKey": "macd"
+    },
+    {
+      "type": "VWAP",
+      "params": {},
+      "outputKey": "vwap"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "barstate.isconfirmed and inSession and flatHelper and cooldownReady and bullTrigger and bullHasRoom and bullScore >= minimumScore and not bearTrigger",
+      "exitSignal and helperDirection == -1",
+      "barstate.isconfirmed and inSession and flatHelper and cooldownReady and bearTrigger and bearHasRoom and bearScore >= minimumScore and not bullTrigger"
+    ]
+  },
+  "parameters": {
+    "minimumScore": 7,
+    "cooldownInput": 5,
+    "atrLength": 14,
+    "zoneAtr": 0.2,
+    "stopBufferAtr": 0.1,
+    "targetMultiple": 1,
+    "minimumRoom": 0.8,
+    "maximumBars": 9,
+    "rsiLength": 14,
+    "macdFast": 12,
+    "macdSlow": 26,
+    "macdSignalLength": 9,
+    "diLength": 14,
+    "adxSmoothing": 14,
+    "minimumAdx": 18,
+    "minimumBody": 0.55
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "539b23297c029c91",
+  "createdAt": 1788873265701
+}

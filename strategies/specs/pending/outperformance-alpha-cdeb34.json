@@ -1,0 +1,35 @@
+{
+  "id": "outperformance-alpha-cdeb34",
+  "name": "Outperformance Alpha",
+  "source": "https://www.tradingview.com/script/IrNuWGlY-Outperformance-Alpha",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 252
+      },
+      "outputKey": "highest_high252"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(alpha",
+      "ta.crossunder(alpha"
+    ]
+  },
+  "parameters": {
+    "perfLen": 21,
+    "alphaMode": "Risk-Adjusted",
+    "rfAnnual": 6.5,
+    "betaLen": 252,
+    "shortPeak": "21"
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "cdeb34517a5ae4f9",
+  "createdAt": 1788873265719
+}

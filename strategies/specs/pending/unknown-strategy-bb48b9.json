@@ -1,0 +1,24 @@
+{
+  "id": "unknown-strategy-bb48b9",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/iAB4iR7A-tp-sl-signals",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(hma5, hma15)",
+      "ta.crossunder(hma5, hma15)"
+    ]
+  },
+  "parameters": {
+    "slPercent": 1.5,
+    "tp1Percent": 1.5,
+    "tp2Percent": 3
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "bb48b9910edb1a4c",
+  "createdAt": 1788873265714
+}

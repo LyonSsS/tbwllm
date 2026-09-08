@@ -1,0 +1,24 @@
+{
+  "id": "ema-50-200-cross-trend-barometer-80e8e5",
+  "name": "EMA 50×200 Cross — Trend Barometer",
+  "source": "https://www.tradingview.com/script/j7N8sRqL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "mature and xUp",
+      "mature and xDn"
+    ]
+  },
+  "parameters": {
+    "maType": "EMA",
+    "fastLen": 50,
+    "slowLen": 200
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "80e8e5ae617617ae",
+  "createdAt": 1788873265708
+}

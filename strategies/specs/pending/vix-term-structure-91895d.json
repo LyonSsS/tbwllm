@@ -1,0 +1,24 @@
+{
+  "id": "vix-term-structure-91895d",
+  "name": "VIX Term Structure",
+  "source": "https://www.tradingview.com/script/3BQ5rtnq-VIX-Term-Structure",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "haveCurve and ratio >= flatThr and ratio[1] < flatThr",
+      "haveCurve and ratio < flatThr and ratio[1] >= flatThr"
+    ]
+  },
+  "parameters": {
+    "rankLen": 252,
+    "steepThr": 0.9,
+    "flatThr": 1
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "91895dffe4786ff7",
+  "createdAt": 1788873265713
+}
