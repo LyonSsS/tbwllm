@@ -1,4 +1,4 @@
-import { chromium, Browser, Page } from 'playwright';
+import { chromium, BrowserContext, Page } from 'playwright';
 
 // ============================================================================
 // TradingView scraper — no login, open-source scripts only
@@ -147,15 +147,75 @@ export async function scrapeScriptSource(
 
 // ─── Browser lifecycle ───────────────────────────────────────────────────────
 
-export async function createBrowser(): Promise<Browser> {
-  return chromium.launch({
-    headless: true,
+// A recent stable desktop Chrome UA. Playwright's default headless UA contains
+// "HeadlessChrome" — the single clearest automation tell.
+const DEFAULT_UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+  '(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
+
+const USER_DATA_DIR = process.env.TV_USER_DATA_DIR ?? 'data/.pw-profile';
+const HEADFUL = process.env.TV_HEADFUL === '1' || process.env.TV_HEADFUL === 'true';
+
+/**
+ * Persistent browser context — reuses cookies / localStorage across runs (so we
+ * aren't a brand-new visitor every time) and applies light fingerprint
+ * hardening. The caller owns the returned context and must `.close()` it.
+ */
+export async function createContext(): Promise<BrowserContext> {
+  const context = await chromium.launchPersistentContext(USER_DATA_DIR, {
+    headless: !HEADFUL,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled',
     ],
+    userAgent: process.env.TV_USER_AGENT ?? DEFAULT_UA,
+    locale: 'en-US',
+    timezoneId: process.env.TV_TIMEZONE ?? 'America/New_York',
+    viewport: { width: 1920, height: 1080 },
+    extraHTTPHeaders: {
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    },
   });
+
+  // Report the real-browser value for navigator.webdriver (false, not the
+  // automation-set true) before any page script runs. Deeper fingerprint
+  // spoofing (plugins, canvas, WebGL) is the heavy tier — a stealth plugin —
+  // and only worth it if real runs start tripping ScraperBlockedError.
+  await context.addInitScript(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => false });
+  });
+
+  return context;
+}
+
+/**
+ * Request pacer with exponential backoff. `wait()` sleeps a randomised base
+ * delay times the current multiplier; `fail()` doubles the multiplier (capped),
+ * `ok()` resets it. Base bounds are env-tunable (TV_DELAY_MIN_MS / _MAX_MS).
+ */
+export class Pacer {
+  private multiplier = 1;
+
+  constructor(
+    private readonly minMs = Number(process.env.TV_DELAY_MIN_MS) || 3000,
+    private readonly maxMs = Number(process.env.TV_DELAY_MAX_MS) || 6000,
+    private readonly maxMultiplier = 8,
+  ) {}
+
+  ok(): void {
+    this.multiplier = 1;
+  }
+
+  fail(): void {
+    this.multiplier = Math.min(this.multiplier * 2, this.maxMultiplier);
+  }
+
+  async wait(): Promise<void> {
+    const base = Math.random() * (this.maxMs - this.minMs) + this.minMs;
+    await sleep(base * this.multiplier);
+  }
 }
 
 export { randomDelay, sleep };

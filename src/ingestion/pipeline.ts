@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import {
-  createBrowser, scrapeScriptUrls, scrapeScriptSource, randomDelay, ScraperBlockedError,
+  createContext, scrapeScriptUrls, scrapeScriptSource, randomDelay,
+  ScraperBlockedError, Pacer,
 } from './scraper.js';
 import { analyzePineScript } from './analyzer.js';
 import { enrichWithLLM, buildSpecFromStatic } from './parser.js';
@@ -78,15 +79,11 @@ export async function runPipeline(options: {
   console.log(`\n[pipeline] Starting: pages ${startPage}–${endPage}`);
   if (dryRun) console.log('[pipeline] DRY RUN — no files will be written');
 
-  const browser = await createBrowser();
-  const page = await browser.newPage();
+  // Persistent context handles UA, locale, headers and fingerprint scrub.
+  const context = await createContext();
+  const page = await context.newPage();
 
-  // Mimic a real browser
-  await page.setExtraHTTPHeaders({
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-  });
-
+  const pacer = new Pacer();
   let consecutiveBlocks = 0;
 
   try {
@@ -134,7 +131,8 @@ export async function runPipeline(options: {
         try {
           source = await scrapeScriptSource(page, url);
           consecutiveBlocks = 0;
-          await randomDelay(3000, 6000);
+          pacer.ok();
+          await pacer.wait();
         } catch (err) {
           if (err instanceof ScraperBlockedError) {
             consecutiveBlocks++;
@@ -147,11 +145,14 @@ export async function runPipeline(options: {
                 `TradingView markup changed or this IP is walled.`,
               );
             }
-            await randomDelay(3000, 6000);
+            pacer.fail();
+            await pacer.wait();
             continue;
           }
           if (!dryRun) markError(url, String(err));
           console.error(`[pipeline] Scrape error: ${String(err)}`);
+          pacer.fail();
+          await pacer.wait();
           continue;
         }
 
@@ -230,7 +231,7 @@ export async function runPipeline(options: {
       }
     }
   } finally {
-    await browser.close();
+    await context.close();
   }
 
   if (!dryRun) {
