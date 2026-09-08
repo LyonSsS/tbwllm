@@ -41,13 +41,22 @@ const INDICATOR_PATTERNS: Array<{
   { regex: /ta\.cci\s*\(\s*\w+\s*,\s*(\d+)/g,         type: 'CCI',           paramKeys: ['period'] },
   { regex: /ta\.wma\s*\(\s*\w+\s*,\s*(\d+)/g,         type: 'WMA',           paramKeys: ['period'] },
   { regex: /ta\.hma\s*\(\s*\w+\s*,\s*(\d+)/g,         type: 'HMA',           paramKeys: ['period'] },
+  { regex: /ta\.rma\s*\(\s*\w+\s*,\s*(\d+)/g,         type: 'RMA',           paramKeys: ['period'] },
+  { regex: /ta\.roc\s*\(\s*\w+\s*,\s*(\d+)/g,         type: 'ROC',           paramKeys: ['period'] },
+  { regex: /ta\.mfi\s*\(\s*\w+\s*,\s*(\d+)/g,         type: 'MFI',           paramKeys: ['period'] },
+  { regex: /ta\.stdev\s*\(\s*\w+\s*,\s*(\d+)/g,       type: 'STDDEV',        paramKeys: ['period'] },
+  { regex: /ta\.dmi\s*\(\s*(\d+)\s*,\s*(\d+)/g,       type: 'DMI',           paramKeys: ['diLength', 'adxSmoothing'] },
+  { regex: /ta\.linreg\s*\(\s*\w+\s*,\s*(\d+)\s*,\s*(\d+)/g, type: 'LINREG',  paramKeys: ['period', 'offset'] },
 ];
 
 // `ta.*` function names already covered by INDICATOR_PATTERNS above.
-// Keep in sync when adding a pattern.
+// Keep in sync when adding a pattern. `variance` / `correlation` are recognised
+// (kept off the unknown report) but not extracted — variance is stdev², and
+// correlation needs two series, which the spec model doesn't express yet.
 const KNOWN_TA_FUNCTIONS = new Set([
   'rsi', 'ema', 'sma', 'atr', 'macd', 'bb', 'stoch', 'mom', 'tsi', 'vwap',
   'pivothigh', 'pivotlow', 'highest', 'lowest', 'adx', 'cci', 'wma', 'hma',
+  'rma', 'roc', 'mfi', 'stdev', 'dmi', 'linreg', 'variance', 'correlation',
 ]);
 
 // `ta.*` helpers that are comparison / series utilities, not indicators to

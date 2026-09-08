@@ -1,16 +1,18 @@
 import { chromium, BrowserContext, Page } from 'playwright';
 
 // ============================================================================
-// TradingView scraper — no login, open-source scripts only
+// TradingView scraper — no login. Closed-source scripts are filtered per-script
+// by `scrapeScriptSource` (scriptAccess check), not by the listing.
 // ============================================================================
 
 const BASE_URL = 'https://www.tradingview.com';
 
-// Listing to crawl. Default: open-source only — this pre-filters out closed-
-// source scripts on the server side, so we don't pay the per-page cost of
-// opening a script page only to discard it. Override via TV_SCRIPTS_PATH
-// (e.g. '/scripts/editors-picks/', '/scripts/top/').
-const SCRIPTS_PATH = process.env.TV_SCRIPTS_PATH ?? '/scripts/opensource/';
+// Listing to crawl. Default `/scripts/` — the only listing that paginates
+// deeply (via `/scripts/page-N/` path segments). `/scripts/opensource/` would
+// pre-filter closed-source but only paginates to ~page 2. Override with
+// TV_SCRIPTS_PATH (e.g. '/scripts/opensource/', '/scripts/editors-picks/').
+const rawScriptsPath = process.env.TV_SCRIPTS_PATH ?? '/scripts/';
+const SCRIPTS_PATH = rawScriptsPath.endsWith('/') ? rawScriptsPath : `${rawScriptsPath}/`;
 const SCRIPTS_URL = `${BASE_URL}${SCRIPTS_PATH}`;
 
 /**
@@ -41,7 +43,10 @@ export async function scrapeScriptUrls(
   page: Page,
   pageNum: number
 ): Promise<string[]> {
-  const url = pageNum === 1 ? SCRIPTS_URL : `${SCRIPTS_URL}?page=${pageNum}`;
+  // TradingView paginates via path segments: /scripts/, /scripts/page-2/, ...
+  // (`?page=N` is ignored; the "Show more publications" button switches the
+  // page to infinite scroll, which is harder to drive than distinct pages.)
+  const url = pageNum === 1 ? SCRIPTS_URL : `${SCRIPTS_URL}page-${pageNum}/`;
   console.log(`[scraper] Fetching listing page ${pageNum}: ${url}`);
 
   await page.goto(url, { waitUntil: 'networkidle', timeout: 45000 });
