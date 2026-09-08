@@ -1,0 +1,39 @@
+{
+  "id": "zeiierman-trend-pressure-zeiierman-031fbf",
+  "name": "Zeiierman Trend Pressure (Zeiierman)",
+  "source": "https://www.tradingview.com/script/SEdUWOIJ-Zeiierman-Trend-Pressure-Zeiierman",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "est==0 and nz(est[1],0)==1",
+      "est==0 and nz(est[1],0)==-1",
+      "ta.crossover(pz,tz)"
+    ]
+  },
+  "parameters": {
+    "fl": 21,
+    "pl": 9,
+    "ps": 7,
+    "sl": 55,
+    "ml": 120,
+    "ts": 5,
+    "db": 9,
+    "zn": 20,
+    "sn": 7,
+    "xc": false,
+    "rm": 16,
+    "gw": 0.65,
+    "lvt": 20,
+    "cw": 2,
+    "sf": true,
+    "bx": true,
+    "mb": 60
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "031fbfd21aaa715d",
+  "createdAt": 1788873265681
+}

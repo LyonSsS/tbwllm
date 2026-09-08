@@ -1,0 +1,35 @@
+{
+  "id": "relative-volume-breakout-context-pineify-d11d17",
+  "name": "Relative Volume Breakout Context [Pineify]",
+  "source": "https://www.tradingview.com/script/CwRbjtih-Relative-Volume-Breakout-Context-Pineify",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "barstate.isconfirmed and baselineReady and freshBullBreak and bullDistanceAtr >= minimumBreakAtr and volumeZ >= volumeZThreshold",
+      "barstate.isconfirmed and baselineReady and freshBearBreak and bearDistanceAtr >= minimumBreakAtr and volumeZ >= volumeZThreshold"
+    ]
+  },
+  "parameters": {
+    "sessionStartHour": 9,
+    "sessionStartMinute": 30,
+    "sessionLength": 390,
+    "memorySessions": 30,
+    "minimumSamples": 10,
+    "dispersionFloorPct": 10,
+    "volumeZThreshold": 1.5,
+    "decayZThreshold": 0,
+    "breakoutLength": 30,
+    "atrLength": 14,
+    "minimumBreakAtr": 0.1,
+    "trackingBars": 12,
+    "maximumLabels": 30
+  },
+  "parsedBy": "manual",
+  "confidence": 0.85,
+  "rawHash": "d11d17843a03e29a",
+  "createdAt": 1788873265720,
+  "notes": "Relative-volume breakout: a fresh directional break beyond the baseline, minimum ATR distance, and a volume z-score above threshold. Dropped 'activeDirection == 0' (a position-state guard, not entry logic)."
+}

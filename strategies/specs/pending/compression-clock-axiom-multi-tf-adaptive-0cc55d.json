@@ -1,0 +1,24 @@
+{
+  "id": "compression-clock-axiom-multi-tf-adaptive-0cc55d",
+  "name": "Compression Clock (Axiom Multi-TF Adaptive)",
+  "source": "https://www.tradingview.com/script/mpkvlxpo-Compression-Clock-Axiom-Multi-TF-Adaptive",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(state_age_bars, s2_bar_threshold - 0.5)"
+    ]
+  },
+  "parameters": {
+    "rolling_len_h": 24,
+    "lookback_days": 180,
+    "quantile_rank": 33.333,
+    "ui_lang": "English"
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "0cc55dcd518f1f4b",
+  "createdAt": 1788873265683
+}

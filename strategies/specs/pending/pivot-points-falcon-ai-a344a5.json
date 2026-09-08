@@ -1,0 +1,30 @@
+{
+  "id": "pivot-points-falcon-ai-a344a5",
+  "name": "Pivot Points | Falcon AI",
+  "source": "https://www.tradingview.com/script/3q42DGR6-Pivot-Points-Falcon-AI",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(close, P)",
+      "ta.crossunder(close, P)"
+    ]
+  },
+  "parameters": {
+    "pivotTF": "Daily",
+    "method": "Both",
+    "useCurrent": false,
+    "classicN": 3,
+    "camN": 4,
+    "extendR": true,
+    "histBars": 5,
+    "widthP": 2,
+    "widthL": 1
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "a344a54f9beac756",
+  "createdAt": 1788873265713
+}

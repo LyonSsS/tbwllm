@@ -1,0 +1,30 @@
+{
+  "id": "mad-adaptive-trend-score-backquant-6c3466",
+  "name": "MAD Adaptive Trend Score [BackQuant]",
+  "source": "https://www.tradingview.com/script/PlQjuEoQ-MAD-Adaptive-Trend-Score-BackQuant",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "signal == 1 and signal[1] == -1",
+      "signal == -1 and signal[1] == 1"
+    ]
+  },
+  "parameters": {
+    "madLen": 15,
+    "madMult": 5.2,
+    "scoreStart": 1,
+    "scoreEnd": 45,
+    "longThres": 40,
+    "shortThres": -6,
+    "lineW": 5,
+    "paintCandles": true,
+    "bgCol": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "6c346699da3e8387",
+  "createdAt": 1788873265704
+}

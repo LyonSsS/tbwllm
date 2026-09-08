@@ -1,0 +1,50 @@
+{
+  "id": "parabolic-sar-constraint-kinematics-run-geometry-e5529e",
+  "name": "Parabolic SAR Constraint Kinematics & Run Geometry",
+  "source": "https://www.tradingview.com/script/MvAShOX5-Parabolic-SAR-Constraint-Kinematics-Run-Geometry",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "boundaryObservedTurn and rawDirection == -1",
+      "boundaryObservedTurn and rawDirection == 1"
+    ]
+  },
+  "parameters": {
+    "calculationScopeInput": "Recent bars",
+    "researchWindowBarsInput": 3000,
+    "sarStartInput": 0.02,
+    "sarIncrementInput": 0.02,
+    "sarMaximumInput": 0.2,
+    "confirmedEventsOnly": true,
+    "normalizationLength": 14,
+    "normalizationSmoothing": "RMA",
+    "distanceUnit": "ATR at run start",
+    "sequenceMemory": 20,
+    "constraintMateriality": 12.5,
+    "kinematicToleranceTicks": 2,
+    "compressionMinimumAge": 5,
+    "compressionRetention": 35,
+    "expansionHysteresis": 20,
+    "enduranceAge": 12,
+    "extremePauseBars": 5,
+    "briefRunMaximum": 4,
+    "markerPresentation": "Icons",
+    "markerOffsetRange": 0.16,
+    "completedLabelLimit": 12,
+    "eventMarkerLimit": 60,
+    "tintBars": false,
+    "shadeTightArc": false,
+    "panelLayout": "Compact",
+    "panelRightInset": 1,
+    "boldPanelText": true,
+    "exposeResearchData": false
+  },
+  "parsedBy": "manual",
+  "confidence": 0.85,
+  "rawHash": "e5529e6ca24f99ec",
+  "createdAt": 1788873265725,
+  "notes": "Parabolic SAR side-change: SAR flips below price (bullish, rawDirection -1) or above price (bearish, rawDirection 1). Approximation of the script's 'side change observed' event."
+}

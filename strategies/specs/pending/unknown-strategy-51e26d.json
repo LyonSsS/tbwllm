@@ -1,0 +1,61 @@
+{
+  "id": "unknown-strategy-51e26d",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/g3P0iG3j-Williams-Variable-A-D-Pressure-MarkitTick",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "longSignal and barstate.isconfirmed",
+      "longSignal and barstate.isconfirmed",
+      "shortSignal and barstate.isconfirmed",
+      "shortSignal and barstate.isconfirmed"
+    ]
+  },
+  "parameters": {
+    "i_wvadLen": 20,
+    "i_sigLen": 9,
+    "i_useHtf": false,
+    "i_useAdxFilter": false,
+    "i_adxThresh": 20,
+    "i_adxLen": 14,
+    "i_adaptFilterType": "SMA",
+    "i_adaptFilterLen": 9,
+    "i_lockSignal": false,
+    "i_showLevels": true,
+    "i_slMult": 1.5,
+    "i_tp1Mult": 1,
+    "i_tp2Mult": 2,
+    "i_tp3Mult": 3,
+    "i_atrLen": 14,
+    "i_showHist": true,
+    "i_showLines": true,
+    "i_showMarkers": true,
+    "i_showZero": true,
+    "i_showCandles": true,
+    "i_showDash": true,
+    "i_actionLong": "long",
+    "i_actionShort": "short",
+    "i_actionCloseLong": "closelong",
+    "i_actionCloseShort": "closeshort",
+    "i_actionTp1": "tp1",
+    "i_actionTp2": "tp2",
+    "i_actionTp3": "tp3",
+    "i_actionSl": "sl"
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "51e26d4095479d44",
+  "createdAt": 1788873265700
+}

@@ -1,0 +1,27 @@
+{
+  "id": "intra-candle-absorption-volume-spike-fixed-3f9763",
+  "name": "Intra-Candle Absorption & Volume Spike (Fixed)",
+  "source": "https://www.tradingview.com/script/zDul6sKI-Intra-Candle-Absorption-Volume-Spike-Fixed",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "close > open and volume >= avgVol * volSpikeMult and range > avgRange * absRangePct / 100",
+      "close < open and volume >= avgVol * volSpikeMult and range > avgRange * absRangePct / 100"
+    ]
+  },
+  "parameters": {
+    "volSpikeMult": 2,
+    "volAvgLength": 20,
+    "absVolMult": 1.5,
+    "absRangePct": 25,
+    "rangeLength": 20
+  },
+  "parsedBy": "manual",
+  "confidence": 0.85,
+  "rawHash": "3f97630c1a013610",
+  "createdAt": 1788873265698,
+  "notes": "Intra-candle volume spike without price absorption; direction by candle close. avgVol / avgRange are lower-timeframe averages within the bar."
+}

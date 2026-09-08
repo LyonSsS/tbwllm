@@ -1,0 +1,24 @@
+{
+  "id": "amd-structure-map-axealgo-f77f6d",
+  "name": "AMD Structure Map [AxeAlgo]",
+  "source": "https://www.tradingview.com/script/lO7P6hjm-AMD-Structure-Map-AxeAlgo",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "pierceSide == \"Low\"",
+      "not sweepLow"
+    ]
+  },
+  "parameters": {
+    "sensitivityIn": "Strict",
+    "htfEmaLenIn": 50,
+    "dashPosIn": "Top Right"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "f77f6d5234f4aace",
+  "createdAt": 1788873265729
+}

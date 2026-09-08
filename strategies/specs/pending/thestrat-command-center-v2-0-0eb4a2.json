@@ -1,0 +1,44 @@
+{
+  "id": "thestrat-command-center-v2-0-0eb4a2",
+  "name": "TheStrat Command Center v2.0",
+  "source": "https://www.tradingview.com/script/uGQamSwr-TheStrat-Command-Center-v1-5",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "longTriggeredEvent and barstate.isconfirmed",
+      "shortTriggeredEvent and barstate.isconfirmed"
+    ]
+  },
+  "parameters": {
+    "triggerTicks": 1,
+    "stopMethod": "Structure stop",
+    "customStopTicks": 20,
+    "customStopPrice": 0,
+    "targetMethod": "R multiple",
+    "targetRChoice": "2R",
+    "customTakeProfitTicks": 20,
+    "customTakeProfitPrice": 0,
+    "targetLookback": 20,
+    "maxBarsInTrade": 0,
+    "reqTf1": true,
+    "reqTf2": true,
+    "reqTf3": true,
+    "reqTf4": true,
+    "reqTf5": true,
+    "reqTf6": true,
+    "onlySuggestWithFTFC": false,
+    "candidateLabelSizeChoice": "Small",
+    "activeLabelSizeChoice": "Normal",
+    "projectionBars": 3,
+    "failed2LabelSizeChoice": "Normal",
+    "dashboardMode": "Desktop",
+    "dashboardDetail": "Compact"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "0eb4a26fbe765f03",
+  "createdAt": 1788873265686
+}

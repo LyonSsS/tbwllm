@@ -1,0 +1,42 @@
+{
+  "id": "levels-gaps-ed5bef",
+  "name": "Levels + Gaps",
+  "source": "https://www.tradingview.com/script/cETVn8iX-SMT-iFVG-Confluence-Tool-Dominion-Tools",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "not na(swHi)"
+    ]
+  },
+  "parameters": {
+    "minTicks": 0,
+    "maxActive": 5,
+    "maxInvert": 5,
+    "swLen": 5,
+    "swKeep": 5,
+    "swLabels": true,
+    "rayLen": 40,
+    "nearMode": "ATR",
+    "nearATR": 0.5,
+    "nearTicks": 8,
+    "shadeSess": false,
+    "tzStr": "America/Chicago",
+    "confirmed": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "ed5bef4b374a3d64",
+  "createdAt": 1788873265727
+}

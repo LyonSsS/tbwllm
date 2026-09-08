@@ -1,0 +1,23 @@
+{
+  "id": "edo-swing-state-34bce0",
+  "name": "Edo Swing State",
+  "source": "https://www.tradingview.com/script/kwfAZ2LL-Edo-Swing-State",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "structure == 1 and prevStructure != 1",
+      "structure == -1 and prevStructure != -1"
+    ]
+  },
+  "parameters": {
+    "profile": "Swing",
+    "themeMode": "Dark"
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "34bce021941d8d2b",
+  "createdAt": 1788873265696
+}

@@ -1,0 +1,48 @@
+{
+  "id": "unknown-strategy-767509",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/UVosPbFA-Universal-Aggressive-Trend-MACD-v3-3-Trailing-TP",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "allowLongs and flat and frequencyOk and marketOk and longTrendOk and longTrigger",
+      "allowShorts and flat and frequencyOk and marketOk and shortTrendOk and shortTrigger"
+    ]
+  },
+  "parameters": {
+    "fastLength": 14,
+    "slowLength": 39,
+    "signalLength": 9,
+    "useMacdArming": true,
+    "macdValidBars": 10,
+    "useContinuation": true,
+    "continuationLen": 5,
+    "cooldownBars": 3,
+    "allowLongs": true,
+    "allowShorts": true,
+    "trendEmaLength": 99,
+    "useEmaSlope": true,
+    "emaSlopeBars": 3,
+    "adxLength": 11,
+    "adxThreshold": 20,
+    "useAdxFilter": true,
+    "useVolumeFilter": true,
+    "volSmaLength": 22,
+    "volMultiplier": 0.6,
+    "atrLength": 18,
+    "emergencyMult": 2.5,
+    "useOppositeExit": false,
+    "useTrailingTp": true,
+    "trailingTpMode": "Relativ vom Peak",
+    "trailingTpGiveback": 3,
+    "trailingTpMinProfit": 0.5
+  },
+  "parsedBy": "manual",
+  "confidence": 0.85,
+  "rawHash": "767509f2f1855028",
+  "createdAt": 1788873265705,
+  "notes": "strategy() script. Entry gated by market / frequency / flat-position filters plus a trend-OK check and a directional trigger."
+}

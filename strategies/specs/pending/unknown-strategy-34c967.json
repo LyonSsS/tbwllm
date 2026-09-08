@@ -1,0 +1,40 @@
+{
+  "id": "unknown-strategy-34c967",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/rKsnPJbJ-Fibonacci-Cloud-Multi-Timeframe-Fibonacci-Scanner",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "confluence and (not useTrendFilter or trendUp) and rsiLongOK and longAllowed and positionFree",
+      "confluence and (not useTrendFilter or trendDn) and rsiShortOK and shortAllowed and positionFree"
+    ]
+  },
+  "parameters": {
+    "lenA": 20,
+    "lenB": 50,
+    "lenC": 100,
+    "tolerancePct": 0.5,
+    "minConfluence": 1,
+    "useTrendFilter": true,
+    "trendLen": 50,
+    "useRsiFilter": false,
+    "rsiLen": 14,
+    "rsiLongMin": 45,
+    "rsiShortMax": 55,
+    "tradeDirection": "Both",
+    "slPct": 1.5,
+    "tpRR": 2,
+    "oneTradeAtTime": true,
+    "msg_open_long": "Open Long",
+    "msg_open_short": "Open Short",
+    "msg_close_long": "Close Long",
+    "msg_close_short": "Close Short"
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "34c967b48d8190dd",
+  "createdAt": 1788873265697
+}

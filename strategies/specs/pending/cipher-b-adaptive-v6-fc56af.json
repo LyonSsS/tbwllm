@@ -1,0 +1,76 @@
+{
+  "id": "cipher-b-adaptive-v6-fc56af",
+  "name": "Cipher B — Adaptive v6",
+  "source": "https://www.tradingview.com/script/GOa4NDr4-Cipher-B-Adaptive-v6",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "ema20"
+    },
+    {
+      "type": "VWAP",
+      "params": {},
+      "outputKey": "vwap"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "highest_high50"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "lowest_low50"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(wt1, wt2)",
+      "bullCross and wt2 <= osLevel2",
+      "ta.crossunder(wt1, wt2)",
+      "bearCross and wt2 >= obLevel2"
+    ]
+  },
+  "parameters": {
+    "profileIn": "Auto",
+    "volLen": 100,
+    "lcVolMax": 75,
+    "memeVolMin": 150,
+    "adaptLen": true,
+    "lenStretch": 30,
+    "n1": 10,
+    "n2": 21,
+    "wt2Len": 4,
+    "lvlMode": "Adaptive",
+    "lvlLen": 300,
+    "lvlPct": 95,
+    "innerRatio": 0.88,
+    "lvlFloor": 40,
+    "lvlCeil": 95,
+    "symLevels": false,
+    "obFixed": 60,
+    "osFixed": -60,
+    "lvlStretch": 35,
+    "pivotLen": 5,
+    "maxDivBars": 60,
+    "divZone": true,
+    "divMemory": 20,
+    "mfLen": 60,
+    "mfMult": 150
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "fc56af5139b2388d",
+  "createdAt": 1788873265731
+}

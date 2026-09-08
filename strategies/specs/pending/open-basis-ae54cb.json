@@ -1,0 +1,22 @@
+{
+  "id": "open-basis-ae54cb",
+  "name": "Open Basis ",
+  "source": "https://www.tradingview.com/script/GD8c6TQz-Open-Basis",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "nyEvent and bullStrong",
+      "nyEvent and bearStrong"
+    ]
+  },
+  "parameters": {
+    "tz": "America/Chicago"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "ae54cbf4d508a58f",
+  "createdAt": 1788873265714
+}
