@@ -1,4 +1,19 @@
 {
+  "80e8e5ae617617ae": {
+    "bindings": {
+      "fastMA": { "type": "EMA", "params": { "period": "fastLen" } },
+      "slowMA": { "type": "EMA", "params": { "period": "slowLen" } }
+    },
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "bar_index >= slowLen and ta.crossover(fastMA, slowMA)",
+        "bar_index >= slowLen and ta.crossunder(fastMA, slowMA)"
+      ]
+    },
+    "notes": "EMA(fastLen) / EMA(slowLen) golden-cross / death-cross, gated on the slow MA being seeded (bar_index >= slowLen). maType defaults to EMA."
+  },
+
   "ca7e76e9eacf689e": {
     "skip": "PVSRA volume-classification indicator (vector / climax candles); no directional entry"
   },
