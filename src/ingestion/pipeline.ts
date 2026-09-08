@@ -6,6 +6,7 @@ import {
 } from './scraper.js';
 import { analyzePineScript } from './analyzer.js';
 import { enrichWithLLM, buildSpecFromStatic } from './parser.js';
+import { makeSpecId } from './specId.js';
 import {
   markPageScraped, isPageScraped,
   upsertScript, isScriptProcessed,
@@ -28,27 +29,20 @@ const MAX_CONSECUTIVE_BLOCKS = 3;
 // for scripts that could theoretically score higher.
 const LLM_CONFIDENCE_THRESHOLD = 0.50;
 
-function slugify(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50);
-}
-
-function makeSpecId(name: string, hash: string): string {
-  return `${slugify(name)}-${hash.slice(0, 6)}`;
-}
-
 function saveSpec(spec: object, specId: string): void {
   fs.mkdirSync(SPECS_DIR, { recursive: true });
   const filePath = path.join(SPECS_DIR, `${specId}.json`);
   fs.writeFileSync(filePath, JSON.stringify(spec, null, 2));
 }
 
-// Persist the raw Pine source, content-addressed by hash. This decouples
-// scraping from analysis: an improved analyzer can be re-run over these
-// offline, with no re-scraping. Written for every fetched script, including
-// ones that fail the tradeable check.
-function saveRawSource(source: string, rawHash: string): void {
+// Persist the raw Pine source, content-addressed by hash, plus a `.url`
+// sidecar with the source URL. This decouples scraping from analysis: an
+// improved analyzer can be re-run over these offline, with no re-scraping.
+// Written for every fetched script, including ones that fail the tradeable check.
+function saveRawSource(source: string, rawHash: string, url: string): void {
   fs.mkdirSync(RAW_DIR, { recursive: true });
   fs.writeFileSync(path.join(RAW_DIR, `${rawHash}.pine`), source);
+  fs.writeFileSync(path.join(RAW_DIR, `${rawHash}.url`), url);
 }
 
 // Running tally of ta.* calls the analyzer can't extract, most-frequent first.
@@ -167,7 +161,7 @@ export async function runPipeline(options: {
 
         // Persist raw source, content-addressed by hash, so an improved
         // analyzer can be re-run over it later without re-scraping.
-        if (!dryRun) saveRawSource(source, analysis.rawHash);
+        if (!dryRun) saveRawSource(source, analysis.rawHash, url);
 
         if (analysis.unknownIndicators.length > 0) {
           console.log(

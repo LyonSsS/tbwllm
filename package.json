@@ -14,6 +14,7 @@
     "ingest": "tsx src/ingestion/cli.ts",
     "ingest:dry": "tsx src/ingestion/cli.ts --dry-run",
     "ingest:static": "tsx src/ingestion/cli.ts --no-llm",
+    "reanalyze": "tsx src/ingestion/reanalyze.ts",
     "backtest": "tsx src/backtest/run.ts",
     "bot:paper": "tsx src/bot/paper-trader.ts",
     "bot:webhook": "tsx src/bot/webhook-server.ts"

@@ -158,7 +158,7 @@ function resolveCondition(src: string, cond: string, depth = 2): string {
 }
 
 // Does this condition carry evaluable logic (vs. an unresolved bare name)?
-function isEvaluableCondition(cond: string): boolean {
+export function isEvaluableCondition(cond: string): boolean {
   return /[<>]=?|[!=]==?|\bta\.|\b(and|or|not)\b|\bcross/i.test(cond);
 }
 
