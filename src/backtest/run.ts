@@ -196,7 +196,9 @@ function all(candles: Candle[]): void {
   fs.writeFileSync(path.join(RESULTS_DIR, 'RANKING.md'), sections.join('\n') + '\n');
 
   fs.mkdirSync('reports', { recursive: true });
-  const reportFile = `reports/backtest_${windows.map(w => w.years).join('-')}y_${date}.txt`;
+  // Timestamp to the second so every run archives its own report for comparison.
+  const stamp = new Date().toISOString().slice(0, 19).replace('T', '_').replace(/:/g, '');
+  const reportFile = `reports/backtest_${windows.map(w => w.years).join('-')}y_${stamp}.txt`;
   fs.writeFileSync(reportFile, report.join('\n') + '\n');
   console.log(`\nwrote ${RESULTS_DIR}/RANKING.md and ${reportFile}`);
 }
