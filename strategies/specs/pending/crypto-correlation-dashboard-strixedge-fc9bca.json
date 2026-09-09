@@ -1,0 +1,26 @@
+{
+  "id": "crypto-correlation-dashboard-strixedge-fc9bca",
+  "name": "Crypto Correlation Dashboard [StrixEDGE]",
+  "source": "https://www.tradingview.com/script/eLrbEagy-Crypto-Correlation-Dashboard-StrixEDGE",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "SELL",
+    "conditions": [
+      "ta.crossunder(rollVal"
+    ]
+  },
+  "parameters": {
+    "i_period": 20,
+    "i_tf": "Chart",
+    "i_thresh": 0.3,
+    "i_showRoll": true,
+    "i_rollA": 1,
+    "i_rollB": 2
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "fc9bcad420945020",
+  "createdAt": 1788946530417
+}

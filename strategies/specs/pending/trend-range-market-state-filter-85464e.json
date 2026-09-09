@@ -1,0 +1,31 @@
+{
+  "id": "trend-range-market-state-filter-85464e",
+  "name": "Trend / Range Market-State Filter",
+  "source": "https://www.tradingview.com/script/kT81GU6l-TRMSF-Trend-Range-Market-State-Filter-v1-0",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "isXauUsd and bullishChanged",
+      "isBtcUsd and bullishChanged",
+      "isXauUsd and bearishChanged",
+      "isBtcUsd and bearishChanged"
+    ]
+  },
+  "parameters": {
+    "diLength": 14,
+    "adxSmoothing": 14,
+    "trendAdxThreshold": 25,
+    "sidewayAdxThreshold": 20,
+    "useChopConfirmation": true,
+    "chopLength": 14,
+    "trendChopThreshold": 38.2,
+    "sidewayChopThreshold": 61.8
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "85464eec55234e21",
+  "createdAt": 1788946066170
+}

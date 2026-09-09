@@ -1,0 +1,32 @@
+{
+  "id": "reversal-probability-profile-algoalpha-e50ab7",
+  "name": "Reversal Probability Profile [AlgoAlpha]",
+  "source": "https://www.tradingview.com/script/ZWLdxZtM-Reversal-Probability-Profile-AlgoAlpha",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "pivotLeft": 5,
+    "pivotRight": 5,
+    "lookbackBars": 600,
+    "pivotMemory": 240,
+    "binRadius": 3,
+    "profileBins": 140,
+    "clusterCount": 5,
+    "kmeansIterations": 25,
+    "atrLen": 14,
+    "atrMult": 2,
+    "highProbabilityThreshold": 80,
+    "profileTextMode": "Probability",
+    "maxPivotLines": 120,
+    "maxPivotDots": 260
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "e50ab7d62f893f25",
+  "createdAt": 1788945467214
+}

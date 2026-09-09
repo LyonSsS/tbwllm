@@ -1,0 +1,33 @@
+{
+  "id": "master-line-lite-5-ma-consensus-f32ba2",
+  "name": "Master Line Lite · 5-MA Consensus",
+  "source": "https://www.tradingview.com/script/UpOkagpl-Master-Line-Lite-5-MA-Consensus",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "up and dir[1] <= 0",
+      "dn and dir[1] >= 0"
+    ]
+  },
+  "parameters": {
+    "len": 50,
+    "bandMult": 0.5,
+    "colorBars": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.9,
+  "rawHash": "f32ba2d9f24dfa9f",
+  "createdAt": 1788945631338
+}

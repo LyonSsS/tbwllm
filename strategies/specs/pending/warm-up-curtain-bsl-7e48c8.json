@@ -1,0 +1,24 @@
+{
+  "id": "warm-up-curtain-bsl-7e48c8",
+  "name": "Warm-Up Curtain [BSL]",
+  "source": "https://www.tradingview.com/script/Z2Kg0uSJ-Warm-Up-Curtain-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "justWarmedUp"
+    ]
+  },
+  "parameters": {
+    "useA": true,
+    "useB": false,
+    "useC": false,
+    "declaredLag": 0
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "7e48c84def28d58f",
+  "createdAt": 1788945503723
+}

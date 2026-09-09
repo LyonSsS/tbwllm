@@ -1,0 +1,48 @@
+{
+  "id": "unknown-strategy-f67bd9",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/jxSzAth6-Markus-Channel-Dual-Expansion-Envelopes-V1",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "isAnyCross",
+      "isSignalCross"
+    ]
+  },
+  "parameters": {
+    "maSelectMode": "Auto (Adaptive Scoring",
+    "manualMaType": "EMA",
+    "noisePenalty": 1.5,
+    "hystMargin": 0.1,
+    "baseLen": 13,
+    "bbMult": 1.6,
+    "atrLen": 9,
+    "volLen": 20,
+    "volSens": 0.5,
+    "diffMaLen": 10,
+    "liqBlend": 0.4,
+    "asymStr": 0.15,
+    "onlyOnBreakout": false,
+    "envLen": 14,
+    "envMult": 0.5,
+    "envVolSens": 0.6,
+    "longAtrLen": 200,
+    "dwellLookback": 20,
+    "trigBuffMult": 0.25,
+    "trigTrackMode": "Dynamic Tracking",
+    "trigSmoothLen": 4,
+    "crossTarget": "Markus Bands",
+    "crossMaLen": 14,
+    "useSignalFilter": true,
+    "tensionThresh": 0.25,
+    "requireVolExpansion": true,
+    "paintBars": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "f67bd9e3c340f0e5",
+  "createdAt": 1788946623414
+}

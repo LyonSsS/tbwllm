@@ -1,0 +1,29 @@
+{
+  "id": "unknown-strategy-416dc6",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/olfpEvv8",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "confirmedOK and volume > 0 and isNewLow and densityOK and spreadOK and posFromLow >= closePct",
+      "confirmedOK and volume > 0 and isNewHigh and densityOK and spreadOK and posFromHigh >= closePct"
+    ]
+  },
+  "parameters": {
+    "lenExtreme": 5,
+    "lenSpread": 5,
+    "lenDensity": 5,
+    "useSpread": true,
+    "spreadFactor": 1.4,
+    "densityFactor": 2,
+    "closePct": 0,
+    "onlyConfirmed": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "rawHash": "416dc6feecaf6a69",
+  "createdAt": 1788946637825
+}

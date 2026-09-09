@@ -1,0 +1,54 @@
+{
+  "id": "stretch-z-distance-from-session-vwap-f9656e",
+  "name": "Stretch z — distance from session VWAP",
+  "source": "https://www.tradingview.com/script/Qn5UJ69c-Stretch-z-distance-from-session-VWAP",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "VWAP",
+      "params": {},
+      "outputKey": "vwap"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "crossed2",
+      "crossed3"
+    ]
+  },
+  "parameters": {
+    "iNorm": "Std dev of spread (matches scorecard",
+    "iWin": 60,
+    "iAnchor": false,
+    "iATRLen": 14,
+    "iB1": 1,
+    "iB2": 2,
+    "iB3": 3,
+    "iShowW": true,
+    "iS2n": "Value Acceptance",
+    "iS4n": "Balance Break",
+    "iS5n": "Trend Pullback",
+    "iS2a": 4,
+    "iS2b": 3,
+    "iS2c": 1,
+    "iS2d": 0,
+    "iS4a": 4,
+    "iS4b": 3,
+    "iS4c": 1,
+    "iS4d": 0,
+    "iS5a": 1,
+    "iS5b": 2,
+    "iS5c": 4,
+    "iS5d": 1,
+    "iHue": true,
+    "iFillB": false,
+    "iShowT": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "f9656ec882440af3",
+  "createdAt": 1788946114881
+}

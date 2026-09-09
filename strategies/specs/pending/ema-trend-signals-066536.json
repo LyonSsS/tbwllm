@@ -1,0 +1,37 @@
+{
+  "id": "ema-trend-signals-066536",
+  "name": "EMA Trend Signals",
+  "source": "https://www.tradingview.com/script/mftN9f1e-EMA-Trend-Signals",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "fast": {
+      "type": "EMA",
+      "params": {
+        "period": "fastLen"
+      }
+    },
+    "slow": {
+      "type": "EMA",
+      "params": {
+        "period": "slowLen"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(fast, slow)",
+      "ta.crossunder(fast, slow)"
+    ]
+  },
+  "parameters": {
+    "fastLen": 21,
+    "slowLen": 55
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "rawHash": "06653609dc41be1a",
+  "createdAt": 1788945638750
+}

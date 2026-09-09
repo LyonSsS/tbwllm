@@ -1,0 +1,37 @@
+{
+  "id": "3-ema-hh-ll-structure-break-pro-v2-5e8660",
+  "name": "3 EMA + HH/LL Structure Break PRO v2",
+  "source": "https://www.tradingview.com/script/MASmzuAI-3-EMA-HH-LL-Structure-Break-Trend-and-Structure-combined-v2",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "finalBuy and not inTrade",
+      "not na(lastHigh) and",
+      "finalSell and not inTrade",
+      "not na(lastLow) and"
+    ]
+  },
+  "parameters": {
+    "fastLen": 20,
+    "midLen": 50,
+    "slowLen": 100,
+    "useReversal": true,
+    "useTrend": true,
+    "pivotLeft": 10,
+    "pivotRight": 10,
+    "requireRetestClose": true,
+    "retestTolerance": 0,
+    "dollarPerMove": 1,
+    "tp1Dollar": 5,
+    "tp2Dollar": 10,
+    "tp3Dollar": 15,
+    "slDollar": 5
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "5e8660c40c0654f6",
+  "createdAt": 1788945856112
+}

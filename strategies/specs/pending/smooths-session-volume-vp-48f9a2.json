@@ -1,0 +1,51 @@
+{
+  "id": "smooths-session-volume-vp-48f9a2",
+  "name": "Smooths Session Volume VP",
+  "source": "https://www.tradingview.com/script/h8PbA0uU-Smooths-Session-Volume-Profile",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "asiaJustStart",
+      "londonJustStart",
+      "nyJustStart"
+    ]
+  },
+  "parameters": {
+    "profShowInput": true,
+    "profBuyInput": true,
+    "profSellInput": true,
+    "profPeriodInput": 23,
+    "profResInput": 100,
+    "profRowsInput": 30,
+    "profGapInput": 5,
+    "profFillInput": 15,
+    "sessTzInput": "America/New_York",
+    "asiaProfInput": true,
+    "asiaHlInput": true,
+    "londonProfInput": true,
+    "londonHlInput": true,
+    "nyProfInput": true,
+    "nyHlInput": true,
+    "sessHlOpacityInput": 12,
+    "vaPctInput": 70,
+    "imbShowInput": true,
+    "imbPctInput": 300,
+    "ovlTiltInput": 5,
+    "resTolInput": 1,
+    "lblMergeInput": 2,
+    "nakedPocInput": true,
+    "vaBoxInput": false,
+    "ticksPerRowInput": 1,
+    "windowInput": 5,
+    "viewTicksInput": 5,
+    "bellDivInput": 3,
+    "mobileModeInput": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "48f9a252b7ff6685",
+  "createdAt": 1788945932303
+}

@@ -1,0 +1,29 @@
+{
+  "id": "sweep-reversal-map-herman-a2a05d",
+  "name": "Sweep Reversal Map [Herman]",
+  "source": "https://www.tradingview.com/script/kQTW8mzu-Sweep-Reversal-Map-Herman",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bearishConfirmedSignal or bullishConfirmedSignal",
+      "bearishConfirmedSignal or bullishConfirmedSignal"
+    ]
+  },
+  "parameters": {
+    "swingLengthInput": 5,
+    "atrLengthInput": 14,
+    "minPenetrationInput": 0,
+    "structureLengthInput": 3,
+    "maxConfirmationBarsInput": 12,
+    "minDisplacementInput": 0.2,
+    "confirmedExtensionInput": 2,
+    "maxHistoryInput": 80
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "a2a05d9d21d77d76",
+  "createdAt": 1788946257502
+}

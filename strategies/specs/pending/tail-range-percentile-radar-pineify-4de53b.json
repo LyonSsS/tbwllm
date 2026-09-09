@@ -1,0 +1,27 @@
+{
+  "id": "tail-range-percentile-radar-pineify-4de53b",
+  "name": "Tail Range Percentile Radar [Pineify]",
+  "source": "https://www.tradingview.com/script/NBAp559r-Tail-Range-Percentile-Radar-Pineify",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "barstate.isconfirmed and rangeExtreme",
+      "barstate.isconfirmed and upperExtreme",
+      "barstate.isconfirmed and lowerExtreme"
+    ]
+  },
+  "parameters": {
+    "rankLength": 200,
+    "tailThreshold": 95,
+    "minWickShare": 20,
+    "minBodyShare": 55,
+    "statsLength": 100
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "4de53b8638d50f93",
+  "createdAt": 1788945673551
+}

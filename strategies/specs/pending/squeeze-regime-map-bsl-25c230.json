@@ -1,0 +1,31 @@
+{
+  "id": "squeeze-regime-map-bsl-25c230",
+  "name": "Squeeze Regime Map [BSL]",
+  "source": "https://www.tradingview.com/script/7X4tUoMG-Squeeze-Regime-Map-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "releaseUp",
+      "releaseDown",
+      "expansionUp"
+    ]
+  },
+  "parameters": {
+    "trLength": 14,
+    "percentileWindow": 126,
+    "compressionEntry": 20,
+    "releaseThreshold": 40,
+    "expansionThreshold": 70,
+    "momentumLength": 20,
+    "momentumSmoothing": 3,
+    "minimumImpulse": 0.25,
+    "panelDensity": "Compact"
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "25c23014f30bea0c",
+  "createdAt": 1788946122468
+}

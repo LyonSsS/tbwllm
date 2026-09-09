@@ -1,0 +1,61 @@
+{
+  "id": "aurora-flux-vwap-df462d",
+  "name": "Aurora Flux — VWAP ",
+  "source": "https://www.tradingview.com/script/bxlJMSSy-Aurora-FLux-VWAP-V2-Drizzle-ALGO56",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    }
+  ],
+  "bindings": {
+    "wickRatio": {
+      "type": "SMA",
+      "params": {
+        "period": "smoothLen"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "upperIntensity > 0.6 and wickRatio >= wickThresh",
+      "lowerIntensity > 0.6 and wickRatio >= wickThresh",
+      "confluence >= 75"
+    ]
+  },
+  "parameters": {
+    "anchorMode": "Rolling",
+    "vwapLen": 200,
+    "baseMult": 2,
+    "volSens": 0.5,
+    "bandSmooth": 6,
+    "mult2": 1.28,
+    "mult3": 3.09,
+    "dev1": 1.28,
+    "dev2": 2.01,
+    "dev3": 2.51,
+    "dev4": 3.09,
+    "dev5": 4.01,
+    "adxLength": 14,
+    "adxSmooth": 14,
+    "adxInfluence": 0.8,
+    "adxStrong": 25,
+    "filterByAdx": true,
+    "cloudMode": "Both",
+    "autoLtf": true,
+    "wickThresh": 0.8,
+    "smoothLen": 5,
+    "cleanMode": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "df462db5a789fd39",
+  "createdAt": 1788945969657
+}

@@ -1,0 +1,92 @@
+{
+  "id": "smart-buy-sell-indicator-v1-086ded",
+  "name": "Smart Buy Sell Indicator V1",
+  "source": "https://www.tradingview.com/script/9byHKk6R-Smart-Buy-Sell-Indicator-V1",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "ema50"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "ema200"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "sma50"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "sma200"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 252
+      },
+      "outputKey": "highest_high252"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 7
+      },
+      "outputKey": "lowest_low7"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "lowest_low5"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(fast, slow) and",
+      "ta.crossunder(fast, slow) and"
+    ]
+  },
+  "parameters": {
+    "maType": "EMA",
+    "fastLen": 9,
+    "slowLen": 21,
+    "rsiLen": 14,
+    "rsiBuy": 50,
+    "rsiSell": 50,
+    "minVolume": 500000,
+    "minPriceMove": 5,
+    "volumePeriod": 20,
+    "volumeFactor": 1.25,
+    "adrLen": 21,
+    "rvolLen": 20,
+    "turnoverLen": 20
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "086ded888aa66fc8",
+  "createdAt": 1788945318395
+}

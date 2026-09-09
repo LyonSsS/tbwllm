@@ -1,0 +1,23 @@
+{
+  "id": "equal-highs-lows-ita-23b1b9",
+  "name": "Equal Highs & Lows [ITA]",
+  "source": "https://www.tradingview.com/script/OBTZlQ8I-Equal-Highs-Lows-ITA",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "pivotLen": 8,
+    "tolPct": 0.25,
+    "maxPools": 6,
+    "removeSwept": true,
+    "lblSizeStr": "Normal"
+  },
+  "parsedBy": "static",
+  "confidence": 0.5,
+  "rawHash": "23b1b920ef11e35f",
+  "createdAt": 1788946544991
+}

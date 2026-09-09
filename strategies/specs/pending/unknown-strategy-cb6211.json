@@ -1,0 +1,25 @@
+{
+  "id": "unknown-strategy-cb6211",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/YECX6MR7",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "alertOk and crossUp",
+      "alertOk and crossDown"
+    ]
+  },
+  "parameters": {
+    "refLevelName": "Previous session close",
+    "lineStyleName": "Solid",
+    "textSizeName": "Small",
+    "pctPositionName": "Behind the line"
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "cb621107bf471d57",
+  "createdAt": 1788946382806
+}

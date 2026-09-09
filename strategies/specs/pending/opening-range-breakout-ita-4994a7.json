@@ -1,0 +1,27 @@
+{
+  "id": "opening-range-breakout-ita-4994a7",
+  "name": "Opening Range Breakout [ITA]",
+  "source": "https://www.tradingview.com/script/1l4KG2VP-Opening-Range-Breakout-ITA",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "orDone and not brokeUp and not na(orHigh) and close > orHigh",
+      "orDone and not brokeDown and not na(orLow) and close < orLow"
+    ]
+  },
+  "parameters": {
+    "rangeMins": "15",
+    "tz": "America/New_York",
+    "maxDays": 5,
+    "t1Mult": 1,
+    "t2Mult": 2,
+    "lblSizeStr": "Small"
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "4994a7775c5f3e4a",
+  "createdAt": 1788945401378
+}

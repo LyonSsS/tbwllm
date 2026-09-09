@@ -1,0 +1,84 @@
+{
+  "id": "institutional-swing-pressure-engine-ispe-d8e1df",
+  "name": "Institutional Swing Pressure Engine [ISPE]",
+  "source": "https://www.tradingview.com/script/L009YzuW-Institutional-Swing-Pressure-Engine-ISPE",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "RSI",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "rsi14"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "ema20"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "ema50"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "ema200"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "ema5"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 10
+      },
+      "outputKey": "ema10"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullPressurized",
+      "bullBreakout",
+      "bearPressurized",
+      "bearBreakout"
+    ]
+  },
+  "parameters": {
+    "adaptiveLookback": 252,
+    "atrLength": 14,
+    "compressionLength": 20,
+    "bbMult": 2,
+    "kcMult": 1.5,
+    "flowLength": 20,
+    "volumeLength": 30,
+    "useSector": true,
+    "rsLength": 60,
+    "resistanceLength": 50,
+    "structureLength": 20,
+    "swingLength": 10,
+    "pressureThreshold": 72,
+    "extremeThreshold": 82,
+    "failureWindow": 4,
+    "lineBarsLeft": 4,
+    "lineBarsRight": 8
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "d8e1df0d168f9ab1",
+  "createdAt": 1788945763387
+}

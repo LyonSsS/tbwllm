@@ -1,0 +1,40 @@
+{
+  "id": "ict-liquidity-hunter-e38b25",
+  "name": "ICT Liquidity Hunter",
+  "source": "https://www.tradingview.com/script/S6WIBYjY",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "swingLen": 8,
+    "maxZoneAge": 50,
+    "maxActiveZones": 3,
+    "minSwingATRmult": 1,
+    "zoneLookback": 20,
+    "minGapATRmult": 0,
+    "extendZones": true,
+    "rejMultiplier": 2,
+    "rejLookback": 20,
+    "closeRatio": 0.66,
+    "onceReject": true,
+    "maxLiqLines": 3,
+    "maxLiqAge": 200
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "e38b252dd02ac2a4",
+  "createdAt": 1788945848327
+}

@@ -1,0 +1,61 @@
+{
+  "id": "iqr-risk-to-reward-dynamic-targets-mantisalgo-e32f52",
+  "name": "IQR Risk-to-Reward & Dynamic Targets [MantisAlgo]",
+  "source": "https://www.tradingview.com/script/hqBRfxAn-IQR-Risk-to-Reward-Dynamic-Targets-MantisAlgo",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 3
+      },
+      "outputKey": "highest_high3"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 4
+      },
+      "outputKey": "highest_high4"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 3
+      },
+      "outputKey": "lowest_low3"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 4
+      },
+      "outputKey": "lowest_low4"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "sampleLen": 34,
+    "whiskerMult": 1.5,
+    "liqLen": 20,
+    "minRR": 2,
+    "cooldownLen": 6,
+    "maxHistory": 60
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "e32f5265fac0f28c",
+  "createdAt": 1788945655445
+}

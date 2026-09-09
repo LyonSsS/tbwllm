@@ -1,0 +1,29 @@
+{
+  "id": "consolidation-dna-flux-charts-776c9c",
+  "name": "Consolidation DNA | Flux Charts",
+  "source": "https://www.tradingview.com/script/bSTxT6Qh-Consolidation-DNA-Flux-Charts",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "detectionMethod": "Candles",
+    "candleConfirmBars": 4,
+    "visualRangeBars": 20,
+    "invalidationMethod": "Close Break",
+    "expansionWindow": 50,
+    "rangeSampleLen": 200,
+    "analysisWindow": 200,
+    "innerPaddingPct": 10,
+    "maxStoredBoxes": 80,
+    "maxStoredLabels": 120,
+    "dashKeepBars": 10
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "776c9c900f223797",
+  "createdAt": 1788946615863
+}

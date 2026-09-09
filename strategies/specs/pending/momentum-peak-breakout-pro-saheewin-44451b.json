@@ -1,0 +1,53 @@
+{
+  "id": "momentum-peak-breakout-pro-saheewin-44451b",
+  "name": "Momentum Peak Breakout-Pro [Saheewin]",
+  "source": "https://www.tradingview.com/script/oE55X9Fa-Momentum-Peak-Breakout-Pro-Saheewin",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "histogramBuySignal and not tradeIsLive",
+      "bullLiquiditySweep and",
+      "histogramSellSignal and not tradeIsLive and not validatedBuySignal",
+      "bearLiquiditySweep and"
+    ]
+  },
+  "parameters": {
+    "momLen": 14,
+    "smoothLen": 5,
+    "useVolumeWeight": false,
+    "volumeLen": 50,
+    "pivotLeft": 3,
+    "pivotRight": 3,
+    "minPeakStrength": 0,
+    "minPeakDistance": 5,
+    "sweepMode": "Percent",
+    "sweepPercent": 5,
+    "sweepAbsolute": 1,
+    "returnMode": "Cross Back",
+    "usePriceConfirmation": true,
+    "priceConfirmBars": 3,
+    "useVolumeConfirmation": false,
+    "cooldownBars": 10,
+    "sameDirectionBars": 100,
+    "ema1Length": 9,
+    "ema2Length": 21,
+    "ema3Length": 50,
+    "useMomentumExpansion": false,
+    "momentumExpansionMin": 10,
+    "useBreakoutDisplacement": false,
+    "breakoutDisplacementMinATR": 0.1,
+    "breakoutATRLength": 14,
+    "useEfficiencyRatio": false,
+    "efficiencyLength": 20,
+    "minimumEfficiencyRatio": 0.35,
+    "tradeBoxBars": 20,
+    "statsTradeCount": 50
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "44451b7e5236165f",
+  "createdAt": 1788945689277
+}

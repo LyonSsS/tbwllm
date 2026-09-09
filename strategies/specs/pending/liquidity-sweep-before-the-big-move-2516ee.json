@@ -1,0 +1,29 @@
+{
+  "id": "liquidity-sweep-before-the-big-move-2516ee",
+  "name": "Liquidity Sweep Before The Big Move",
+  "source": "https://www.tradingview.com/script/CT0vM7gd-Liquidity-Sweep-Detector",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullSweep and bullWickPct >= sweepWick",
+      "bullConfirm and (na(lastBullSignal) or bar_index > lastBullSignal)",
+      "bearSweep and bearWickPct >= sweepWick",
+      "bearConfirm and (na(lastBearSignal) or bar_index > lastBearSignal)"
+    ]
+  },
+  "parameters": {
+    "lookback": 20,
+    "sweepWick": 0.15,
+    "extendBars": 15,
+    "confirmBars": 3,
+    "useBodyConfirm": true,
+    "bodyStrength": 0.55
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "2516eee01e6bf039",
+  "createdAt": 1788946089493
+}

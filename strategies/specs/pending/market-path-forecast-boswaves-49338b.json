@@ -1,0 +1,58 @@
+{
+  "id": "market-path-forecast-boswaves-49338b",
+  "name": "Market Path Forecast [BOSWaves]",
+  "source": "https://www.tradingview.com/script/2sBh2G8D-Market-Path-Forecast-BOSWaves",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 8
+      },
+      "outputKey": "ema8"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 21
+      },
+      "outputKey": "ema21"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "directionChanged and dir",
+      "directionChanged and not dir"
+    ]
+  },
+  "parameters": {
+    "swingLen": 16,
+    "samples": 20,
+    "atrLen": 200,
+    "adaptiveHorizon": true,
+    "fixedForecastBars": 78,
+    "minForecastBars": 8,
+    "maxForecastBars": 105,
+    "pathStretch": 2,
+    "confidenceInterval": 1,
+    "minTargetATR": 5,
+    "pathBend": 0.45,
+    "maxForecastLevels": 6,
+    "forecastZoneATR": 0.1,
+    "levelStartPct": 0.38,
+    "structureSnapATR": 0.75,
+    "structureSnapStrength": 0.65,
+    "confluenceRadiusATR": 0.4,
+    "structureLen": 5,
+    "structureZoneATR": 0.18,
+    "maxStructureZones": 12,
+    "structureMaxAge": 350
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "49338b886ec2bf3d",
+  "createdAt": 1788946299437
+}

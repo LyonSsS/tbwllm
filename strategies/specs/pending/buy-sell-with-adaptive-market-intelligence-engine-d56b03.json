@@ -1,0 +1,73 @@
+{
+  "id": "buy-sell-with-adaptive-market-intelligence-engine-d56b03",
+  "name": "Buy-SEll with Adaptive Market Intelligence Engine",
+  "source": "https://www.tradingview.com/script/rrwlLVT9-Buy-Sell-with-Adaptive-Market-Intelligence-Engine",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "MACD",
+      "params": {},
+      "outputKey": "macd"
+    },
+    {
+      "type": "VWAP",
+      "params": {},
+      "outputKey": "vwap"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "fastLen": 21,
+    "slowLen": 50,
+    "meanLen": 20,
+    "useHTF": true,
+    "internalSwingLen": 3,
+    "majorSwingLen": 8,
+    "structureBreakBuffer": 0.05,
+    "retestWindow": 18,
+    "retestToleranceATR": 0.18,
+    "retestMaxPenetrationATR": 0.4,
+    "minimumBandStrength": 58,
+    "minimumBandLegATR": 0.7,
+    "structureBandWidthATR": 0.18,
+    "requiredStructurePairs": 2,
+    "diLen": 14,
+    "adxSmooth": 14,
+    "trendAdxThreshold": 22,
+    "rangeAdxThreshold": 18,
+    "minEmaSeparationATR": 0.2,
+    "structureRegimeSeparationATR": 0.3,
+    "atrLen": 14,
+    "atrBaselineLen": 50,
+    "expansionMultiplier": 1.1,
+    "bbLen": 20,
+    "bbMult": 2,
+    "bbBaselineLen": 50,
+    "compressionMultiplier": 0.75,
+    "rsiLen": 14,
+    "macdFast": 12,
+    "macdSlow": 26,
+    "macdSignalLen": 9,
+    "useVolume": true,
+    "volumeLen": 20,
+    "volumeMultiplier": 1,
+    "minimumSignalScore": 86,
+    "minimumScoreAdvantage": 25,
+    "requireHTFForSignals": true,
+    "requireVolumeForSignals": true,
+    "signalVolumeMultiplier": 1.05,
+    "trendResetBars": 6,
+    "requireStructureAlignment": true,
+    "requireStrongADX": true,
+    "colorCandles": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "d56b03fdc0d588ae",
+  "createdAt": 1788946011689
+}

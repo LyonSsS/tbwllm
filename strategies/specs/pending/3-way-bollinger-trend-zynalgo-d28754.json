@@ -1,0 +1,47 @@
+{
+  "id": "3-way-bollinger-trend-zynalgo-d28754",
+  "name": "3-Way Bollinger Trend [ZynAlgo]",
+  "source": "https://www.tradingview.com/script/LM69E8gZ-3-Way-Bollinger-Trend-ZynAlgo",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "fireBuy",
+      "fireSell"
+    ]
+  },
+  "parameters": {
+    "tradeMode": false,
+    "hmaLength": 20,
+    "bandStdevMult": 2,
+    "rsiLength": 14,
+    "rsiColorUpper": 55,
+    "rsiColorLower": 45,
+    "confirmBars": 2,
+    "slAtrMult": 1.5,
+    "tp1R": 1,
+    "tp2R": 2,
+    "tp3R": 3,
+    "maxTradeDuration": 200,
+    "maxStoredTrades": 30,
+    "useStabilityMode": true,
+    "useSmartFilter": false,
+    "reversalLockBars": 5,
+    "dashCornerInput": "Top Right"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "d2875443251b0a37",
+  "createdAt": 1788945362640
+}

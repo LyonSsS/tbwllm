@@ -1,0 +1,28 @@
+{
+  "id": "session-killzones-opening-range-verticetrading-b1892c",
+  "name": "Session Killzones + Opening Range [verticetrading]",
+  "source": "https://www.tradingview.com/script/i0sIbmaA",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "aStart or lStart or nStart",
+      "aBrkUp or lBrkUp or nBrkUp",
+      "aBrkDn or lBrkDn or nBrkDn"
+    ]
+  },
+  "parameters": {
+    "lang": "English",
+    "tzSel": "New York",
+    "orMin": 30,
+    "enA": true,
+    "enL": true,
+    "enN": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "b1892cd62e9890ea",
+  "createdAt": 1788945551058
+}

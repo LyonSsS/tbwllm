@@ -1,0 +1,33 @@
+{
+  "id": "relative-volume-candles-narrow-ranges-58ca71",
+  "name": "Relative Volume Candles & Narrow Ranges",
+  "source": "https://www.tradingview.com/script/Pkgxgdm6-Relative-Volume-Candles-Narrow-Ranges",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "SELL",
+    "conditions": [
+      "ContractedRange_bl and RangeDotSize_i_str == \"Tiny\"",
+      "ContractedRange_bl and RangeDotSize_i_str == \"Small\"",
+      "ContractedRange_bl and RangeDotSize_i_str == \"Normal\""
+    ]
+  },
+  "parameters": {
+    "RVOLLookback_i_int": 50,
+    "ProfoundDryUpBelow_i_fl": 0.6,
+    "ConstructiveDryUpBelow_i_fl": 0.8,
+    "ExpandedVolumeAbove_i_fl": 1.3,
+    "TellingVolumeAbove_i_fl": 2,
+    "ADRLength_i_int": 20,
+    "RangeDotFrequency_i_str": "Medium",
+    "RangeDotSize_i_str": "Tiny",
+    "ColorScheme_i_str": "Dark",
+    "DarkSchemeDimming_i_fl": 12,
+    "LightSchemeDimming_i_fl": 0
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "58ca712cec8a5dff",
+  "createdAt": 1788945450513
+}

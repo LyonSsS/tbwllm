@@ -1,0 +1,21 @@
+{
+  "id": "risk-reward-visualizer-position-sizer-outcome-trac-eb04a4",
+  "name": "Risk/Reward Visualizer  - Position Sizer & Outcome Tracker [Dots3Red]",
+  "source": "https://www.tradingview.com/script/qZsf5hbg-Risk-Reward-Visualizer-Trade-Management-Dots3Red",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "risk_pct": 1,
+    "qty_step": 0.0001,
+    "outcome_bars_max": 500
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "eb04a40684e94693",
+  "createdAt": 1788945831532
+}

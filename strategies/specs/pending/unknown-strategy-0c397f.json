@@ -1,0 +1,41 @@
+{
+  "id": "unknown-strategy-0c397f",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/NgSIfKQx-Bitcoin-SuperFlip-Supertrend-EMA-Trend-Following-Strategy",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "trendEMA": {
+      "type": "EMA",
+      "params": {
+        "period": "emaLen"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.change(direction) < 0 // flipped to uptrend",
+      "bullFlip and close > trendEMA and adxOK",
+      "ta.change(direction) > 0 // flipped to downtrend"
+    ]
+  },
+  "parameters": {
+    "atrPeriod": 10,
+    "factor": 1.8,
+    "emaLen": 200,
+    "slPct": 4,
+    "tpPct": 8,
+    "adxLen": 14,
+    "adxSmooth": 14,
+    "adxThresh": 20,
+    "color_preset": "Custom",
+    "bar_trans": 0,
+    "bg_trans": 90
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "0c397fc26231c2e3",
+  "createdAt": 1788945408890
+}

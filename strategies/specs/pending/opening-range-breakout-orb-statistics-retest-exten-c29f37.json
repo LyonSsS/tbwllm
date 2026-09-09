@@ -1,0 +1,24 @@
+{
+  "id": "opening-range-breakout-orb-statistics-retest-exten-c29f37",
+  "name": "Opening Range Breakout (ORB) Statistics: Retest & Extension (kronos)",
+  "source": "https://www.tradingview.com/script/NCTr00I4-Opening-Range-Breakout-Statistics-ORB-kronos",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "customTimezoneInput": "America/New_York",
+    "includeWeekendsInput": false,
+    "historyLimitInput": 250,
+    "minMatchInput": 20,
+    "minCoverageInput": 80,
+    "extensionInput": 1
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "c29f3719ba074146",
+  "createdAt": 1788945947993
+}

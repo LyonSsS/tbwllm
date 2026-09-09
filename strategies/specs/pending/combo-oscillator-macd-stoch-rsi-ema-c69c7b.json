@@ -1,0 +1,52 @@
+{
+  "id": "combo-oscillator-macd-stoch-rsi-ema-c69c7b",
+  "name": "Combo Oscillator - MACD + Stoch + RSI + EMA",
+  "source": "https://www.tradingview.com/script/5GhV5RK3-Combo-Oscillator-MACD-Stoch-RSI-EMA",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "MACD",
+      "params": {},
+      "outputKey": "macd"
+    },
+    {
+      "type": "STOCH",
+      "params": {},
+      "outputKey": "stoch"
+    }
+  ],
+  "bindings": {
+    "combo": {
+      "type": "EMA",
+      "params": {
+        "period": "smoothLen"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(combo, 0)",
+      "ta.crossunder(combo, 0)"
+    ]
+  },
+  "parameters": {
+    "emaFastLen": 21,
+    "emaSlowLen": 55,
+    "macdFastLen": 12,
+    "macdSlowLen": 26,
+    "macdSignalLen": 9,
+    "rsiLen": 14,
+    "stochLen": 14,
+    "stochSmoothK": 3,
+    "stochSmoothD": 3,
+    "atrLen": 14,
+    "smoothLen": 3
+  },
+  "parsedBy": "static",
+  "confidence": 0.77,
+  "rawHash": "c69c7ba517217a54",
+  "createdAt": 1788945986844
+}

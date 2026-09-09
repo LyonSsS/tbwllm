@@ -1,0 +1,44 @@
+{
+  "id": "vwap-ai-statistical-bands-touch-stats-dots3red-45de0c",
+  "name": "VWAP AI - Statistical Bands & Touch Stats [Dots3Red]",
+  "source": "https://www.tradingview.com/script/Vs7khoJl-VWAP-AI-Statistical-Bands-Touch-Stats-Dots3Red",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(close",
+      "ta.crossunder(close"
+    ]
+  },
+  "parameters": {
+    "anchor_mode": "Session",
+    "custom_anchor_bar": 0,
+    "band1_mult": 1,
+    "band2_mult": 2,
+    "touch_tol": 0.15,
+    "reject_atr": 1,
+    "revert_atr": 1,
+    "outcome_bars": 15,
+    "marker_style_in": "Dot",
+    "marker_size_in": "Tiny",
+    "vwap_width_in": 2,
+    "band_width_in": 1,
+    "fill_trans_in": 93,
+    "fill_trans_b2_in": 95
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "45de0c97f2fc54c3",
+  "createdAt": 1788946406198
+}

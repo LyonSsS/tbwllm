@@ -1,0 +1,58 @@
+{
+  "id": "unknown-strategy-9c347d",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/rDboLLir-Failed-Auction-Detector",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "sigLong",
+      "sigLong and scoreLong >= starScore",
+      "sigShort",
+      "sigShort and scoreShort >= starScore"
+    ]
+  },
+  "parameters": {
+    "ticksPerRow": 5,
+    "vaPct": 70,
+    "imbPct": 300,
+    "useSwing": true,
+    "useSession": false,
+    "usePDay": false,
+    "swingLen": 10,
+    "sessionTz": "GMT+4",
+    "reqFresh": true,
+    "oncePerLevel": true,
+    "useHTFContext": true,
+    "htfTolTicks": 20,
+    "topRows": 2,
+    "minPokeTicks": 1,
+    "reqReclaim": true,
+    "reqOFReject": true,
+    "exhaustFac": 0.3,
+    "absorbFac": 1.3,
+    "minWickFrac": 0.5,
+    "volFactor": 1,
+    "volLen": 20,
+    "minScore": 3,
+    "starScore": 5,
+    "zoneBars": 20,
+    "lineBars": 50,
+    "colorBars": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "9c347d2d6d8d9e61",
+  "createdAt": 1788946129702
+}

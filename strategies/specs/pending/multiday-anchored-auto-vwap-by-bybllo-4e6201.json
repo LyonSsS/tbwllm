@@ -1,0 +1,23 @@
+{
+  "id": "multiday-anchored-auto-vwap-by-bybllo-4e6201",
+  "name": "Multiday Anchored Auto VWAP by Bybllo",
+  "source": "https://www.tradingview.com/script/c0E7UmkT",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "time >= autoDate0 and time[1] < autoDate0",
+      "time >= autoDate1 and time[1] < autoDate1",
+      "time >= autoDate2 and time[1] < autoDate2"
+    ]
+  },
+  "parameters": {
+    "sessionTimeValue": 1800
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "4e62011f11e0772d",
+  "createdAt": 1788945664491
+}

@@ -1,0 +1,35 @@
+{
+  "id": "momentum-candle-v6-d11ac6",
+  "name": "Momentum Candle [v6]",
+  "source": "https://www.tradingview.com/script/G22QzFe9-Momentum-Candle-By-Skyrooth",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "is_bull_mom and close > prev_high",
+      "is_mom and close > open",
+      "is_bear_mom and close < prev_low",
+      "is_mom and close < open"
+    ]
+  },
+  "parameters": {
+    "body_min": 80,
+    "wick_max": 20,
+    "bo_len": 20
+  },
+  "parsedBy": "static",
+  "confidence": 0.9,
+  "rawHash": "d11ac6ca5bfeb1d5",
+  "createdAt": 1788946171173
+}

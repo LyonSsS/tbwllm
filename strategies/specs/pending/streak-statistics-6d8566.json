@@ -1,0 +1,29 @@
+{
+  "id": "streak-statistics-6d8566",
+  "name": "Streak statistics",
+  "source": "https://www.tradingview.com/script/W0Bn2RTf-Streak-statistics",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "thresholdPulse and currentDirection == 1",
+      "thresholdPulse and currentDirection == -1"
+    ]
+  },
+  "parameters": {
+    "K": 8,
+    "sampleMoves": 5000,
+    "minSamples": 30,
+    "priorStrength": 20,
+    "minEffectPP": 5,
+    "resetMode": "Calendar day",
+    "tzIn": "exchange",
+    "alertLength": 4
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "6d85667c2bde46b5",
+  "createdAt": 1788946194803
+}
