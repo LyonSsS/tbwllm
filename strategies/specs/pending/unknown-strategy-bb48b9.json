@@ -5,6 +5,20 @@
   "version": "1",
   "strategyType": "mtf_scored",
   "assetClass": "any",
+  "bindings": {
+    "hma5": {
+      "type": "HMA",
+      "params": {
+        "period": 300
+      }
+    },
+    "hma15": {
+      "type": "HMA",
+      "params": {
+        "period": 300
+      }
+    }
+  },
   "entry": {
     "direction": "BOTH",
     "conditions": [

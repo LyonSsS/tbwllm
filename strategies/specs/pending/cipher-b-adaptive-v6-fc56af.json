@@ -33,6 +33,14 @@
       "outputKey": "lowest_low50"
     }
   ],
+  "bindings": {
+    "wt2": {
+      "type": "SMA",
+      "params": {
+        "period": "wt2Len"
+      }
+    }
+  },
   "entry": {
     "direction": "BOTH",
     "conditions": [
