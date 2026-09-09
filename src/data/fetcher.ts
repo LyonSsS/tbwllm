@@ -25,6 +25,7 @@ const TF_MS: Record<string, number> = {
   '6h': 21_600_000, '12h': 43_200_000, '1d': 86_400_000,
 };
 
+const YEAR_MS = 365.25 * 24 * 3600 * 1000;
 const day = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 
 export function cacheFile(s: DataSpec): string {
@@ -62,6 +63,18 @@ async function fetchBinance(s: DataSpec): Promise<Candle[]> {
     process.stdout.write(`\r[data] ${s.symbol} ${s.timeframe} → ${day(since)}  (${out.length} candles)`);
   }
   process.stdout.write('\n');
+
+  if (out.length) {
+    const first = out[0].timestamp;
+    const gotY = (out[out.length - 1].timestamp - first) / YEAR_MS;
+    if (first > s.since + step) {
+      console.warn(
+        `[data] requested from ${day(s.since)} — ${s.source} ${s.symbol} starts ${day(first)}; ` +
+        `got ${gotY.toFixed(1)} years, not ${((s.until - s.since) / YEAR_MS).toFixed(1)}`,
+      );
+    }
+    console.log(`[data] actual range ${day(first)} → ${day(out[out.length - 1].timestamp)} (${gotY.toFixed(1)}y)`);
+  }
   return out;
 }
 
@@ -94,11 +107,18 @@ export function loadOHLCV(s: DataSpec): Candle[] | null {
   return fs.existsSync(file) ? readCache(file) : null;
 }
 
-/** Any cached file matching source/symbol/timeframe, newest range wins. */
+/** Any cached file matching source/symbol/timeframe; the one with the widest
+ *  date range wins. */
 export function findCached(source: string, symbol: string, timeframe: string): Candle[] | null {
   if (!fs.existsSync(CACHE_DIR)) return null;
   const sym = symbol.replace(/[/:]/g, '');
   const prefix = `${source}_${sym}_${timeframe}_`;
-  const match = fs.readdirSync(CACHE_DIR).filter(f => f.startsWith(prefix)).sort().pop();
+  const span = (f: string): number => {
+    const m = f.match(/_(\d{4}-\d{2}-\d{2})_(\d{4}-\d{2}-\d{2})\.json$/);
+    return m ? Date.parse(m[2]) - Date.parse(m[1]) : 0;
+  };
+  const match = fs.readdirSync(CACHE_DIR)
+    .filter(f => f.startsWith(prefix))
+    .sort((a, b) => span(b) - span(a))[0];
   return match ? readCache(path.join(CACHE_DIR, match)) : null;
 }
