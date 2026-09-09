@@ -99,14 +99,37 @@ function mdTable(rows: Row[]): string {
   ].join('\n');
 }
 
-// Bordered console table.
+// Bordered console table: centered headers, a rule between every data row,
+// strategy left-aligned, everything else right-aligned, integer percents.
 function boxTable(rows: Row[]): string {
-  const body = cells(rows).map(c => [c[0], c[1].slice(0, 34), ...c.slice(2)]);
+  const ipct = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(Math.round(x))}%`;
+  const num = (x: number) => x.toFixed(2).replace('-', '−');
+  const body = rows.map((r, i) => [
+    String(i + 1),
+    r.name.slice(0, 40),
+    ipct(r.ret),
+    ipct(r.ret - r.hold),
+    num(r.sharpe),
+    `${Math.round(r.dd)}%`,
+    String(r.trades),
+  ]);
   const headers = [...COLS];
   const w = headers.map((h, i) => Math.max(h.length, ...body.map(r => r[i].length)));
-  const rule = (l: string, m: string, r: string) => l + w.map(x => '─'.repeat(x + 2)).join(m) + r;
-  const line = (c: string[]) => '│ ' + c.map((v, i) => (i === 1 ? v.padEnd(w[i]) : v.padStart(w[i]))).join(' │ ') + ' │';
-  return [rule('┌', '┬', '┐'), line(headers), rule('├', '┼', '┤'), ...body.map(line), rule('└', '┴', '┘')].join('\n');
+
+  const center = (s: string, width: number) => {
+    const left = Math.floor((width - s.length) / 2);
+    return ' '.repeat(left) + s + ' '.repeat(width - s.length - left);
+  };
+  const rule = (l: string, m: string, rt: string) => l + w.map(x => '─'.repeat(x + 2)).join(m) + rt;
+  const headLine = '│ ' + headers.map((h, i) => center(h, w[i])).join(' │ ') + ' │';
+  const dataLine = (c: string[]) => '│ ' + c.map((v, i) => (i === 1 ? v.padEnd(w[i]) : v.padStart(w[i]))).join(' │ ') + ' │';
+
+  const out = [rule('┌', '┬', '┐'), headLine, rule('├', '┼', '┤')];
+  body.forEach((c, i) => {
+    out.push(dataLine(c));
+    out.push(i < body.length - 1 ? rule('├', '┼', '┤') : rule('└', '┴', '┘'));
+  });
+  return out.join('\n');
 }
 
 function all(candles: Candle[]): void {
