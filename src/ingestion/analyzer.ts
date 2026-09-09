@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { StrategySpec, IndicatorConfig } from '../core/types.js';
+import { collectIdentifiers } from '../assembly/conditionEval.js';
 
 // ============================================================================
 // Static Pine Script Analyzer
@@ -158,6 +159,71 @@ function resolveCondition(src: string, cond: string, depth = 2): string {
     cur = rhs;
   }
   return cur;
+}
+
+// ─── Auto-binding: condition identifier → indicator config ──────────────────
+// Fills spec.bindings for the simple, common case where a condition references
+// a variable that is a direct `X = ta.<fn>(source, length)` assignment.
+
+type BindingCfg = { type: string; params?: Record<string, number | string> };
+
+// Pine `ta.*` (and a few bare) fn names → INDICATOR_MAP type.
+const TA_TO_TYPE: Record<string, string> = {
+  rsi: 'RSI', ema: 'EMA', sma: 'SMA', wma: 'WMA', hma: 'HMA', rma: 'RMA',
+  roc: 'ROC', mom: 'MOM', atr: 'ATR', tr: 'TR', cci: 'CCI', adx: 'ADX',
+  vwap: 'VWAP', vwma: 'VWMA', stdev: 'STDDEV', supertrend: 'SUPERTREND',
+};
+
+// Try to read a right-hand side as an indicator call. Unwraps request.security
+// (MTF) and `cond ? A : B` ternaries.
+function bindExpr(rhs: string, params: Record<string, unknown>): BindingCfg | null {
+  let s = rhs.trim();
+  const sec = s.match(/^request\.security\s*\([^,]+,[^,]+,\s*(.+)\)\s*$/);
+  if (sec) s = sec[1].trim();
+  const tern = s.match(/^[^?]+\?\s*(.+?)\s*:\s*(.+)$/);
+  if (tern) return bindExpr(tern[1], params) ?? bindExpr(tern[2], params);
+
+  const call = s.match(/^(?:ta\.)?([A-Za-z_]\w*)\s*\(\s*[\w.[\]]+\s*(?:,\s*([\w.]+))?/);
+  if (!call) return null;
+  const type = TA_TO_TYPE[call[1].toLowerCase()];
+  if (!type) return null;
+
+  const lenArg = call[2];
+  const p: Record<string, number | string> = {};
+  if (lenArg) {
+    if (/^\d+$/.test(lenArg)) p.period = Number(lenArg);
+    else if (lenArg in params) p.period = lenArg; // reference a spec parameter
+  }
+  return Object.keys(p).length ? { type, params: p } : { type };
+}
+
+function extractBindings(
+  src: string,
+  conditions: string[],
+  params: Record<string, unknown>,
+): Record<string, BindingCfg> {
+  const ids = new Set<string>();
+  for (const c of conditions) {
+    try {
+      for (const id of collectIdentifiers(c)) ids.add(id);
+    } catch { /* unparseable — nothing to bind */ }
+  }
+
+  const bindings: Record<string, BindingCfg> = {};
+  for (const id of ids) {
+    if (id.includes('.') || id in params) continue; // OHLC dotted / a parameter
+    let name = id;
+    let cfg: BindingCfg | null = null;
+    for (let hop = 0; hop < 2 && !cfg; hop++) {
+      const rhs = findAssignment(src, name);
+      if (!rhs) break;
+      cfg = bindExpr(rhs, params);
+      if (!cfg && /^[A-Za-z_]\w*$/.test(rhs)) { name = rhs; continue; } // follow alias
+      break;
+    }
+    if (cfg) bindings[id] = cfg;
+  }
+  return bindings;
 }
 
 // Does this condition carry evaluable logic (vs. an unresolved bare name)?
@@ -365,12 +431,16 @@ export function analyzePineScript(src: string, url: string): AnalysisResult {
   const titleMatch = src.match(/indicator\s*\(\s*"([^"]+)"/);
   const name = titleMatch ? titleMatch[1] : 'Unknown Strategy';
 
+  // 4b. Auto-bind condition identifiers that are direct `X = ta.foo(src, len)`.
+  const bindings = extractBindings(src, entry.conditions ?? [], parameters);
+
   // 5. Build partial spec
   const partial: Partial<StrategySpec> = {
     source: url,
     name,
     strategyType,
     indicators: indicators.length > 0 ? indicators : undefined,
+    bindings: Object.keys(bindings).length > 0 ? bindings : undefined,
     entry: entry as StrategySpec['entry'],
     parameters: Object.keys(parameters).length > 0 ? parameters : undefined,
     rawHash,
