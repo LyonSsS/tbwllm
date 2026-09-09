@@ -5,6 +5,14 @@
   "version": "1",
   "strategyType": "condition",
   "assetClass": "any",
+  "bindings": {
+    "rsiValue": {
+      "type": "RSI",
+      "params": {
+        "period": "rsiLength"
+      }
+    }
+  },
   "entry": {
     "direction": "BOTH",
     "conditions": [

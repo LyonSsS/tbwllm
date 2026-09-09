@@ -5,6 +5,20 @@
   "version": "1",
   "strategyType": "condition",
   "assetClass": "any",
+  "bindings": {
+    "fastMA": {
+      "type": "EMA",
+      "params": {
+        "period": "fastLen"
+      }
+    },
+    "slowMA": {
+      "type": "EMA",
+      "params": {
+        "period": "slowLen"
+      }
+    }
+  },
   "entry": {
     "direction": "BOTH",
     "conditions": [
@@ -21,19 +35,5 @@
   "confidence": 0.85,
   "rawHash": "80e8e5ae617617ae",
   "createdAt": 1788873265708,
-  "bindings": {
-    "fastMA": {
-      "type": "EMA",
-      "params": {
-        "period": "fastLen"
-      }
-    },
-    "slowMA": {
-      "type": "EMA",
-      "params": {
-        "period": "slowLen"
-      }
-    }
-  },
-  "notes": "EMA(fastLen) / EMA(slowLen) golden-cross / death-cross, gated on the slow MA being seeded (bar_index >= slowLen). maType defaults to EMA."
+  "notes": "EMA(fastLen) / EMA(slowLen) golden-cross / death-cross, gated on the slow MA being seeded. Bindings are manual: the script defines fastMA via a `maType == \"SMA\" ? ... : ...` ternary that auto-binding can't unwrap through to the ta.ema call."
 }
