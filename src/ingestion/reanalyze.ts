@@ -63,6 +63,18 @@ function main(): void {
 
   const curation = loadCuration();
 
+  // Snapshot existing createdAt values so regenerations (incl. --clean) don't
+  // churn git with fresh timestamps.
+  const createdAt = new Map<string, number>();
+  if (fs.existsSync(OUT_DIR)) {
+    for (const f of fs.readdirSync(OUT_DIR).filter(f => f.endsWith('.json'))) {
+      try {
+        const prev = JSON.parse(fs.readFileSync(path.join(OUT_DIR, f), 'utf8'));
+        if (typeof prev.createdAt === 'number') createdAt.set(f.replace(/\.json$/, ''), prev.createdAt);
+      } catch { /* ignore */ }
+    }
+  }
+
   if (!reportOnly) {
     fs.mkdirSync(OUT_DIR, { recursive: true });
     if (clean) {
@@ -98,6 +110,9 @@ function main(): void {
     if (!spec) { skippedParse++; continue; }
 
     if (cur) { spec = applyCuration(spec, cur); enriched++; }
+
+    const prevCreatedAt = createdAt.get(id);
+    if (prevCreatedAt !== undefined) spec.createdAt = prevCreatedAt;
 
     const conds = spec.entry?.conditions ?? [];
     if (conds.length === 0) cond.none++;

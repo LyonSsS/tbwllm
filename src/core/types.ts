@@ -168,6 +168,14 @@ export const StrategySpecSchema = z.object({
   // Indicators (for condition / pattern / scored types)
   indicators: z.array(IndicatorConfigSchema).optional(),
 
+  // Bindings: condition-identifier → indicator computation. Fills the gap
+  // between the script's own variable names (used in conditions) and the
+  // assembler's indicator library. Values may reference `parameters` by name.
+  bindings: z.record(z.object({
+    type: z.string(),
+    params: z.record(z.union([z.number(), z.string()])).optional(),
+  })).optional(),
+
   // Entry / Exit
   entry: EntrySchema,
   exit: ExitSchema.optional(),

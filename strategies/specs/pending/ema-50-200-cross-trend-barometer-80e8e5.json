@@ -8,8 +8,8 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "mature and xUp",
-      "mature and xDn"
+      "bar_index >= slowLen and ta.crossover(fastMA, slowMA)",
+      "bar_index >= slowLen and ta.crossunder(fastMA, slowMA)"
     ]
   },
   "parameters": {
@@ -17,8 +17,23 @@
     "fastLen": 50,
     "slowLen": 200
   },
-  "parsedBy": "static",
-  "confidence": 0.42,
+  "parsedBy": "manual",
+  "confidence": 0.85,
   "rawHash": "80e8e5ae617617ae",
-  "createdAt": 1788873265708
+  "createdAt": 1788873265708,
+  "bindings": {
+    "fastMA": {
+      "type": "EMA",
+      "params": {
+        "period": "fastLen"
+      }
+    },
+    "slowMA": {
+      "type": "EMA",
+      "params": {
+        "period": "slowLen"
+      }
+    }
+  },
+  "notes": "EMA(fastLen) / EMA(slowLen) golden-cross / death-cross, gated on the slow MA being seeded (bar_index >= slowLen). maType defaults to EMA."
 }
