@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-34c967",
-  "name": "Unknown Strategy",
+  "id": "fib-confluence-scanner-34c967",
+  "name": "Fib Confluence Scanner",
   "source": "https://www.tradingview.com/script/rKsnPJbJ-Fibonacci-Cloud-Multi-Timeframe-Fibonacci-Scanner",
   "version": "1",
   "strategyType": "condition",
@@ -36,5 +36,5 @@
   "parsedBy": "static",
   "confidence": 0.6,
   "rawHash": "34c967b48d8190dd",
-  "createdAt": 1788873265697
+  "createdAt": 1788960445712
 }

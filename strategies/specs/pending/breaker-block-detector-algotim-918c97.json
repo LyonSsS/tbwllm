@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-918c97",
-  "name": "Unknown Strategy",
+  "id": "breaker-block-detector-algotim-918c97",
+  "name": "Breaker Block Detector [algotim]",
   "source": "https://www.tradingview.com/script/RnQYUlbV-Breaker-Block-Detector-algotim",
   "version": "1",
   "strategyType": "pattern",
@@ -32,5 +32,5 @@
   "parsedBy": "static",
   "confidence": 0.42,
   "rawHash": "918c97949f964a9c",
-  "createdAt": 1788945575974
+  "createdAt": 1788960445830
 }

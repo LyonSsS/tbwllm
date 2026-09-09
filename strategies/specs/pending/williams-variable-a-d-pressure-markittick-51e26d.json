@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-51e26d",
-  "name": "Unknown Strategy",
+  "id": "williams-variable-a-d-pressure-markittick-51e26d",
+  "name": "Williams Variable A/D Pressure [MarkitTick]",
   "source": "https://www.tradingview.com/script/g3P0iG3j-Williams-Variable-A-D-Pressure-MarkitTick",
   "version": "1",
   "strategyType": "condition",
@@ -57,5 +57,5 @@
   "parsedBy": "static",
   "confidence": 0.54,
   "rawHash": "51e26d4095479d44",
-  "createdAt": 1788873265700
+  "createdAt": 1788960445748
 }

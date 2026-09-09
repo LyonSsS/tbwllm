@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-95a6c1",
-  "name": "Unknown Strategy",
+  "id": "coppock-curve-multi-filter-markittick-95a6c1",
+  "name": "Coppock Curve Multi-Filter [MarkitTick]",
   "source": "https://www.tradingview.com/script/Ua5pRxsd-Coppock-Curve-Multi-Filter-MarkitTick",
   "version": "1",
   "strategyType": "condition",
@@ -59,5 +59,5 @@
   "parsedBy": "static",
   "confidence": 0.42,
   "rawHash": "95a6c1bf55e7a706",
-  "createdAt": 1788946274388
+  "createdAt": 1788960445832
 }

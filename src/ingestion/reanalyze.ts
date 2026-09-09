@@ -60,11 +60,12 @@ function main(): void {
     console.error(`[reanalyze] no raw cache at ${RAW_DIR} — run an ingest first`);
     process.exit(1);
   }
-  const files = fs.readdirSync(RAW_DIR).filter(f => f.endsWith('.pine'));
+  const files = fs.readdirSync(RAW_DIR).filter(f => f.endsWith('.pine')).sort();
   if (files.length === 0) {
     console.error(`[reanalyze] ${RAW_DIR} has no .pine files`);
     process.exit(1);
   }
+  let unknownSeq = 0; // scripts with no extractable title → UnknownST1, UnknownST2, …
 
   const curation = loadCuration();
 
@@ -116,6 +117,7 @@ function main(): void {
     }
     if (!a.isTradeable) { skippedViz++; continue; }
 
+    if ((a.partial.name ?? '') === 'Unknown Strategy') a.partial.name = `UnknownST${++unknownSeq}`;
     const id = makeSpecId(a.partial.name ?? 'unknown', a.rawHash);
     let spec = buildSpecFromStatic(a, id);
     if (!spec) { skippedParse++; continue; }

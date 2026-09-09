@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-bb48b9",
-  "name": "Unknown Strategy",
+  "id": "tp-sl-signals-days-zones-bb48b9",
+  "name": "TP/SL Signals + Days & Zones",
   "source": "https://www.tradingview.com/script/iAB4iR7A-tp-sl-signals",
   "version": "1",
   "strategyType": "mtf_scored",
@@ -34,5 +34,5 @@
   "parsedBy": "static",
   "confidence": 0.42,
   "rawHash": "bb48b9910edb1a4c",
-  "createdAt": 1788873265714
+  "createdAt": 1788960445850
 }

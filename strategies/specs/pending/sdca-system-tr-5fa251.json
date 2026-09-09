@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-5fa251",
-  "name": "Unknown Strategy",
+  "id": "sdca-system-tr-5fa251",
+  "name": "SDCA System | TR",
   "source": "https://www.tradingview.com/script/x6vEUyW9-SDCA-System-TR",
   "version": "1",
   "strategyType": "condition",
@@ -42,5 +42,5 @@
   "parsedBy": "static",
   "confidence": 0.42,
   "rawHash": "5fa2513220ebe80c",
-  "createdAt": 1788946523566
+  "createdAt": 1788960445761
 }

@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-b14420",
-  "name": "Unknown Strategy",
+  "id": "btc-liquidity-wave-b14420",
+  "name": "BTC Liquidity Wave",
   "source": "https://www.tradingview.com/script/fQbceY5t-Bitcoin-Liquidity-Wave",
   "version": "1",
   "strategyType": "condition",
@@ -38,5 +38,5 @@
   "parsedBy": "static",
   "confidence": 0.42,
   "rawHash": "b144203e544d405d",
-  "createdAt": 1788945584331
+  "createdAt": 1788960445845
 }

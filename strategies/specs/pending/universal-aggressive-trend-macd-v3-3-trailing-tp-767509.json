@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-767509",
-  "name": "Unknown Strategy",
+  "id": "universal-aggressive-trend-macd-v3-3-trailing-tp-767509",
+  "name": "Universal Aggressive Trend MACD v3.3 - Trailing TP",
   "source": "https://www.tradingview.com/script/UVosPbFA-Universal-Aggressive-Trend-MACD-v3-3-Trailing-TP",
   "version": "1",
   "strategyType": "condition",
@@ -43,6 +43,6 @@
   "parsedBy": "manual",
   "confidence": 0.85,
   "rawHash": "767509f2f1855028",
-  "createdAt": 1788873265705,
+  "createdAt": 1788960445780,
   "notes": "strategy() script. Entry gated by market / frequency / flat-position filters plus a trend-OK check and a directional trigger."
 }

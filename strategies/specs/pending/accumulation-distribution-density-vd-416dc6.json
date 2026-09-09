@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-416dc6",
-  "name": "Unknown Strategy",
+  "id": "accumulation-distribution-density-vd-416dc6",
+  "name": "Accumulation / Distribution Density (VD)",
   "source": "https://www.tradingview.com/script/olfpEvv8",
   "version": "1",
   "strategyType": "condition",
@@ -25,5 +25,5 @@
   "parsedBy": "static",
   "confidence": 0.7,
   "rawHash": "416dc6feecaf6a69",
-  "createdAt": 1788946637825
+  "createdAt": 1788960445721
 }

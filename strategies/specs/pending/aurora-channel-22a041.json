@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-22a041",
-  "name": "Unknown Strategy",
+  "id": "aurora-channel-22a041",
+  "name": "Aurora Channel",
   "source": "https://www.tradingview.com/script/FojCZ7FN-Aurora-Channel-V1",
   "version": "1",
   "strategyType": "condition",
@@ -34,5 +34,5 @@
   "parsedBy": "static",
   "confidence": 0.3,
   "rawHash": "22a0414c4f71d1d5",
-  "createdAt": 1788946499200
+  "createdAt": 1788960445692
 }

@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-f84676",
-  "name": "Unknown Strategy",
+  "id": "execution-aware-trend-bsl-f84676",
+  "name": "Execution-Aware Trend [BSL]",
   "source": "https://www.tradingview.com/script/Z9O5w3SG-Execution-Aware-Trend-BSL",
   "version": "1",
   "strategyType": "session",
@@ -27,5 +27,5 @@
   "parsedBy": "static",
   "confidence": 0.3,
   "rawHash": "f84676d80f8dd4b2",
-  "createdAt": 1788946105201
+  "createdAt": 1788960445914
 }
