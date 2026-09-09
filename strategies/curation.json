@@ -1,4 +1,35 @@
 {
+  "dcc640cf08af5dbc": {
+    "bindings": {
+      "ema": { "type": "EMA", "params": { "period": "emaLength" } },
+      "rsi": { "type": "RSI", "params": { "period": "rsiLength" } },
+      "vwap": { "type": "VWAP" }
+    },
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "(close > ema and close > vwap and rsi > rsiBuyLevel) and not (close > ema and close > vwap and rsi > rsiBuyLevel)[1]",
+        "(close < ema and close < vwap and rsi < rsiSellLevel) and not (close < ema and close < vwap and rsi < rsiSellLevel)[1]"
+      ]
+    },
+    "notes": "EMA + VWAP trend filter with an RSI level gate; enters on the first bar the compound condition flips true. ema/rsi bindings would auto-derive but the script names them plainly; kept explicit for clarity."
+  },
+
+  "246ad5a2674ce87f": {
+    "bindings": {
+      "basis": { "type": "SMA", "source": "rsiValue", "params": { "period": "bbLength" } },
+      "dev": { "type": "STDDEV", "source": "rsiValue", "params": { "period": "bbLength" } }
+    },
+    "entry": {
+      "direction": "BOTH",
+      "conditions": [
+        "rsiValue > basis + dev * bbUp",
+        "rsiValue < basis - dev * bbDown"
+      ]
+    },
+    "notes": "RSI(rsiLength) with Bollinger Bands computed on the RSI series (basis = SMA of RSI, dev = stdev of RSI). rsiValue binding is auto-derived; basis/dev are source-composed. Bands inlined into the conditions since they're arithmetic, not indicators."
+  },
+
   "80e8e5ae617617ae": {
     "bindings": {
       "fastMA": { "type": "EMA", "params": { "period": "fastLen" } },
