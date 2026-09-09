@@ -81,13 +81,32 @@ function rankOver(candles: Candle[], writeDetail: boolean): Row[] {
   return rows.sort((x, y) => y.ret - x.ret);
 }
 
+const COLS = ['#', 'strategy', 'return', 'vs hold', 'Sharpe', 'maxDD', 'trades'] as const;
+
+function cells(rows: Row[]): string[][] {
+  return rows.map((r, i) => [
+    String(i + 1), r.name,
+    pct(r.ret), pct(r.ret - r.hold),
+    r.sharpe.toFixed(2), `${r.dd.toFixed(1)}%`, String(r.trades),
+  ]);
+}
+
 function mdTable(rows: Row[]): string {
   return [
-    `| # | strategy | return | vs hold | Sharpe | maxDD | win% | trades |`,
-    `|--:|----------|-------:|--------:|-------:|------:|-----:|-------:|`,
-    ...rows.map((r, i) =>
-      `| ${i + 1} | ${r.name} | ${pct(r.ret)} | ${pct(r.ret - r.hold)} | ${r.sharpe.toFixed(2)} | ${r.dd.toFixed(1)}% | ${(r.win * 100).toFixed(0)}% | ${r.trades} |`),
+    `| ${COLS.join(' | ')} |`,
+    `|--:|----------|-------:|--------:|-------:|------:|-------:|`,
+    ...cells(rows).map(c => `| ${c.join(' | ')} |`),
   ].join('\n');
+}
+
+// Bordered console table.
+function boxTable(rows: Row[]): string {
+  const body = cells(rows).map(c => [c[0], c[1].slice(0, 34), ...c.slice(2)]);
+  const headers = [...COLS];
+  const w = headers.map((h, i) => Math.max(h.length, ...body.map(r => r[i].length)));
+  const rule = (l: string, m: string, r: string) => l + w.map(x => '─'.repeat(x + 2)).join(m) + r;
+  const line = (c: string[]) => '│ ' + c.map((v, i) => (i === 1 ? v.padEnd(w[i]) : v.padStart(w[i]))).join(' │ ') + ' │';
+  return [rule('┌', '┬', '┐'), line(headers), rule('├', '┼', '┤'), ...body.map(line), rule('└', '┴', '┘')].join('\n');
 }
 
 function all(candles: Candle[]): void {
@@ -114,11 +133,10 @@ function all(candles: Candle[]): void {
   for (const w of windows) {
     const rows = rankOver(w.candles, w.years === windows[windows.length - 1].years); // detail JSON from the longest window
     const hold = rows[0]?.hold ?? 0;
-    sections.push(``, `## ${w.years} years  (${w.candles.length} bars · buy & hold ${pct(hold)})`, ``, mdTable(rows));
-    console.log(`\n=== ${w.years}y (${w.candles.length} bars, hold ${pct(hold)}) ===`);
-    for (const r of rows) {
-      console.log(`${r.id.slice(0, 42).padEnd(42)} ${pct(r.ret).padStart(10)} vs hold ${pct(r.ret - r.hold).padStart(10)}  Sh ${r.sharpe.toFixed(2).padStart(5)}  DD ${r.dd.toFixed(0).padStart(3)}%  ${String(r.trades).padStart(5)} tr`);
-    }
+    const heading = `${w.years} years  ·  ${w.candles.length} bars  ·  buy & hold ${pct(hold)}`;
+    sections.push(``, `## ${heading}`, ``, mdTable(rows));
+    console.log(`\n${heading}`);
+    console.log(boxTable(rows));
   }
 
   fs.writeFileSync(path.join(RESULTS_DIR, 'RANKING.md'), sections.join('\n') + '\n');
