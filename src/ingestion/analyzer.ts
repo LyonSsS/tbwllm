@@ -226,6 +226,38 @@ function extractBindings(
   return bindings;
 }
 
+// Best-effort intended timeframe. Most community scripts declare none (they run
+// on the chart TF); we only return one when the title or an `timeframe=`/
+// `resolution=` arg says so explicitly. undefined → test across timeframes.
+function pineToTf(code: string): string | undefined {
+  const c = code.trim().toUpperCase();
+  if (/^\d+$/.test(c)) {
+    const min = Number(c);
+    if (min > 0 && min < 60) return `${min}m`;
+    if (min % 60 === 0) return `${min / 60}h`;
+  }
+  if (c === 'D' || c === '1D') return '1d';
+  if (c === 'W' || c === '1W') return '1w';
+  if (c === 'M' || c === '1M') return '1M';
+  return undefined;
+}
+
+function extractTimeframe(src: string, title: string): string | undefined {
+  const arg = src.match(/(?:indicator|strategy)\s*\([^)]*?\b(?:timeframe|resolution)\s*=\s*["']([^"'\n]+)["']/i);
+  if (arg && arg[1].trim()) return pineToTf(arg[1]);
+
+  const tag = title.match(/[([]\s*(\d+\s*[mhdw]|1h|4h|15m|5m|30m|daily|hourly|weekly|monthly)\s*[)\]]/i);
+  const kw = title.match(/\b(15m|5m|30m|1h|4h|hourly|daily|weekly|monthly)\b/i);
+  const hit = (tag?.[1] ?? kw?.[1] ?? '').toLowerCase().replace(/\s+/g, '');
+  if (!hit) return undefined;
+  if (hit === 'hourly') return '1h';
+  if (hit === 'daily') return '1d';
+  if (hit === 'weekly') return '1w';
+  if (hit === 'monthly') return '1M';
+  if (/^\d+[mhdw]$/.test(hit)) return hit === '60m' ? '1h' : hit;
+  return undefined;
+}
+
 // Does this condition carry evaluable logic (vs. an unresolved bare name)?
 export function isEvaluableCondition(cond: string): boolean {
   return /[<>]=?|[!=]==?|\bta\.|\b(and|or|not)\b|\bcross/i.test(cond);
@@ -435,6 +467,8 @@ export function analyzePineScript(src: string, url: string): AnalysisResult {
     src.match(/(?:indicator|strategy)\s*\([^)]*?shorttitle\s*=\s*["']([^"'\n]{1,80})["']/i);
   const name = titleMatch ? titleMatch[1].trim() : 'Unknown Strategy';
 
+  const timeframe = extractTimeframe(src, name);
+
   // 4b. Auto-bind condition identifiers that are direct `X = ta.foo(src, len)`.
   const bindings = extractBindings(src, entry.conditions ?? [], parameters);
 
@@ -443,6 +477,7 @@ export function analyzePineScript(src: string, url: string): AnalysisResult {
     source: url,
     name,
     strategyType,
+    timeframe,
     indicators: indicators.length > 0 ? indicators : undefined,
     bindings: Object.keys(bindings).length > 0 ? bindings : undefined,
     entry: entry as StrategySpec['entry'],
