@@ -156,6 +156,11 @@ export function assemble(spec: StrategySpec): AssembledStrategy | UnassemblableS
     const shortSig = anyTrue(shortFns);
     const exitSig = anyTrue(exitFns);
 
+    // Two-sided (a long AND a short condition) → stop-and-reverse: an opposite
+    // signal flips the position, it doesn't just go flat. One-sided strategies
+    // (or any with an explicit exit) close to flat and wait for re-entry.
+    const twoSided = longFns.length > 0 && shortFns.length > 0;
+
     const signals: Signal[] = [];
     let pos: 'flat' | 'long' | 'short' = 'flat';
     for (let i = 0; i < candles.length; i++) {
@@ -164,9 +169,17 @@ export function assemble(spec: StrategySpec): AssembledStrategy | UnassemblableS
         if (longSig[i]) { signals.push(mk('BUY', bar, 'entry long')); pos = 'long'; }
         else if (shortSig[i]) { signals.push(mk('SELL', bar, 'entry short')); pos = 'short'; }
       } else if (pos === 'long') {
-        if (exitSig[i] || shortSig[i]) { signals.push(mk('CLOSE', bar, 'exit long')); pos = 'flat'; }
+        if (exitSig[i]) { signals.push(mk('CLOSE', bar, 'exit long')); pos = 'flat'; }
+        else if (shortSig[i]) {
+          if (twoSided) { signals.push(mk('SELL', bar, 'reverse to short')); pos = 'short'; }
+          else { signals.push(mk('CLOSE', bar, 'exit long')); pos = 'flat'; }
+        }
       } else {
-        if (exitSig[i] || longSig[i]) { signals.push(mk('CLOSE', bar, 'exit short')); pos = 'flat'; }
+        if (exitSig[i]) { signals.push(mk('CLOSE', bar, 'exit short')); pos = 'flat'; }
+        else if (longSig[i]) {
+          if (twoSided) { signals.push(mk('BUY', bar, 'reverse to long')); pos = 'long'; }
+          else { signals.push(mk('CLOSE', bar, 'exit short')); pos = 'flat'; }
+        }
       }
     }
     return signals;
