@@ -12,11 +12,28 @@
       "outputKey": "vwap"
     }
   ],
+  "bindings": {
+    "ema": {
+      "type": "EMA",
+      "params": {
+        "period": "emaLength"
+      }
+    },
+    "rsi": {
+      "type": "RSI",
+      "params": {
+        "period": "rsiLength"
+      }
+    },
+    "vwap": {
+      "type": "VWAP"
+    }
+  },
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "buyCondition and not buyCondition[1]",
-      "sellCondition and not sellCondition[1]"
+      "(close > ema and close > vwap and rsi > rsiBuyLevel) and not (close > ema and close > vwap and rsi > rsiBuyLevel)[1]",
+      "(close < ema and close < vwap and rsi < rsiSellLevel) and not (close < ema and close < vwap and rsi < rsiSellLevel)[1]"
     ]
   },
   "parameters": {
@@ -30,8 +47,9 @@
     "useStopLoss": true,
     "stopLossPercent": 1
   },
-  "parsedBy": "static",
-  "confidence": 0.54,
+  "parsedBy": "manual",
+  "confidence": 0.85,
   "rawHash": "dcc640cf08af5dbc",
-  "createdAt": 1788873265721
+  "createdAt": 1788873265721,
+  "notes": "EMA + VWAP trend filter with an RSI level gate; enters on the first bar the compound condition flips true. ema/rsi bindings would auto-derive but the script names them plainly; kept explicit for clarity."
 }

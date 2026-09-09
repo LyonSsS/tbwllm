@@ -11,13 +11,27 @@
       "params": {
         "period": "rsiLength"
       }
+    },
+    "basis": {
+      "type": "SMA",
+      "source": "rsiValue",
+      "params": {
+        "period": "bbLength"
+      }
+    },
+    "dev": {
+      "type": "STDDEV",
+      "source": "rsiValue",
+      "params": {
+        "period": "bbLength"
+      }
     }
   },
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "rsiValue > upperBand",
-      "rsiValue < lowerBand"
+      "rsiValue > basis + dev * bbUp",
+      "rsiValue < basis - dev * bbDown"
     ]
   },
   "parameters": {
@@ -26,8 +40,9 @@
     "bbUp": 2,
     "bbDown": 2
   },
-  "parsedBy": "static",
-  "confidence": 0.7,
+  "parsedBy": "manual",
+  "confidence": 0.85,
   "rawHash": "246ad5a2674ce87f",
-  "createdAt": 1788873265694
+  "createdAt": 1788873265694,
+  "notes": "RSI(rsiLength) with Bollinger Bands computed on the RSI series (basis = SMA of RSI, dev = stdev of RSI). rsiValue binding is auto-derived; basis/dev are source-composed. Bands inlined into the conditions since they're arithmetic, not indicators."
 }

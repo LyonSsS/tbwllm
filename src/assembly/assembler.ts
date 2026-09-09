@@ -109,8 +109,12 @@ export function assemble(spec: StrategySpec): AssembledStrategy | UnassemblableS
   for (const ind of spec.indicators ?? []) {
     if (!isKnownIndicator(ind.type)) missing.add(`indicator:${ind.type}`);
   }
-  for (const b of Object.values(spec.bindings ?? {})) {
+  const OHLC = new Set(['open', 'high', 'low', 'close', 'volume', 'hl2', 'hlc3', 'ohlc4']);
+  for (const [key, b] of Object.entries(spec.bindings ?? {})) {
     if (!isKnownIndicator(b.type)) missing.add(`indicator:${b.type}`);
+    if (b.source && !OHLC.has(b.source) && !flat.has(b.source) && !flat.has(b.source.split('.')[0])) {
+      missing.add(`binding:${key}.source(${b.source})`);
+    }
   }
   if (missing.size > 0) {
     return {
@@ -188,13 +192,24 @@ function buildEnv(spec: StrategySpec, candles: Candle[], params: Record<string, 
   };
   for (const [k, v] of Object.entries(params)) series[k] = new Array(len).fill(v);
 
-  const add = (key: string, type: string, raw: Record<string, unknown> | undefined) => {
-    const out = computeIndicator(type, candles, resolveParams(raw, params));
+  const add = (key: string, type: string, raw: Record<string, unknown> | undefined, source?: number[]) => {
+    const out = computeIndicator(type, candles, resolveParams(raw, params), source);
     if (isMulti(out)) for (const [line, arr] of Object.entries(out)) series[`${key}.${line}`] = arr;
     else series[key] = out;
   };
   for (const ind of spec.indicators ?? []) add(ind.outputKey, ind.type, ind.params);
-  for (const [key, b] of Object.entries(spec.bindings ?? {})) add(key, b.type, b.params);
+
+  // Bindings, computed in dependency order (a `source` must exist first).
+  const pending = Object.entries(spec.bindings ?? {});
+  let guard = pending.length + 1;
+  while (pending.length && guard-- > 0) {
+    for (let i = pending.length - 1; i >= 0; i--) {
+      const [key, b] = pending[i];
+      if (b.source && !(b.source in series)) continue; // source not ready yet
+      add(key, b.type, b.params, b.source ? series[b.source] : undefined);
+      pending.splice(i, 1);
+    }
+  }
 
   return { length: len, series };
 }

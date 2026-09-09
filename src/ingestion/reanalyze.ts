@@ -39,12 +39,14 @@ function loadCuration(): Record<string, Curation> {
 }
 
 function applyCuration(spec: StrategySpec, cur: Curation): StrategySpec {
-  const { skip: _skip, entry, exit, ...rest } = cur;
+  const { skip: _skip, entry, exit, bindings, ...rest } = cur;
   return {
     ...spec,
     ...rest,
     entry: { ...spec.entry, ...entry },
     exit: exit ? { ...spec.exit, ...exit } : spec.exit,
+    // Curated bindings merge over auto-derived ones (same key wins for curation).
+    bindings: bindings || spec.bindings ? { ...spec.bindings, ...bindings } : undefined,
     parsedBy: 'manual',
     confidence: Math.max(spec.confidence, 0.85),
   };
