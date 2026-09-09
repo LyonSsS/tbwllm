@@ -1,0 +1,49 @@
+{
+  "id": "variance-weighted-regression-trend-backquant-c07d60",
+  "name": "Variance-Weighted Regression Trend [BackQuant]",
+  "source": "https://www.tradingview.com/script/9KcWvaBf-Variance-Weighted-Regression-Trend-BackQuant",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullFlip",
+      "bullFlip or bearFlip",
+      "bearFlip",
+      "bullFlip or bearFlip"
+    ]
+  },
+  "parameters": {
+    "regLen": 60,
+    "projectionBars": 5,
+    "varianceLen": 20,
+    "varianceMode": "EMA",
+    "weightPower": 1,
+    "varianceReg": 0.05,
+    "minWeight": 0.1,
+    "maxWeight": 10,
+    "channelMode": "Weighted Residual RMS",
+    "channelMult": 2,
+    "expandPoorFit": false,
+    "poorFitExpansion": 0.5,
+    "qualityConfirm": false,
+    "minR2": 0.15,
+    "minSlopeScore": 0.5,
+    "paintBars": true,
+    "lineW": 3
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "c07d605bcc4265f3",
+  "createdAt": 1788946180110
+}

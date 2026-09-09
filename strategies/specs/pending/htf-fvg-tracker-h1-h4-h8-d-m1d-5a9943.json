@@ -1,0 +1,41 @@
+{
+  "id": "htf-fvg-tracker-h1-h4-h8-d-m1d-5a9943",
+  "name": "HTF FVG Tracker — H1 · H4 · H8 · D (M1D)",
+  "source": "https://www.tradingview.com/script/N7zllX8j-HTF-FVG-Tracker-M1D",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "f_track(fire1, h1oA, h1hA, h1lA, h1cA, h1oB, h1hB, h1lB, h1cB,",
+      "f_track(fire4, h4oA, h4hA, h4lA, h4cA, h4oB, h4hB, h4lB, h4cB,",
+      "f_track(fire8, h8oA, h8hA, h8lA, h8cA, h8oB, h8hB, h8lB, h8cB,"
+    ]
+  },
+  "parameters": {
+    "trackD": true,
+    "track8": true,
+    "track4": true,
+    "track1": true,
+    "keepDays": 5,
+    "minGapD": 30,
+    "pinD": true,
+    "mergeVi": true,
+    "extendMode": "Until mitigated",
+    "capD": 7,
+    "cap8": 3,
+    "cap4": 3,
+    "cap1": 1,
+    "extendN": 1,
+    "fillMode": "Stop extending",
+    "fillTest": "Body coverage",
+    "mitPct": 55,
+    "fillOpac": 88,
+    "tagHour": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "5a99430031db14d4",
+  "createdAt": 1788946315554
+}

@@ -1,0 +1,31 @@
+{
+  "id": "unknown-strategy-f84676",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/Z9O5w3SG-Execution-Aware-Trend-BSL",
+  "version": "1",
+  "strategyType": "session",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "longIntent",
+      "shortIntent"
+    ]
+  },
+  "parameters": {
+    "fastLength": 50,
+    "slowLength": 200,
+    "slopeLookback": 20,
+    "directionMode": "Both",
+    "entryLength": 20,
+    "exitLength": 10,
+    "atrLength": 14,
+    "atrMultiple": 3,
+    "sampleMode": "Full history",
+    "panelDensity": "Compact"
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "f84676d80f8dd4b2",
+  "createdAt": 1788946105201
+}

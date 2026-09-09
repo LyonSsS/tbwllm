@@ -1,0 +1,34 @@
+{
+  "id": "daily-futures-wick-levels-monthly-span-v8-8c4913",
+  "name": "Daily Futures Wick Levels — Monthly Span V8",
+  "source": "https://www.tradingview.com/script/YXjQETci-Daily-Key-Reversal-Levels-ThreeKay",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "nearLevel and not nearLevel[1]"
+    ]
+  },
+  "parameters": {
+    "historyMonths": 60,
+    "requiredTouches": 4,
+    "zoneATR": 0.4,
+    "minimumWickRange": 0.15,
+    "minimumReactionATR": 0.25
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "8c4913ad91f41e23",
+  "createdAt": 1788945381476
+}

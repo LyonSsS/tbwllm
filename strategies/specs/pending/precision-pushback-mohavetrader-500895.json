@@ -1,0 +1,56 @@
+{
+  "id": "precision-pushback-mohavetrader-500895",
+  "name": "Precision PushBack [MohaveTrader]",
+  "source": "https://www.tradingview.com/script/Nl0U9MU2-Precision-PushBack-MohaveTrader",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "RSI",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "rsi14"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "atr200"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "obQual",
+      "osQual"
+    ]
+  },
+  "parameters": {
+    "sensMode": "Balanced",
+    "candleMode": "Pressure",
+    "maxPerSide": 4,
+    "maxFlips": 3,
+    "relevanceMult": 6,
+    "zoneExt": 20,
+    "prShowLine": true,
+    "prShowMark": true,
+    "prShowSeq": true,
+    "prShowStruct": true,
+    "prShowFill": true,
+    "panelText": "large",
+    "filtFullDay": true,
+    "minEpisodeATR": 0.25,
+    "useMinBars": true,
+    "minEpisodeBars": 7,
+    "widthMethod": "Median Candle Range",
+    "mergeOverlap": false,
+    "mergeGapATR": 0
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "500895340d6801c7",
+  "createdAt": 1788946553494
+}

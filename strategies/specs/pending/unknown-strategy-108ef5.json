@@ -1,0 +1,73 @@
+{
+  "id": "unknown-strategy-108ef5",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/UxVwdeN2",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "ema50"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      ") alerts. longEntrySignal := dir == 1 shortEntrySignal := dir == -1 distDir := dir distConfScore := confScore distConfMax := confMax distConfText := confText distConfGrade := confGrade // Separate OrGa entry badge. Kept independent from showLabelsInput so the // entry marker remains visible even when normal M/D event labels are hidden. if showEntryMarkerInput float markerY = dir == 1 ? low - atr14 * 0.35 : high + atr14 * 0.35 color markerBg = dir == 1 ? colTgtInput : colStopInput string markerTxt = entryEmojiInput + (dir == 1 ? \" LONG\" : \" SHORT\") label entryBadge = label.new(bar_index",
+      "alertsOnInput and longEntrySignal",
+      ") alerts. longEntrySignal := dir == 1 shortEntrySignal := dir == -1 distDir := dir distConfScore := confScore distConfMax := confMax distConfText := confText distConfGrade := confGrade // Separate OrGa entry badge. Kept independent from showLabelsInput so the // entry marker remains visible even when normal M/D event labels are hidden. if showEntryMarkerInput float markerY = dir == 1 ? low - atr14 * 0.35 : high + atr14 * 0.35 color markerBg = dir == 1 ? colTgtInput : colStopInput string markerTxt = entryEmojiInput + (dir == 1 ? \" LONG\" : \" SHORT\") label entryBadge = label.new(bar_index",
+      "alertsOnInput and shortEntrySignal"
+    ]
+  },
+  "parameters": {
+    "minRangeBarsInput": 12,
+    "maxRangeBarsInput": 96,
+    "compressionPctInput": 25,
+    "statWindowInput": 200,
+    "rangeToleranceInput": 0.1,
+    "minRangeWidthPInput": 0.15,
+    "boundaryModeInput": "pivot",
+    "trimTailPctInput": 15,
+    "sweepReturnBarsInput": 8,
+    "requireLiquidityInput": false,
+    "sweepDepthPctInput": 100,
+    "allowRearmInput": true,
+    "distTimeoutBarsInput": 64,
+    "stopBufAtrInput": 0.4,
+    "fibExtInput": 1.618,
+    "useKillzonesInput": false,
+    "useLdnKzInput": false,
+    "kzLdnTzInput": "Europe/London",
+    "useNyKzInput": true,
+    "kzNyTzInput": "America/New_York",
+    "useHtfBiasInput": true,
+    "enforceHtfBiasInput": false,
+    "ldnRefTzInput": "Europe/London",
+    "nyVwapTzInput": "America/New_York",
+    "confluenceTolAtrInput": 0.25,
+    "useConfluenceFilterInput": false,
+    "minConfluenceInput": 2,
+    "themeInput": "Auto",
+    "entryEmojiInput": "🐊",
+    "minSampleNInput": 10,
+    "dashPosStrInput": "Top Right",
+    "statsPeriodInput": "All-Time",
+    "alertsOnInput": true,
+    "webhookInput": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "108ef5de94846f88",
+  "createdAt": 1788945286829
+}

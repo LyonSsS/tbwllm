@@ -1,0 +1,53 @@
+{
+  "id": "gm-fusion-v2-1-power-confirmation-3d4df9",
+  "name": "GM Fusion v2.1 - Power Confirmation",
+  "source": "https://www.tradingview.com/script/8ZY3jsh7-GM-Fusion-Oscillator",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "MACD",
+      "params": {},
+      "outputKey": "macd"
+    },
+    {
+      "type": "STOCH",
+      "params": {},
+      "outputKey": "stoch"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullRawSignal and cooldownOK",
+      "bearRawSignal and cooldownOK"
+    ]
+  },
+  "parameters": {
+    "emaFastLen": 21,
+    "emaSlowLen": 55,
+    "macdFastLen": 12,
+    "macdSlowLen": 26,
+    "macdSignalLen": 9,
+    "rsiLen": 14,
+    "stochLen": 14,
+    "stochSmoothK": 3,
+    "stochSmoothD": 3,
+    "atrLen": 14,
+    "smoothLen": 3,
+    "useAdxFilter": true,
+    "adxLen": 14,
+    "adxSmoothing": 14,
+    "adxMin": 20,
+    "useAdxRising": true,
+    "adxRiseBars": 1,
+    "useDiFilter": true,
+    "useCooldown": true,
+    "cooldownBars": 3
+  },
+  "parsedBy": "static",
+  "confidence": 0.77,
+  "rawHash": "3d4df9a488dd6353",
+  "createdAt": 1788945977601
+}

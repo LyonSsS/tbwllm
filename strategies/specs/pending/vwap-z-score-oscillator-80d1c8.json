@@ -1,0 +1,34 @@
+{
+  "id": "vwap-z-score-oscillator-80d1c8",
+  "name": "VWAP Z-Score Oscillator",
+  "source": "https://www.tradingview.com/script/Jxs0GSaH-VWAP-Z-Score-Oscillator",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(oscTF",
+      "ta.crossover(oscTF",
+      "ta.crossunder(oscTF",
+      "ta.crossunder(oscTF"
+    ]
+  },
+  "parameters": {
+    "calcTF": "Chart",
+    "mode": "Distance",
+    "length": 50,
+    "useFallback": true,
+    "b1On": false,
+    "b1Lvl": 1,
+    "b2On": true,
+    "b2Lvl": 2,
+    "b3On": false,
+    "b3Lvl": 3,
+    "fullSigma": 2
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "80d1c88f8664890a",
+  "createdAt": 1788945737656
+}

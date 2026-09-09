@@ -1,0 +1,24 @@
+{
+  "id": "heikin-ashi-lag-meter-bsl-7f1e13",
+  "name": "Heikin Ashi Lag Meter [BSL]",
+  "source": "https://www.tradingview.com/script/t25S8iqq-Heikin-Ashi-Lag-Meter-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "flipEvent == 1",
+      "flipEvent == -1"
+    ]
+  },
+  "parameters": {
+    "minimumFlips": 5,
+    "boxCap": 50,
+    "panelDensity": "Compact"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "7f1e13ec8fd7b9b8",
+  "createdAt": 1788945485872
+}

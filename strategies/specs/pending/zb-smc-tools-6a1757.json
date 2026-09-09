@@ -1,0 +1,31 @@
+{
+  "id": "zb-smc-tools-6a1757",
+  "name": "ZB SMC Tools",
+  "source": "https://www.tradingview.com/script/OAWSfFBt-ZB-SMC-Tools",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bar_index >= 2 and low > high[2] and close[1] > high[2] and",
+      "barstate.isconfirmed and not na(activeHigh) and not highBroken and",
+      "bar_index >= 2 and high < low[2] and close[1] < low[2] and",
+      "barstate.isconfirmed and not na(activeLow) and not lowBroken and"
+    ]
+  },
+  "parameters": {
+    "fvgThreshold": 0,
+    "fvgExtend": 20,
+    "removeMitigated": true,
+    "structureLength": 5,
+    "oneSweepPerLevel": true,
+    "requireCandleDirection": false,
+    "minWickAtr": 0,
+    "atrLength": 14
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "6a1757a38cffbdb2",
+  "createdAt": 1788945840200
+}

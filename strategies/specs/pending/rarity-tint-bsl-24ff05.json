@@ -1,0 +1,26 @@
+{
+  "id": "rarity-tint-bsl-24ff05",
+  "name": "Rarity Tint [BSL]",
+  "source": "https://www.tradingview.com/script/Vc7FrbcA-Rarity-Tint-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "resolved and seenBefore == 0"
+    ]
+  },
+  "parameters": {
+    "useBuiltIn": true,
+    "emaLength": 50,
+    "atrLength": 14,
+    "rankLength": 100,
+    "minimumBars": 300,
+    "saturation": 40
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "24ff0599adb3eb92",
+  "createdAt": 1788945511607
+}

@@ -1,0 +1,42 @@
+{
+  "id": "unknown-strategy-b14420",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/fQbceY5t-Bitcoin-Liquidity-Wave",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(impForWave",
+      "ta.crossunder(impForWave"
+    ]
+  },
+  "parameters": {
+    "incEcb": true,
+    "incBoj": true,
+    "incPbc": true,
+    "incBoe": true,
+    "cA": -19.0242,
+    "cB": 1.4741,
+    "cC": 6.9375,
+    "cD": -0.3087,
+    "cK": 2.6863,
+    "dLeadBase": 60,
+    "dLeadWave": 90,
+    "dImpulse": 270,
+    "dSmooth": 60,
+    "upA": 5.6275,
+    "upX": -1.2271,
+    "dnA": 0.3074,
+    "dnX": -0.1482,
+    "paintClose": false,
+    "projBars": 365,
+    "projMode": "Trailing 3y growth",
+    "projRate": 5
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "b144203e544d405d",
+  "createdAt": 1788945584331
+}

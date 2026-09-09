@@ -1,0 +1,80 @@
+{
+  "id": "trinity-atr-levels-79f286",
+  "name": "Trinity ATR Levels",
+  "source": "https://www.tradingview.com/script/eVg35p7Z-Trinity-ATR-Levels",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 21
+      },
+      "outputKey": "ema21"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 8
+      },
+      "outputKey": "ema8"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "entry_long_trigger and alert_long",
+      "signal_close and long_active and close < upper_trigger",
+      "entry_short_trigger and alert_short",
+      "signal_close and short_active and close > lower_trigger"
+    ]
+  },
+  "parameters": {
+    "preset": "P_MILK",
+    "trading_type_in": "day_trading",
+    "atr_length": 14,
+    "trigger_percentage": 0.236,
+    "session_mode_in": "Regular (RTH",
+    "use_current_close": false,
+    "signal_tf_in": "Strict 3m (Milkman",
+    "signal_session_in": "Regular hours only",
+    "max_entries_in": 1,
+    "cooldown_in": 3,
+    "buffer_in": 0,
+    "debounce_in": true,
+    "gapsafe_in": true,
+    "enforce_scope_in": true,
+    "simple_mode": false,
+    "palette": "Default (gold / green / red",
+    "dashboard_detail": "Full",
+    "use_options_labels": true,
+    "gg_barcolor_mode": "Entry bar only",
+    "ema8_10m_mode": "Confirmed (matches signals",
+    "session_label_size_choice": "Small",
+    "fast_ema": 8,
+    "pivot_ema": 21,
+    "slow_ema": 34,
+    "take_profit_choice": "1.0 ATR (Classic",
+    "alert_long": true,
+    "alert_short": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "79f2867dff6a9c72",
+  "createdAt": 1788946607466
+}

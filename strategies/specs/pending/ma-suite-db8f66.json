@@ -1,0 +1,32 @@
+{
+  "id": "ma-suite-db8f66",
+  "name": "MA Suite",
+  "source": "https://www.tradingview.com/script/7PW7EhHp-MA-Suite",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(close, s3_val)",
+      "ta.crossunder(close, s3_val)"
+    ]
+  },
+  "parameters": {
+    "s1_len": 10,
+    "s2_len": 40,
+    "s3_len": 50,
+    "s4_len": 100,
+    "s5_len": 200,
+    "e2_len": 9,
+    "e3_len": 21,
+    "e4_len": 50,
+    "e6_len": 100,
+    "e5_len": 200,
+    "e1_len": 200
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "db8f66d49a19f79c",
+  "createdAt": 1788946329970
+}

@@ -1,9 +1,21 @@
 {
   "dcc640cf08af5dbc": {
     "bindings": {
-      "ema": { "type": "EMA", "params": { "period": "emaLength" } },
-      "rsi": { "type": "RSI", "params": { "period": "rsiLength" } },
-      "vwap": { "type": "VWAP" }
+      "ema": {
+        "type": "EMA",
+        "params": {
+          "period": "emaLength"
+        }
+      },
+      "rsi": {
+        "type": "RSI",
+        "params": {
+          "period": "rsiLength"
+        }
+      },
+      "vwap": {
+        "type": "VWAP"
+      }
     },
     "entry": {
       "direction": "BOTH",
@@ -14,11 +26,22 @@
     },
     "notes": "EMA + VWAP trend filter with an RSI level gate; enters on the first bar the compound condition flips true. ema/rsi bindings would auto-derive but the script names them plainly; kept explicit for clarity."
   },
-
   "246ad5a2674ce87f": {
     "bindings": {
-      "basis": { "type": "SMA", "source": "rsiValue", "params": { "period": "bbLength" } },
-      "dev": { "type": "STDDEV", "source": "rsiValue", "params": { "period": "bbLength" } }
+      "basis": {
+        "type": "SMA",
+        "source": "rsiValue",
+        "params": {
+          "period": "bbLength"
+        }
+      },
+      "dev": {
+        "type": "STDDEV",
+        "source": "rsiValue",
+        "params": {
+          "period": "bbLength"
+        }
+      }
     },
     "entry": {
       "direction": "BOTH",
@@ -29,11 +52,20 @@
     },
     "notes": "RSI(rsiLength) with Bollinger Bands computed on the RSI series (basis = SMA of RSI, dev = stdev of RSI). rsiValue binding is auto-derived; basis/dev are source-composed. Bands inlined into the conditions since they're arithmetic, not indicators."
   },
-
   "80e8e5ae617617ae": {
     "bindings": {
-      "fastMA": { "type": "EMA", "params": { "period": "fastLen" } },
-      "slowMA": { "type": "EMA", "params": { "period": "slowLen" } }
+      "fastMA": {
+        "type": "EMA",
+        "params": {
+          "period": "fastLen"
+        }
+      },
+      "slowMA": {
+        "type": "EMA",
+        "params": {
+          "period": "slowLen"
+        }
+      }
     },
     "entry": {
       "direction": "BOTH",
@@ -44,26 +76,30 @@
     },
     "notes": "EMA(fastLen) / EMA(slowLen) golden-cross / death-cross, gated on the slow MA being seeded. Bindings are manual: the script defines fastMA via a `maType == \"SMA\" ? ... : ...` ternary that auto-binding can't unwrap through to the ta.ema call."
   },
-
   "ca7e76e9eacf689e": {
-    "skip": "PVSRA volume-classification indicator (vector / climax candles); no directional entry"
+    "skip": "PVSRA volume-classification indicator (vector / climax candles); no directional entry",
+    "category": "not-a-strategy"
   },
   "c395d3f46867762f": {
-    "skip": "macro context oscillator — 52-week z-score of DXY; extreme-reading markers, not an entry model"
+    "skip": "macro context oscillator — 52-week z-score of DXY; extreme-reading markers, not an entry model",
+    "category": "not-a-strategy"
   },
   "1bf405b39eda24b7": {
-    "skip": "TGIF Friday weekly hi/lo reversion model; bracket-entry semantics need dedicated session modeling"
+    "skip": "TGIF Friday weekly hi/lo reversion model; bracket-entry semantics need dedicated session modeling",
+    "category": "not-a-strategy"
   },
   "681d371eeeda6b20": {
-    "skip": "sector-rotation dashboard — flags a leadership change across sectors, not an instrument entry"
+    "skip": "sector-rotation dashboard — flags a leadership change across sectors, not an instrument entry",
+    "category": "not-a-strategy"
   },
   "6bf2871928e0eb2a": {
-    "skip": "relative-strength regime indicator (is tech leading the market); context tool, not a strategy"
+    "skip": "relative-strength regime indicator (is tech leading the market); context tool, not a strategy",
+    "category": "not-a-strategy"
   },
   "1005a8cc467fda8a": {
-    "skip": "cycle-analysis tool (daily / weekly / yearly cycle lows); discretionary timing aid, not a mechanical entry"
+    "skip": "cycle-analysis tool (daily / weekly / yearly cycle lows); discretionary timing aid, not a mechanical entry",
+    "category": "not-a-strategy"
   },
-
   "3f97630c1a013610": {
     "entry": {
       "direction": "BOTH",

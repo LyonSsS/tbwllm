@@ -1,0 +1,38 @@
+{
+  "id": "master-line-plus-multi-ma-consensus-030cab",
+  "name": "Master Line Plus · Multi-MA Consensus",
+  "source": "https://www.tradingview.com/script/zv91H545-Master-Line-Plus-Multi-MA-Consensus",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "up and dir[1] <= 0 and okLong",
+      "dn and dir[1] >= 0 and okShort"
+    ]
+  },
+  "parameters": {
+    "len": 50,
+    "almaOff": 0.85,
+    "almaSig": 6,
+    "bandMult": 0.5,
+    "sigLen": 20,
+    "useHtf": false,
+    "fillBand": true,
+    "colorBars": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "030cab2d9e141b7d",
+  "createdAt": 1788945476660
+}

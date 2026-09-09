@@ -1,0 +1,46 @@
+{
+  "id": "divergence-confirmation-oscillator-pineify-fc3ba0",
+  "name": "Divergence Confirmation Oscillator [Pineify]",
+  "source": "https://www.tradingview.com/script/Ih58BPBL-Divergence-Confirmation-Oscillator-Pineify",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "regularBull and bullSignal",
+      "hiddenBull and bullSignal",
+      "regularBear and bearSignal",
+      "hiddenBear and bearSignal"
+    ]
+  },
+  "parameters": {
+    "rsiLength": 14,
+    "leftBars": 5,
+    "rightBars": 5,
+    "minSeparation": 6,
+    "maxSeparation": 60,
+    "oversoldLevel": 35,
+    "overboughtLevel": 65,
+    "fullPriceAtr": 0.6,
+    "fullRsiDelta": 8,
+    "minQuality": 58,
+    "followWindow": 20,
+    "followAtr": 0.75,
+    "invalidationAtr": 0.2,
+    "maxVisibleEvents": 24
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "fc3ba03017b92601",
+  "createdAt": 1788946039106
+}

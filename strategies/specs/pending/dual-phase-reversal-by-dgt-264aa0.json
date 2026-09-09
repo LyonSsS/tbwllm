@@ -1,0 +1,36 @@
+{
+  "id": "dual-phase-reversal-by-dgt-264aa0",
+  "name": "Dual-Phase Reversal by DGT",
+  "source": "https://www.tradingview.com/script/cmFOrVlp-Dual-Phase-Reversal-by-DGT",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "buyCount == 9 and not buyPhaseQualified",
+      "buyCount == 9 and buyPhaseQualified",
+      "startBuyExhaustion13 and buyExhaustionCount != buyExhaustionCount[1] and buyExhaustionCount == 13"
+    ]
+  },
+  "parameters": {
+    "phaseSRLevels": true,
+    "stopLevels": false,
+    "htf": "Auto",
+    "i_isPivot": true,
+    "i_dispPVT": false,
+    "i_disphist": false,
+    "isPressureEnabled": true,
+    "pressureLength": 13,
+    "upperBand": 75,
+    "lowerBand": 25,
+    "oscLookbackLength": 200,
+    "oscPlacement": "Bottom",
+    "vwcb": true,
+    "upThesh": 1.618
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "264aa0ddef0e1588",
+  "createdAt": 1788945354762
+}

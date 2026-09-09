@@ -1,0 +1,41 @@
+{
+  "id": "buy-signal-ema-macd-cross-04321e",
+  "name": "Buy Signal Ema Macd Cross",
+  "source": "https://www.tradingview.com/script/DiwTgX5I-Buy-Signal-Ema-Macd-Cross",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "buyConfluence and canBuy",
+      "ta.crossover(macd, signal)",
+      "ta.crossunder(macd, signal)"
+    ]
+  },
+  "parameters": {
+    "ma14Len": 14,
+    "ma25Len": 25,
+    "ma50Len": 50,
+    "ma99Len": 99,
+    "ma200Len": 200,
+    "fastLenInput": 12,
+    "slowLenInput": 26,
+    "sigLenInput": 9,
+    "oscTypeInput": "EMA",
+    "sigTypeInput": "EMA",
+    "requireMacdCross": true,
+    "requireMacdBelowZero": false,
+    "colorBarsMacd": false,
+    "requirePriceCrossMa200": true,
+    "requireMa14CrossMa200": true,
+    "requirePriceAboveMa14": true,
+    "confluenceWindow": 8,
+    "cooldownBars": 12,
+    "analysisLookback": 500
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "04321ed140a0920c",
+  "createdAt": 1788946337576
+}

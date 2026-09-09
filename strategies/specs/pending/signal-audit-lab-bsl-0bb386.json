@@ -1,0 +1,40 @@
+{
+  "id": "signal-audit-lab-bsl-0bb386",
+  "name": "Signal Audit Lab [BSL]",
+  "source": "https://www.tradingview.com/script/g4p0NHXW-Signal-Audit-Lab-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "allowLong and not (eventSource[1] >= longLevelInput)",
+      "allowShort and not (eventSource[1] <= shortLevelInput)"
+    ]
+  },
+  "parameters": {
+    "sourceLabelInput": "NAME THIS SOURCE",
+    "sourceBindingConfirmedInput": false,
+    "modeInput": "Signed pulse",
+    "longLevelInput": 1,
+    "shortLevelInput": -1,
+    "conflictInput": "Reject both",
+    "cooldownInput": 0,
+    "costBpsInput": 10,
+    "h1Input": 1,
+    "h2Input": 3,
+    "h3Input": 5,
+    "h4Input": 10,
+    "h5Input": 20,
+    "timezoneInput": "America/New_York",
+    "atrLengthInput": 14,
+    "baselineLengthInput": 100,
+    "lowBoundaryInput": 0.8,
+    "highBoundaryInput": 1.2,
+    "panelDensityInput": "Compact"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "0bb3869ca470d581",
+  "createdAt": 1788946137613
+}

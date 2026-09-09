@@ -1,0 +1,23 @@
+{
+  "id": "cost-floor-painter-bsl-d9936d",
+  "name": "Cost Floor Painter [BSL]",
+  "source": "https://www.tradingview.com/script/BeKPSzwY-Cost-Floor-Painter-BSL",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "cleared",
+      "resolved and not cleared"
+    ]
+  },
+  "parameters": {
+    "costTicks": 4,
+    "coverage": 50
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "d9936d4c6684ef67",
+  "createdAt": 1788945566853
+}

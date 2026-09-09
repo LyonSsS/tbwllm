@@ -1,0 +1,25 @@
+{
+  "id": "smc-engine-65de26",
+  "name": "SMC Engine",
+  "source": "https://www.tradingview.com/script/ZHP7rGVm-SMC-Engine",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "sentiment == \"Stop Hunt (Low)\"",
+      "sentiment == \"Bullish Aggression\"",
+      "sentiment == \"Stop Hunt (High)\""
+    ]
+  },
+  "parameters": {
+    "i_timezone": "America/New_York",
+    "i_baseline_len": 50,
+    "i_anomaly_mult": 2
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "65de269c17d72141",
+  "createdAt": 1788946002656
+}

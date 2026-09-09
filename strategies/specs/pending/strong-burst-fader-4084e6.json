@@ -1,0 +1,34 @@
+{
+  "id": "strong-burst-fader-4084e6",
+  "name": "Strong Burst Fader",
+  "source": "https://www.tradingview.com/script/VsFvGdYk-Strong-Burst-Fader-ProjectSyndicate",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "okBar and upM0[1] > 0 and upM0[1] >= upM0[2] and upM0[1] > upM0",
+      "okBar and dnM0[1] > 0 and dnM0[1] >= dnM0[2] and dnM0[1] > dnM0",
+      "upPeak and upLvlPk >= maxLevels"
+    ]
+  },
+  "parameters": {
+    "basisType": "EMA",
+    "basisLen": 20,
+    "atrLen": 14,
+    "bandMult": 2,
+    "stepATR": 0.5,
+    "maxLevels": 6,
+    "heatSat": 3,
+    "needClose": false,
+    "confirmBar": true,
+    "baseGap": 0.6,
+    "rowGap": 0.45,
+    "fadeMin": 3
+  },
+  "parsedBy": "static",
+  "confidence": 0.6,
+  "rawHash": "4084e60aeda5fd7b",
+  "createdAt": 1788945621765
+}

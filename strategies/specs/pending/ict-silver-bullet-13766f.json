@@ -1,0 +1,80 @@
+{
+  "id": "ict-silver-bullet-13766f",
+  "name": "ICT Silver Bullet",
+  "source": "https://www.tradingview.com/script/yxRodYFg-ICT-Silver-Bullet",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 100
+      },
+      "outputKey": "highest_high100"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 100
+      },
+      "outputKey": "lowest_low100"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "i_bias": "All",
+    "i_status": "All",
+    "i_maxModels": 2,
+    "i_discardInval": false,
+    "i_execTF": "1",
+    "i_requireZone": true,
+    "i_ltfLookback": 10,
+    "i_useLondon": true,
+    "i_useNYAM": true,
+    "i_useNYPM": true,
+    "i_showKzShade": true,
+    "i_showKzZoneBox": false,
+    "i_showSweep": true,
+    "i_swingLen": 6,
+    "i_showSArea": true,
+    "i_extendSweepBox": false,
+    "i_showMSS": true,
+    "i_mssConfirm": "Close",
+    "i_mssMaxBars": 30,
+    "i_mssLeft": 2,
+    "i_mssRight": 2,
+    "i_extendFVGZone": false,
+    "i_showZoneCE": true,
+    "i_rrEntryMode": "MSS Close",
+    "i_rrTarget": 2,
+    "i_showRRLine": true,
+    "i_rrLineBars": 2,
+    "i_showHTFCandles": true,
+    "i_htfAuto": true,
+    "i_htfCount": 6,
+    "i_htfSpace": 1,
+    "i_showDashboard": true,
+    "i_dashHeaderSz": "Normal",
+    "i_dashRowSz": "Small",
+    "i_alertOnSweep": true,
+    "i_alertOnMSS": true,
+    "i_alertOnEntry": true,
+    "i_alertOnSucc": true,
+    "i_alertOnInvalid": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "13766fdab7897e40",
+  "createdAt": 1788945543662
+}

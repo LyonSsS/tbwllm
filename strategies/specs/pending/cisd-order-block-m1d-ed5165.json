@@ -1,0 +1,50 @@
+{
+  "id": "cisd-order-block-m1d-ed5165",
+  "name": "CISD Order Block+ (M1D)",
+  "source": "https://www.tradingview.com/script/fKX9evIH-CISD-Order-Block-M1D",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "requireSweep": true,
+    "pivLen": 5,
+    "liqLook": 20,
+    "sweepMode": "Wick through",
+    "sweepSlack": 2,
+    "oncePerSweep": true,
+    "reversalRaid": false,
+    "minGap": 10,
+    "minRunIn": 2,
+    "maxRunIn": 6,
+    "minWinIn": 1,
+    "maxWinIn": 15,
+    "minBody": 0.1,
+    "sideMode": "Both",
+    "extendBars": 6,
+    "maxSets": 4,
+    "keepFailed": false,
+    "dedupe": true,
+    "maxAge": 150,
+    "stdvLatest": true,
+    "stdvList": "1",
+    "stdvBodyRun": true,
+    "stdvLen": 6
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "ed5165282c640276",
+  "createdAt": 1788945268872
+}

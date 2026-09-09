@@ -1,0 +1,40 @@
+{
+  "id": "setup-grader-high-med-low-filter-51085d",
+  "name": "Setup Grader — HIGH / MED / LOW Filter",
+  "source": "https://www.tradingview.com/script/wfVeTpLg-Setup-Grader-HIGH-MED-LOW-Filter",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "grade == \"HIGH\" and dir == \"LONG\"",
+      "grade == \"HIGH\" and dir == \"SHORT\""
+    ]
+  },
+  "parameters": {
+    "emaTrendLen": 50,
+    "useTrend": true,
+    "htfEmaLen": 50,
+    "useHTF": true,
+    "rsiLen": 14,
+    "rsiBullMin": 50,
+    "rsiBearMax": 50,
+    "useMomo": true,
+    "emaPullLen": 20,
+    "atrLen": 14,
+    "atrMult": 1,
+    "usePull": true,
+    "volAvgLen": 20,
+    "useVol": true,
+    "highThresh": 4,
+    "medThresh": 3,
+    "colorBg": true,
+    "colorBars": false,
+    "markerCooldown": 10
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "51085dcec4e0e89a",
+  "createdAt": 1788945728896
+}

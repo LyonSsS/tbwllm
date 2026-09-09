@@ -1,0 +1,34 @@
+{
+  "id": "gold-macro-fiat-valuation-barometer-e29e35",
+  "name": "Gold Macro & Fiat Valuation Barometer",
+  "source": "https://www.tradingview.com/script/zj6ca7jQ-Gold-Macro-Fiat-Valuation-Barometer-BCT",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "smoothed_score": {
+      "type": "EMA",
+      "params": {
+        "period": "len_smooth"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(smoothed_score, 70.0)",
+      "ta.crossunder(smoothed_score, 35.0)"
+    ]
+  },
+  "parameters": {
+    "len_smooth": 5,
+    "k_yield": 0.12,
+    "y_neutral": 1,
+    "mult_upper": 1.35,
+    "mult_lower": 1
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "e29e35a22844dbe9",
+  "createdAt": 1788945746220
+}

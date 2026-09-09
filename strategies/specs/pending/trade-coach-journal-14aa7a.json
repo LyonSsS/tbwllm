@@ -1,0 +1,68 @@
+{
+  "id": "trade-coach-journal-14aa7a",
+  "name": "Trade Coach-Journal",
+  "source": "https://www.tradingview.com/script/bJdRd5Gd-Trade-Coach-Journal",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "RSI",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "rsi14"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "ema200"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 100
+      },
+      "outputKey": "sma100"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "risk >= 2 and risk[1] < 2",
+      "dayBlown and not dayBlown[1]",
+      "risk == 3"
+    ]
+  },
+  "parameters": {
+    "defYear": 2026,
+    "splitHr": 11,
+    "minN": 15,
+    "minTagN": 8,
+    "edgeMin": 0.15,
+    "dayStopR": -3,
+    "detail": false,
+    "maxDraw": 120,
+    "txtSz": "normal",
+    "trSplit": 0.7,
+    "lr": 0.02,
+    "maxEp": 40,
+    "stepsBar": 60,
+    "wd": 0.002,
+    "minTest": 25,
+    "minZ": 2
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "14aa7a03560a114c",
+  "createdAt": 1788946030414
+}

@@ -1,0 +1,32 @@
+{
+  "id": "stoc-ema-rsi-pullback-trader-6df6bf",
+  "name": "STOC - EMA + RSI Pullback Trader",
+  "source": "https://www.tradingview.com/script/8kqNol83-STOC-EMA-RSI-Pullback-Trader",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "buySignal"
+    ]
+  },
+  "parameters": {
+    "fastLength": 20,
+    "slowLength": 50,
+    "rsiLength": 14,
+    "rsiThreshold": 50,
+    "pullbackConfirmation": "Bullish Close Above EMA",
+    "touchToleranceTicks": 0,
+    "pullbackLookback": 3,
+    "requireRsiRising": false,
+    "exitMode": "Either Condition",
+    "exitOnCloseOnly": true,
+    "backgroundOpacity": 90,
+    "webhookName": "STOC_EMA_RSI_PULLBACK"
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "6df6bf06508ac779",
+  "createdAt": 1788946163588
+}

@@ -1,0 +1,41 @@
+{
+  "id": "unknown-strategy-536bee",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/PV6cfnjI",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "rsi_val": {
+      "type": "RSI",
+      "params": {
+        "period": "rsiLen"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(rsi_val, rsiLow)",
+      "ta.crossover(rsi_val, rsiMid)",
+      "ta.crossover(rsi_val, rsiHigh)"
+    ]
+  },
+  "parameters": {
+    "rsiLen": 14,
+    "rsiHigh": 65,
+    "rsiLow": 35,
+    "lineStyleStr": "Solid",
+    "maxLines": 40,
+    "useLineRanking": true,
+    "nearPct": 0.15,
+    "oldBars": 100,
+    "useAutoDel": true,
+    "manualBars": 2,
+    "maxBreakLabels": 60
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "536bee7512fd6507",
+  "createdAt": 1788946291588
+}

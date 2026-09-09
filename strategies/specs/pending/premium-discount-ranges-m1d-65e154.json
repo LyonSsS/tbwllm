@@ -1,0 +1,72 @@
+{
+  "id": "premium-discount-ranges-m1d-65e154",
+  "name": "Premium + Discount Ranges (M1D)",
+  "source": "https://www.tradingview.com/script/0jee3HkL-Premium-Discount-Ranges-M1D",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "buysideTaken",
+      "sellsideTaken"
+    ]
+  },
+  "parameters": {
+    "on1": true,
+    "tfPick1": "4H",
+    "srcPick1": "Swing",
+    "lblMode1": "Global",
+    "len1": 1,
+    "shade1": true,
+    "wid1": 2,
+    "on2": true,
+    "tfPick2": "Daily",
+    "srcPick2": "Period",
+    "lblMode2": "Global",
+    "len2": 1,
+    "shade2": false,
+    "wid2": 1,
+    "on3": false,
+    "tfPick3": "Weekly",
+    "srcPick3": "Period",
+    "lblMode3": "Centred",
+    "len3": 1,
+    "shade3": false,
+    "wid3": 1,
+    "requireTurn": true,
+    "trackRunning": true,
+    "shadeT": 90,
+    "emphOn": false,
+    "emphAmt": 5,
+    "eqWid": 1,
+    "rightPad": 12,
+    "sideHi": "Right",
+    "nudgeHi": 0,
+    "sideLo": "Right",
+    "nudgeLo": 0,
+    "sideEq": "Right",
+    "nudgeEq": 0,
+    "sideZn": "Off",
+    "nudgeZn": 0,
+    "collideAtr": 0.35,
+    "zoneNamesOnTraded": true,
+    "lblSizeIn": "small",
+    "adrLen": 5,
+    "awrLen": 4,
+    "amrLen": 3
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "65e1544a1f5c612d",
+  "createdAt": 1788946597931
+}

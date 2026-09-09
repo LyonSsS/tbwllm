@@ -1,0 +1,45 @@
+{
+  "id": "zeiierman-bands-zeiierman-2b8069",
+  "name": "Zeiierman Bands (Zeiierman)",
+  "source": "https://www.tradingview.com/script/YtNcfY4g-Zeiierman-Bands-Zeiierman",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "rs and barstate.isconfirmed and lrq",
+      "rs and barstate.isconfirmed and srq",
+      "rg==1 and nz(rg[1])!=1"
+    ]
+  },
+  "parameters": {
+    "n": 20,
+    "m": 2,
+    "r": 0.75,
+    "ou": true,
+    "os": 0.5,
+    "at": true,
+    "el": 3,
+    "bl": 6,
+    "rl": 20,
+    "mt": 8.25,
+    "rt": 0.2,
+    "sf": true,
+    "rs": true,
+    "trn": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "2b80699a4e872712",
+  "createdAt": 1788946390822
+}

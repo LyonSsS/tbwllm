@@ -1,0 +1,54 @@
+{
+  "id": "ma-ribbon-aurora-channel-41b0a7",
+  "name": "MA Ribbon → Aurora_Channel",
+  "source": "https://www.tradingview.com/script/WocMV3dj-MA-Ribbon-Aurora-Channel-V1-DRIZZLE-ALGO56",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "RMA",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "rma14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "signalUp and touchCountUp == 1",
+      "signalUp and touchCountUp > 1",
+      "signalDn and touchCountDn == 1"
+    ]
+  },
+  "parameters": {
+    "ma1_type": "EMA",
+    "ma1_length": 9,
+    "ma2_type": "EMA",
+    "ma2_length": 15,
+    "ma3_type": "EMA",
+    "ma3_length": 21,
+    "ma4_type": "EMA",
+    "ma4_length": 50,
+    "baseMult": 1,
+    "envMult": 0.55,
+    "trigMult": 0.22,
+    "widthSmooth": 12,
+    "edgeSmooth": 5,
+    "volLen": 20,
+    "volSens": 0.4,
+    "asymStr": 0.15
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "41b0a7ddc8eac2fe",
+  "createdAt": 1788946265369
+}

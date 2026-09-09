@@ -1,0 +1,43 @@
+{
+  "id": "level-survival-tracker-438c7e",
+  "name": "Level survival tracker",
+  "source": "https://www.tradingview.com/script/uqxo7Vc2-Level-survival-tracker",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "tzIn": "America/New_York",
+    "sStartH": 9,
+    "sStartM": 30,
+    "sEndH": 16,
+    "sEndM": 0,
+    "orMin": 15,
+    "pdMode": "Exchange daily",
+    "tolMethod": "Ticks",
+    "tolTicks": 2,
+    "tolPoints": 1,
+    "tolDatr": 0.02,
+    "tolIatr": 0.1,
+    "window": 60,
+    "minEligible": 20,
+    "minTests": 15,
+    "regime": "All"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "438c7e8163653c37",
+  "createdAt": 1788946203784
+}

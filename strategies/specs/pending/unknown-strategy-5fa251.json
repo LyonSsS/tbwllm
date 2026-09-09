@@ -1,0 +1,46 @@
+{
+  "id": "unknown-strategy-5fa251",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/x6vEUyW9-SDCA-System-TR",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "weightedScore <= Lower_Threshold",
+      "weightedScore >= Upper_Threshold"
+    ]
+  },
+  "parameters": {
+    "Color_Mode": "Classic",
+    "SawRSI": false,
+    "SawROC": false,
+    "SawSharpe": false,
+    "RSI_Length": 42,
+    "Source_MA_RSI": "SMA",
+    "RSI_MA_Length": 34,
+    "ROC_Length": 14,
+    "Source_MA_ROC": "SMA",
+    "ROC_MA_Length": 9,
+    "Norm_Length": 42,
+    "smoothFact": 0.2,
+    "Clipping_RSI": 34,
+    "Clipping_ROC": 50,
+    "useSharpeFilter": false,
+    "sharpeLookback": 42,
+    "sharpeRiskFree": 0.02,
+    "sharpeClipping": 2,
+    "allocationPct": 10,
+    "Lower_Threshold": -80,
+    "Upper_Threshold": 80,
+    "initialCapital": 10000,
+    "weightRSI": 1,
+    "weightROC": 1,
+    "weightSharpe": 0.5
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "5fa2513220ebe80c",
+  "createdAt": 1788946523566
+}

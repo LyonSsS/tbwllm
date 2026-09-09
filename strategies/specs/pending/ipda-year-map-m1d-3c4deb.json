@@ -1,0 +1,105 @@
+{
+  "id": "ipda-year-map-m1d-3c4deb",
+  "name": "IPDA Year Map (M1D)",
+  "source": "https://www.tradingview.com/script/9479px86-IPDA-Year-Map-M1D",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 15
+      },
+      "outputKey": "highest_high15"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "highest_high20"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 40
+      },
+      "outputKey": "highest_high40"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 60
+      },
+      "outputKey": "highest_high60"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 15
+      },
+      "outputKey": "lowest_low15"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "lowest_low20"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 40
+      },
+      "outputKey": "lowest_low40"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 60
+      },
+      "outputKey": "lowest_low60"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "alertNearDue",
+      "alertOverdue"
+    ]
+  },
+  "parameters": {
+    "divSpace": "3 months (Dec · Mar · Jun · Sep",
+    "fwdMonths": 6,
+    "eq20on": true,
+    "eq40on": true,
+    "eq60on": true,
+    "raidLen": 10,
+    "minuteFix": true,
+    "oiLook": 20,
+    "oiMin": 10,
+    "lblSizeIn": "small",
+    "railPad": 0.1,
+    "tagsBelow": true,
+    "runwayBars": 10,
+    "wS60": 1,
+    "wS40": 1,
+    "wS20": 1,
+    "wSEq": 1,
+    "wSVt": 1,
+    "wSDv": 1
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "3c4debe502152bd3",
+  "createdAt": 1788946082473
+}

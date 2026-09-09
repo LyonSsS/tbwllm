@@ -1,0 +1,27 @@
+{
+  "id": "confirmed-swing-ledger-bsl-cb4bcb",
+  "name": "Confirmed Swing Ledger [BSL]",
+  "source": "https://www.tradingview.com/script/GXcd6hp5-Confirmed-Swing-Ledger-BSL",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "swingAccepted",
+      "closeBreak",
+      "wickRejection"
+    ]
+  },
+  "parameters": {
+    "leftBars": 3,
+    "rightBars": 3,
+    "atrLength": 14,
+    "minimumSwingAtr": 0.5,
+    "panelDensity": "Compact"
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "cb4bcbaedab96f89",
+  "createdAt": 1788946097190
+}

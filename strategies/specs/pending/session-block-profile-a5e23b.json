@@ -1,0 +1,30 @@
+{
+  "id": "session-block-profile-a5e23b",
+  "name": "Session block profile",
+  "source": "https://www.tradingview.com/script/saANzxEB-Session-block-profile",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "rNPulse >= minSamples and vNPulse >= minSamples and"
+    ]
+  },
+  "parameters": {
+    "blockMin": 30,
+    "tzIn": "America/New_York",
+    "sStartH": 9,
+    "sStartM": 30,
+    "sEndH": 16,
+    "sEndM": 0,
+    "historyWindow": 60,
+    "minSamples": 20,
+    "centerMode": "Median",
+    "activityThreshold": 1.2
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "a5e23b7a3df97d1b",
+  "createdAt": 1788946448874
+}

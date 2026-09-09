@@ -1,0 +1,38 @@
+{
+  "id": "unknown-strategy-22a041",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/FojCZ7FN-Aurora-Channel-V1",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "isAnyCross"
+    ]
+  },
+  "parameters": {
+    "maSelectMode": "Auto (Adaptive AI",
+    "manualMaType": "EMA",
+    "noisePenalty": 1.5,
+    "baseLen": 20,
+    "bbMult": 2,
+    "atrLen": 14,
+    "volLen": 20,
+    "volSens": 0.5,
+    "diffMaLen": 10,
+    "onlyOnBreakout": false,
+    "envLen": 14,
+    "envMult": 0.5,
+    "envVolSens": 0.6,
+    "trigBuffMult": 0.25,
+    "trigTrackMode": "Dynamic Tracking",
+    "crossTarget": "Aurora Bands",
+    "crossMaLen": 14,
+    "paintBars": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "22a0414c4f71d1d5",
+  "createdAt": 1788946499200
+}

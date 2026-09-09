@@ -1,0 +1,30 @@
+{
+  "id": "unknown-strategy-e73a30",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/0jssxZUC-MSnR-Double-Breakout-Level",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "candleLen": 200,
+    "maxLevels": 6,
+    "extendRight": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "e73a305b14cd47ea",
+  "createdAt": 1788945955595
+}

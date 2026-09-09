@@ -1,0 +1,102 @@
+{
+  "id": "cci-divergence-volume-breakout-josseliani-28c8d4",
+  "name": "CCI Divergence Volume Breakout [josseliani]",
+  "source": "https://www.tradingview.com/script/YY0gbu2C-CCI-Divergence-Volume-Breakout-josseliani",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "PIVOT_HIGH",
+      "params": {
+        "period": 3
+      },
+      "outputKey": "pivot_high3"
+    },
+    {
+      "type": "PIVOT_HIGH",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "pivot_high5"
+    },
+    {
+      "type": "PIVOT_HIGH",
+      "params": {
+        "period": 7
+      },
+      "outputKey": "pivot_high7"
+    },
+    {
+      "type": "PIVOT_HIGH",
+      "params": {
+        "period": 9
+      },
+      "outputKey": "pivot_high9"
+    },
+    {
+      "type": "PIVOT_LOW",
+      "params": {
+        "period": 3
+      },
+      "outputKey": "pivot_low3"
+    },
+    {
+      "type": "PIVOT_LOW",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "pivot_low5"
+    },
+    {
+      "type": "PIVOT_LOW",
+      "params": {
+        "period": 7
+      },
+      "outputKey": "pivot_low7"
+    },
+    {
+      "type": "PIVOT_LOW",
+      "params": {
+        "period": 9
+      },
+      "outputKey": "pivot_low9"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "newDir == 1",
+      "newDir == -1"
+    ]
+  },
+  "parameters": {
+    "cciLength": 20,
+    "extremeLevel": 150,
+    "maxDivergenceBars": 60,
+    "pricePivotRadius": 7,
+    "spanTolerancePct": 35,
+    "volumeAverageLength": 20,
+    "minimumVolumeMultiple": 1.5,
+    "candidateSearchBars": 15,
+    "maximumCandidates": 1,
+    "maximumSetupBars": 40,
+    "extendExpiredLevels": true,
+    "signalBadgeOffsetAtr": 1.25,
+    "tradeStopDeltaAtr": 0.5,
+    "tradeEvaluationBars": 60,
+    "tradeProjectionBars": 12,
+    "statisticsSampleMode": "All Signals"
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "28c8d4043cc05534",
+  "createdAt": 1788946075134
+}

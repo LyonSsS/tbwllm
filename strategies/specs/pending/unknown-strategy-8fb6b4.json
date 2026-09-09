@@ -1,0 +1,35 @@
+{
+  "id": "unknown-strategy-8fb6b4",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/j1gHuCnQ-Cross-Asset-Session-Impulse-Engine-PhenLabs",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "customTz": "America/New_York",
+    "orBars": 6,
+    "atrLen": 14,
+    "t1Mul": 1,
+    "t2Mul": 1.618,
+    "minK": 2,
+    "use1": true,
+    "inv1": false,
+    "use2": true,
+    "inv2": false,
+    "use3": true,
+    "inv3": true,
+    "use4": false,
+    "inv4": false,
+    "useVol": false,
+    "volLen": 20,
+    "volMin": 1.2
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "8fb6b49a4c69a130",
+  "createdAt": 1788946187399
+}

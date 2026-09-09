@@ -1,0 +1,19 @@
+{
+  "id": "unknown-strategy-ffa06b",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/mmrInMTp-Momentum-Sequence-Strategy-Herman",
+  "version": "1",
+  "strategyType": "session",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH"
+  },
+  "parameters": {
+    "followingCandles": 5,
+    "takeProfitR": "1.5R"
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "ffa06b058b012a6d",
+  "createdAt": 1788945443354
+}

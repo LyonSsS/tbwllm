@@ -1,0 +1,40 @@
+{
+  "id": "unknown-strategy-908282",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/kByFhbit-Order-Flow-Bar-Statistics-QuantAlgo",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "rising(shown_buy)",
+      "falling(shown_buy)",
+      "rising(shown_sell)",
+      "falling(shown_sell)"
+    ]
+  },
+  "parameters": {
+    "liq_naming": "Liquidated position side",
+    "net_mode": "Delta and OI split",
+    "fr_scale": "Decimal to percent",
+    "fr_heat_mode": "Level",
+    "heat_length": 50,
+    "ticks_per_row": 5000,
+    "delta_engine": "Bid/ask engine",
+    "swap_feeds": false,
+    "abbreviate": true,
+    "decimal_mode": "Auto",
+    "na_text": "N/A",
+    "name_gap": 0.15,
+    "max_columns": 30,
+    "color_preset": "Custom",
+    "heat_gamma": 0.55,
+    "text_size_in": "Small",
+    "tint_by_delta": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "9082825c69ebb709",
+  "createdAt": 1788946283092
+}

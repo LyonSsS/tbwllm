@@ -1,0 +1,36 @@
+{
+  "id": "unknown-strategy-918c97",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/RnQYUlbV-Breaker-Block-Detector-algotim",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      ") calls allow users to set persistent alerts from the // TradingView Alerts panel in addition to the programmatic alert() calls above. alertcondition( bullBOS and isDisplacement",
+      "bearBOS and isDisplacement"
+    ]
+  },
+  "parameters": {
+    "i_swingLen": 10,
+    "i_bosConfirm": "Close",
+    "i_maxBreakers": 5,
+    "i_atrLen": 14,
+    "i_dispMult": 1.5,
+    "i_obLookback": 3,
+    "i_zoneExtend": 40,
+    "i_showMitLabel": true,
+    "i_showBosLine": true,
+    "i_alertNewBull": true,
+    "i_alertNewBear": true,
+    "i_alertRetBull": true,
+    "i_alertRetBear": true,
+    "i_alertInvBull": true,
+    "i_alertInvBear": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "918c97949f964a9c",
+  "createdAt": 1788945575974
+}

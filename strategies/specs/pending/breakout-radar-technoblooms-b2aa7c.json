@@ -1,0 +1,38 @@
+{
+  "id": "breakout-radar-technoblooms-b2aa7c",
+  "name": "Breakout Radar (TechnoBlooms)",
+  "source": "https://www.tradingview.com/script/p40tl5M6-Breakout-Radar-TechnoBlooms",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "setupActive and",
+      "setupActive and",
+      "setupActive and",
+      "setupActive and"
+    ]
+  },
+  "parameters": {
+    "compressionLength": 12,
+    "atrLength": 14,
+    "atrBaseLength": 50,
+    "bbLength": 20,
+    "bbMult": 2,
+    "pressureLength": 10,
+    "boundaryTolerance": 0.2,
+    "compressionTrigger": 60,
+    "buildingLevel": 45,
+    "watchLevel": 60,
+    "armedLevel": 75,
+    "breakoutBufferATR": 0.1,
+    "invalidationBufferATR": 0.35,
+    "overlapLimit": 65,
+    "minBoxGapATR": 0.25
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "b2aa7c1c02ddca29",
+  "createdAt": 1788945794619
+}

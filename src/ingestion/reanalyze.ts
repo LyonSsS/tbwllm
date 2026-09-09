@@ -28,7 +28,10 @@ const args = process.argv.slice(2);
 const clean = args.includes('--clean');
 const reportOnly = args.includes('--report');
 
-type Curation = { skip?: string } & Partial<StrategySpec>;
+// `skip` = keep this script out of the corpus; `category` records why.
+// See docs/triage.md.
+type SkipCategory = 'not-a-strategy' | 'too-custom' | 'no-edge' | 'duplicate';
+type Curation = { skip?: string; category?: SkipCategory } & Partial<StrategySpec>;
 
 function loadCuration(): Record<string, Curation> {
   try {
@@ -92,6 +95,7 @@ function main(): void {
   let skippedViz = 0;
   let skippedParse = 0;
   let skippedCurated = 0;
+  const skipByCategory: Record<string, number> = {};
   const cond = { evaluable: 0, bare: 0, none: 0 };
   const conf = { hi: 0, mid: 0, lo: 0 };
   const unknown: Record<string, number> = {};
@@ -104,7 +108,12 @@ function main(): void {
     for (const u of a.unknownIndicators) unknown[u] = (unknown[u] ?? 0) + 1;
 
     const cur = curation[a.rawHash];
-    if (cur?.skip) { skippedCurated++; continue; }
+    if (cur?.skip) {
+      skippedCurated++;
+      const cat = cur.category ?? 'uncategorised';
+      skipByCategory[cat] = (skipByCategory[cat] ?? 0) + 1;
+      continue;
+    }
     if (!a.isTradeable) { skippedViz++; continue; }
 
     const id = makeSpecId(a.partial.name ?? 'unknown', a.rawHash);
@@ -132,7 +141,8 @@ function main(): void {
   const dest = reportOnly ? '(report only — nothing written)' : OUT_DIR;
   console.log(`\n[reanalyze] ${files.length} raw → ${written} specs  ${dest}`);
   console.log(`  ${enriched} manually enriched (curation.json)`);
-  console.log(`  skipped:    ${skippedViz} non-tradeable, ${skippedCurated} curated-skip, ${skippedParse} parse-failed`);
+  const catStr = Object.entries(skipByCategory).map(([k, v]) => `${v} ${k}`).join(', ');
+  console.log(`  skipped:    ${skippedViz} non-tradeable, ${skippedCurated} curated-skip${catStr ? ` (${catStr})` : ''}, ${skippedParse} parse-failed`);
   console.log(`  entry:      ${cond.evaluable} evaluable · ${cond.bare} bare-identifier · ${cond.none} none`);
   console.log(`  confidence: ${conf.hi} >=0.50 · ${conf.mid} 0.40-0.49 · ${conf.lo} <0.40`);
 

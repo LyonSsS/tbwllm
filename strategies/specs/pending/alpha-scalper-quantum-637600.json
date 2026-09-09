@@ -1,0 +1,60 @@
+{
+  "id": "alpha-scalper-quantum-637600",
+  "name": "Alpha Scalper Quantum",
+  "source": "https://www.tradingview.com/script/zq3I2bwS-Alpha-Scalper-Quantum",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 8
+      },
+      "outputKey": "ema8"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "sig1Buy and barConfirmed",
+      "sig2Buy and barConfirmed",
+      "sig1Sell and barConfirmed",
+      "sig2Sell and barConfirmed"
+    ]
+  },
+  "parameters": {
+    "length": 14,
+    "useVW": false,
+    "useHTF": false,
+    "ob": 70,
+    "os": 30,
+    "waitConfirmation": false,
+    "ma1Type": "EMA",
+    "ma1Len": 8,
+    "ma2Type": "EMA",
+    "ma2Len": 16,
+    "ma3Type": "EMA",
+    "ma3Len": 30,
+    "ma4Type": "EMA",
+    "ma4Len": 50,
+    "microBuyShape": "Circle",
+    "microSellShape": "Circle",
+    "macroBuyShape": "Square",
+    "macroSellShape": "Square",
+    "divBullShape": "Triangle Up",
+    "divBearShape": "Triangle Down",
+    "candleOpacity": 0,
+    "pivotLeft": 3,
+    "pivotRight": 1,
+    "pivotLineLength": 20,
+    "maxPivotLines": 100,
+    "divPivotLen": 2,
+    "divMinStrength": 0.3,
+    "divMinDistance": 10
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "63760047a614f6d0",
+  "createdAt": 1788946372851
+}

@@ -1,0 +1,38 @@
+{
+  "id": "ema-trend-pro-96d2e5",
+  "name": "EMA Trend Pro",
+  "source": "https://www.tradingview.com/script/I74w6eYG-EMA-Trend-Pro",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "xUp and (not useHtf or htfBull) and sepOk",
+      "bull and not bull[1]",
+      "xDown and (not useHtf or not htfBull) and sepOk"
+    ]
+  },
+  "parameters": {
+    "maType": "EMA",
+    "fastLen": 21,
+    "slowLen": 55,
+    "useHtf": true,
+    "useAtr": false,
+    "atrMult": 0.25,
+    "colorBars": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "96d2e5b745b482fa",
+  "createdAt": 1788945495111
+}

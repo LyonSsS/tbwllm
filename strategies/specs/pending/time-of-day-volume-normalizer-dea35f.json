@@ -1,0 +1,33 @@
+{
+  "id": "time-of-day-volume-normalizer-dea35f",
+  "name": "Time-of-day volume normalizer",
+  "source": "https://www.tradingview.com/script/XfIwYG1Z-Time-of-day-volume-normalizer",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "barstate.isconfirmed and not na(rawZ) and rawZ >= alertThreshold",
+      "barstate.isconfirmed and not na(rawZ) and rawZ <= -alertThreshold"
+    ]
+  },
+  "parameters": {
+    "tzIn": "America/New_York",
+    "sStartH": 9,
+    "sStartM": 30,
+    "sEndH": 16,
+    "sEndM": 0,
+    "historyWindow": 60,
+    "minSamples": 20,
+    "scaleMode": "Log volume",
+    "centerMode": "Median / MAD",
+    "plotCap": 5,
+    "alertThreshold": 2,
+    "shadeUnavailable": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "dea35f7e443606fd",
+  "createdAt": 1788946466138
+}

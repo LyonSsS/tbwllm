@@ -1,0 +1,42 @@
+{
+  "id": "candle-club-session-levels-ccb908",
+  "name": "Candle Club - Session Levels",
+  "source": "https://www.tradingview.com/script/UsCE5eHM-Candle-Club-Session-Levels",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "isOK and xPDH and not na(pdh[1]) and pdh == pdh[1]",
+      "isOK and xPDL and not na(pdl[1]) and pdl == pdl[1]",
+      "isOK and xPDC and not na(pdc[1]) and pdc == pdc[1]"
+    ]
+  },
+  "parameters": {
+    "tzChoice": "Exchange",
+    "daysShow": 3,
+    "extendRight": true,
+    "wPD": 1,
+    "stPDIn": "Solid",
+    "pdCash": false,
+    "wON": 1,
+    "stONIn": "Dashed",
+    "wOpen": 1,
+    "stOpenIn": "Dotted",
+    "themeNeutral": true,
+    "shadeRTH": false,
+    "lookDays": 5,
+    "clusterD": 40,
+    "roundStep": 100,
+    "roundN": 2,
+    "wRound": 1,
+    "stRoundIn": "Dotted",
+    "lblSizeIn": "Small",
+    "tblPosIn": "Top right"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "ccb90879eded56c4",
+  "createdAt": 1788945922704
+}
