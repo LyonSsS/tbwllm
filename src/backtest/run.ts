@@ -158,17 +158,30 @@ function all(candles: Candle[]): void {
     `**Read across the windows, not down one.** A strategy whose rank/return swings wildly between the 3y, 5y and 8y tables is fragile — its result is a few outsized trades and warm-up luck, not an edge. Consistency across windows (and the sweep's "% of trials profitable") is the signal.`,
   ];
 
+  const date = new Date().toISOString().slice(0, 10);
+  const report: string[] = [
+    `Backtest report — ${SYMBOL} ${TF} · ${date} · ${BT_COST_BPS} bps/side cost`,
+    `data ${new Date(candles[0].timestamp).toISOString().slice(0, 10)} → ${new Date(lastTs).toISOString().slice(0, 10)}`,
+    `Read across the windows, not down one — a strategy whose result swings between windows is fragile, not an edge.`,
+  ];
+
   for (const w of windows) {
     const rows = rankOver(w.candles, w.years === windows[windows.length - 1].years); // detail JSON from the longest window
     const hold = rows[0]?.hold ?? 0;
     const heading = `${w.years} years  ·  ${w.candles.length} bars  ·  buy & hold ${pct(hold)}`;
+    const table = boxTable(rows);
     sections.push(``, `## ${heading}`, ``, mdTable(rows));
+    report.push(``, heading, table);
     console.log(`\n${heading}`);
-    console.log(boxTable(rows));
+    console.log(table);
   }
 
   fs.writeFileSync(path.join(RESULTS_DIR, 'RANKING.md'), sections.join('\n') + '\n');
-  console.log(`\nwrote ${RESULTS_DIR}/RANKING.md (${windows.length} windows)`);
+
+  fs.mkdirSync('reports', { recursive: true });
+  const reportFile = `reports/backtest_${windows.map(w => w.years).join('-')}y_${date}.txt`;
+  fs.writeFileSync(reportFile, report.join('\n') + '\n');
+  console.log(`\nwrote ${RESULTS_DIR}/RANKING.md and ${reportFile}`);
 }
 
 const args = process.argv.slice(2);
