@@ -16,7 +16,9 @@
     "ingest:static": "tsx src/ingestion/cli.ts --no-llm",
     "reanalyze": "tsx src/ingestion/reanalyze.ts",
     "assemble": "tsx src/assembly/cli.ts",
+    "data:fetch": "tsx src/data/cli.ts",
     "backtest": "tsx src/backtest/run.ts",
+    "sweep": "tsx src/backtest/sweep.ts",
     "bot:paper": "tsx src/bot/paper-trader.ts",
     "bot:webhook": "tsx src/bot/webhook-server.ts"
   },

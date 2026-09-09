@@ -41,6 +41,7 @@ export const BacktestMetricsSchema = z.object({
   sharpeRatio: z.number().optional(),
   maxDrawdown: z.number(),
   totalReturn: z.number(),
+  buyHoldReturn: z.number().optional(),   // close-to-close over the same bars, %
 });
 export type BacktestMetrics = z.infer<typeof BacktestMetricsSchema>;
 

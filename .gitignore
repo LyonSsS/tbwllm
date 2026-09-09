@@ -49,9 +49,10 @@ lerna-debug.log*
 .DS_Store
 
 # Data & Cache
-data/
+/data/
 strategies/raw/
 strategies/unknown-indicators.json
+strategies/results/*.json
 *.csv
 *.json.gz
 
