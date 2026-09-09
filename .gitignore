@@ -52,6 +52,7 @@ lerna-debug.log*
 /data/
 strategies/raw/
 strategies/unknown-indicators.json
+strategies/results/*.json
 *.csv
 *.json.gz
 

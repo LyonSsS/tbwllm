@@ -81,7 +81,9 @@ export function runBacktest(signals: Signal[], candles: Candle[], opts: Backtest
     rets.push(held * mkt - turnover * cost);
   }
 
-  return { trades, metrics: metricsFrom(rets, trades, barsPerYear) };
+  const metrics = metricsFrom(rets, trades, barsPerYear);
+  metrics.buyHoldReturn = (candles[n - 1].close / candles[0].close - 1) * 100;
+  return { trades, metrics };
 }
 
 function metricsFrom(rets: number[], trades: Trade[], barsPerYear: number): BacktestMetrics {

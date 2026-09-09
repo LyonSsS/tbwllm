@@ -17,6 +17,7 @@ const SPECS_DIR = 'strategies/specs/pending';
 const SOURCE = process.env.BT_SOURCE ?? 'binance';
 const SYMBOL = process.env.BT_SYMBOL ?? 'BTC/USDT';
 const TF = process.env.BT_TF ?? '1h';
+const BT_COST_BPS = Number(process.env.BT_COST_BPS) || 5;
 
 function candlesOrDie(): Candle[] {
   const c = findCached(SOURCE, SYMBOL, TF);
@@ -41,7 +42,7 @@ function one(specId: string, candles: Candle[]): void {
     console.log(`  ✗ unassemblable — ${a.reason}`);
     return;
   }
-  const { trades, metrics: m } = runBacktest(a.run(candles), candles);
+  const { trades, metrics: m } = runBacktest(a.run(candles), candles, { costBps: BT_COST_BPS });
   console.log(`  trades ${m.totalTrades}  win ${(m.winRate * 100).toFixed(0)}%  return ${pct(m.totalReturn)}  ` +
     `Sharpe ${m.sharpeRatio!.toFixed(2)}  maxDD ${m.maxDrawdown.toFixed(1)}%  avgTrade ${pct(m.avgPnl)}`);
   if (trades.length) {
@@ -51,21 +52,57 @@ function one(specId: string, candles: Candle[]): void {
 }
 
 function all(candles: Candle[]): void {
-  const rows: Array<{ id: string; ret: number; sharpe: number; dd: number; trades: number }> = [];
+  const RESULTS_DIR = 'strategies/results';
+  fs.mkdirSync(RESULTS_DIR, { recursive: true });
+
+  const spanYears = (candles[candles.length - 1].timestamp - candles[0].timestamp) / (365.25 * 24 * 3600 * 1000);
+  const market = `${SYMBOL} ${TF}`;
+  type Row = { id: string; name: string; ret: number; hold: number; sharpe: number; dd: number; trades: number; win: number };
+  const rows: Row[] = [];
+
   for (const f of fs.readdirSync(SPECS_DIR).filter(f => f.endsWith('.json')).sort()) {
     const spec = loadSpec(path.join(SPECS_DIR, f));
     const a = assemble(spec);
     if ('unassemblable' in a) continue;
-    const { metrics: m } = runBacktest(a.run(candles), candles);
-    rows.push({ id: spec.id, ret: m.totalReturn, sharpe: m.sharpeRatio ?? 0, dd: m.maxDrawdown, trades: m.totalTrades });
+    const result = runBacktest(a.run(candles), candles, { costBps: BT_COST_BPS });
+    const m = result.metrics;
+    rows.push({
+      id: spec.id, name: spec.name,
+      ret: m.totalReturn, hold: m.buyHoldReturn ?? 0,
+      sharpe: m.sharpeRatio ?? 0, dd: m.maxDrawdown, trades: m.totalTrades, win: m.winRate,
+    });
+    // Per-strategy detail (regenerable; gitignored).
+    fs.writeFileSync(path.join(RESULTS_DIR, `${spec.id}.json`), JSON.stringify({
+      specId: spec.id, name: spec.name, market, bars: candles.length,
+      runAt: new Date().toISOString(), ...result,
+    }, null, 2));
   }
-  rows.sort((x, y) => y.sharpe - x.sharpe);
-  console.log(`\n${'strategy'.padEnd(46)} ${'return'.padStart(9)} ${'Sharpe'.padStart(7)} ${'maxDD'.padStart(7)} ${'trades'.padStart(7)}`);
+
+  rows.sort((x, y) => y.ret - x.ret); // best return → worst
+
+  // Console
+  console.log(`\n${'strategy'.padEnd(44)} ${'return'.padStart(9)} ${'vs hold'.padStart(9)} ${'Sharpe'.padStart(7)} ${'maxDD'.padStart(7)} ${'trades'.padStart(7)}`);
   for (const r of rows) {
-    console.log(`${r.id.slice(0, 46).padEnd(46)} ${pct(r.ret).padStart(9)} ${r.sharpe.toFixed(2).padStart(7)} ${r.dd.toFixed(1).padStart(6)}% ${String(r.trades).padStart(7)}`);
+    console.log(`${r.id.slice(0, 44).padEnd(44)} ${pct(r.ret).padStart(9)} ${pct(r.ret - r.hold).padStart(9)} ${r.sharpe.toFixed(2).padStart(7)} ${r.dd.toFixed(1).padStart(6)}% ${String(r.trades).padStart(7)}`);
   }
-  const spanYears = (candles[candles.length - 1].timestamp - candles[0].timestamp) / (365.25 * 24 * 3600 * 1000);
-  console.log(`\n${rows.length} assemblable · ${candles.length} bars (${spanYears.toFixed(1)}y) ${SYMBOL} ${TF}`);
+  console.log(`\n${rows.length} assemblable · ${candles.length} bars (${spanYears.toFixed(1)}y) ${market} · buy & hold ${pct(rows[0]?.hold ?? 0)}`);
+
+  // Committed leaderboard
+  const md = [
+    `# Backtest ranking`,
+    ``,
+    `${market} · ${candles.length} bars (${spanYears.toFixed(1)}y) · ${new Date().toISOString().slice(0, 10)} · buy & hold **${pct(rows[0]?.hold ?? 0)}** · ${(BT_COST_BPS)} bps/side cost`,
+    ``,
+    `Sorted by total return. "vs hold" = strategy return minus buy-and-hold over the same bars.`,
+    ``,
+    `| # | strategy | return | vs hold | Sharpe | maxDD | win% | trades |`,
+    `|--:|----------|-------:|--------:|-------:|------:|-----:|-------:|`,
+    ...rows.map((r, i) =>
+      `| ${i + 1} | ${r.name} | ${pct(r.ret)} | ${pct(r.ret - r.hold)} | ${r.sharpe.toFixed(2)} | ${r.dd.toFixed(1)}% | ${(r.win * 100).toFixed(0)}% | ${r.trades} |`),
+    ``,
+  ].join('\n');
+  fs.writeFileSync(path.join(RESULTS_DIR, 'RANKING.md'), md);
+  console.log(`\nwrote ${RESULTS_DIR}/RANKING.md + ${rows.length} result files`);
 }
 
 const args = process.argv.slice(2);
