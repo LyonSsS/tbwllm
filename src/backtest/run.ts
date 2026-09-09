@@ -99,22 +99,26 @@ function mdTable(rows: Row[]): string {
   ].join('\n');
 }
 
-// Bordered console table: centered headers, a rule between every data row,
-// strategy left-aligned, everything else right-aligned, integer percents.
+// Bordered console table: box-drawing borders, centered headers, a rule
+// between every data row, strategy left-aligned (clipped to a fixed width so
+// the table never wraps), everything else right-aligned.
+const NAME_W = 26;
+
 function boxTable(rows: Row[]): string {
   const ipct = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(Math.round(x))}%`;
-  const num = (x: number) => x.toFixed(2).replace('-', '−');
+  const clip = (s: string) => (s.length <= NAME_W ? s : s.slice(0, NAME_W - 1) + '…');
+  const dash = '—';
   const body = rows.map((r, i) => [
     String(i + 1),
-    r.name.slice(0, 40),
-    ipct(r.ret),
-    ipct(r.ret - r.hold),
-    num(r.sharpe),
-    `${Math.round(r.dd)}%`,
+    clip(r.name),
+    r.trades === 0 ? dash : ipct(r.ret),
+    r.trades === 0 ? dash : ipct(r.ret - r.hold),
+    r.trades === 0 ? dash : r.sharpe.toFixed(2).replace('-', '−'),
+    r.trades === 0 ? dash : `${Math.round(r.dd)}%`,
     String(r.trades),
   ]);
   const headers = [...COLS];
-  const w = headers.map((h, i) => Math.max(h.length, ...body.map(r => r[i].length)));
+  const w = headers.map((h, i) => Math.max(h.length, i === 0 ? 3 : 0, ...body.map(r => r[i].length)));
 
   const center = (s: string, width: number) => {
     const left = Math.floor((width - s.length) / 2);
@@ -125,10 +129,11 @@ function boxTable(rows: Row[]): string {
   const dataLine = (c: string[]) => '│ ' + c.map((v, i) => (i === 1 ? v.padEnd(w[i]) : v.padStart(w[i]))).join(' │ ') + ' │';
 
   const out = [rule('┌', '┬', '┐'), headLine, rule('├', '┼', '┤')];
-  body.forEach((c, i) => {
+  body.forEach((c) => {
     out.push(dataLine(c));
-    out.push(i < body.length - 1 ? rule('├', '┼', '┤') : rule('└', '┴', '┘'));
+    out.push(rule('├', '┼', '┤'));
   });
+  out[out.length - 1] = rule('└', '┴', '┘');
   return out.join('\n');
 }
 
