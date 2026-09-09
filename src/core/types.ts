@@ -173,6 +173,7 @@ export const StrategySpecSchema = z.object({
   // assembler's indicator library. Values may reference `parameters` by name.
   bindings: z.record(z.object({
     type: z.string(),
+    source: z.string().optional(),   // another binding/series to compute on (else candle close)
     params: z.record(z.union([z.number(), z.string()])).optional(),
   })).optional(),
 
