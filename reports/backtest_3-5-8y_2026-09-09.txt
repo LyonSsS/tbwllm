@@ -1,5 +1,12 @@
 Backtest report — BTC/USDT 1h · 2026-09-09 · 5 bps/side cost
 data 2017-08-17 → 2025-08-31
+
+return  = strategy's total % gain/loss over the window
+vs hold = that return minus buy-and-hold BTC over the same bars  (positive = beat just holding)
+Sharpe  = mean bar-return / its std-dev, annualised  (>1 good · ~0 flat · <0 losing)
+maxDD   = largest peak-to-trough drop in account value over the window  (lower = smoother)
+trades  = round-trip positions; "—" = the strategy assembled but never met a condition
+
 Read across the windows, not down one — a strategy whose result swings between windows is fragile, not an edge.
 
 3 years  ·  26298 bars  ·  buy & hold +440.2%

@@ -148,22 +148,39 @@ function all(candles: Candle[]): void {
     .filter(y => y <= fullYears + 0.1)
     .map(y => ({ years: y, candles: candles.filter(c => c.timestamp >= lastTs - y * YEAR_MS) }));
 
+  const legend = [
+    `return  = strategy's total % gain/loss over the window`,
+    `vs hold = that return minus buy-and-hold BTC over the same bars  (positive = beat just holding)`,
+    `Sharpe  = mean bar-return / its std-dev, annualised  (>1 good · ~0 flat · <0 losing)`,
+    `maxDD   = largest peak-to-trough drop in account value over the window  (lower = smoother)`,
+    `trades  = round-trip positions; "—" = the strategy assembled but never met a condition`,
+  ];
+
   const sections: string[] = [
     `# Backtest ranking`,
     ``,
     `${SYMBOL} ${TF} · ${new Date().toISOString().slice(0, 10)} · ${BT_COST_BPS} bps/side cost · data ${new Date(candles[0].timestamp).toISOString().slice(0, 10)} → ${new Date(lastTs).toISOString().slice(0, 10)}`,
     ``,
-    `Each table is the same strategies over a different trailing window. Sorted by total return; "vs hold" = strategy return minus buy-and-hold over those bars.`,
+    '```',
+    ...legend,
+    '```',
     ``,
-    `**Read across the windows, not down one.** A strategy whose rank/return swings wildly between the 3y, 5y and 8y tables is fragile — its result is a few outsized trades and warm-up luck, not an edge. Consistency across windows (and the sweep's "% of trials profitable") is the signal.`,
+    `Each table is the same strategies over a different trailing window, sorted by total return.`,
+    ``,
+    `**Read across the windows, not down one.** A strategy whose rank/return swings wildly between the 3y, 5y and 8y tables is fragile — a few outsized trades and warm-up luck, not an edge. Consistency across windows (and the sweep's "% of trials profitable") is the signal.`,
   ];
 
   const date = new Date().toISOString().slice(0, 10);
   const report: string[] = [
     `Backtest report — ${SYMBOL} ${TF} · ${date} · ${BT_COST_BPS} bps/side cost`,
     `data ${new Date(candles[0].timestamp).toISOString().slice(0, 10)} → ${new Date(lastTs).toISOString().slice(0, 10)}`,
+    ``,
+    ...legend,
+    ``,
     `Read across the windows, not down one — a strategy whose result swings between windows is fragile, not an edge.`,
   ];
+
+  console.log(`\n${legend.join('\n')}`);
 
   for (const w of windows) {
     const rows = rankOver(w.candles, w.years === windows[windows.length - 1].years); // detail JSON from the longest window

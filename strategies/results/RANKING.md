@@ -2,9 +2,17 @@
 
 BTC/USDT 1h · 2026-09-09 · 5 bps/side cost · data 2017-08-17 → 2025-08-31
 
-Each table is the same strategies over a different trailing window. Sorted by total return; "vs hold" = strategy return minus buy-and-hold over those bars.
+```
+return  = strategy's total % gain/loss over the window
+vs hold = that return minus buy-and-hold BTC over the same bars  (positive = beat just holding)
+Sharpe  = mean bar-return / its std-dev, annualised  (>1 good · ~0 flat · <0 losing)
+maxDD   = largest peak-to-trough drop in account value over the window  (lower = smoother)
+trades  = round-trip positions; "—" = the strategy assembled but never met a condition
+```
 
-**Read across the windows, not down one.** A strategy whose rank/return swings wildly between the 3y, 5y and 8y tables is fragile — its result is a few outsized trades and warm-up luck, not an edge. Consistency across windows (and the sweep's "% of trials profitable") is the signal.
+Each table is the same strategies over a different trailing window, sorted by total return.
+
+**Read across the windows, not down one.** A strategy whose rank/return swings wildly between the 3y, 5y and 8y tables is fragile — a few outsized trades and warm-up luck, not an edge. Consistency across windows (and the sweep's "% of trials profitable") is the signal.
 
 ## 3 years  ·  26298 bars  ·  buy & hold +440.2%
 
