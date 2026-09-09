@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-9c347d",
-  "name": "Unknown Strategy",
+  "id": "failed-auction-detector-v2-9c347d",
+  "name": "Failed Auction Detector v2",
   "source": "https://www.tradingview.com/script/rDboLLir-Failed-Auction-Detector",
   "version": "1",
   "strategyType": "pattern",
@@ -54,5 +54,5 @@
   "parsedBy": "static",
   "confidence": 0.54,
   "rawHash": "9c347d2d6d8d9e61",
-  "createdAt": 1788946129702
+  "createdAt": 1788960445836
 }

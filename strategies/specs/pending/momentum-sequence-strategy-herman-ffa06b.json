@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-ffa06b",
-  "name": "Unknown Strategy",
+  "id": "momentum-sequence-strategy-herman-ffa06b",
+  "name": "Momentum Sequence Strategy [Herman]",
   "source": "https://www.tradingview.com/script/mmrInMTp-Momentum-Sequence-Strategy-Herman",
   "version": "1",
   "strategyType": "session",
@@ -15,5 +15,5 @@
   "parsedBy": "static",
   "confidence": 0.3,
   "rawHash": "ffa06b058b012a6d",
-  "createdAt": 1788945443354
+  "createdAt": 1788960445922
 }

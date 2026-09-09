@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-0fcf3e",
-  "name": "Unknown Strategy",
+  "id": "volatility-supply-and-demand-zones-0fcf3e",
+  "name": "Volatility Supply and Demand Zones",
   "source": "https://www.tradingview.com/script/MIUcoyUu-Volatility-Supply-and-Demand-Zones",
   "version": "1",
   "strategyType": "pattern",
@@ -40,5 +40,5 @@
   "parsedBy": "static",
   "confidence": 0.54,
   "rawHash": "0fcf3e6f2040893f",
-  "createdAt": 1788873265687
+  "createdAt": 1788960445667
 }

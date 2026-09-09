@@ -1,6 +1,6 @@
 {
   "id": "aurora-flux-vwap-df462d",
-  "name": "Aurora Flux — VWAP ",
+  "name": "Aurora Flux — VWAP",
   "source": "https://www.tradingview.com/script/bxlJMSSy-Aurora-FLux-VWAP-V2-Drizzle-ALGO56",
   "version": "1",
   "strategyType": "condition",

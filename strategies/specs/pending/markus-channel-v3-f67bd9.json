@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-f67bd9",
-  "name": "Unknown Strategy",
+  "id": "markus-channel-v3-f67bd9",
+  "name": "Markus Channel v3",
   "source": "https://www.tradingview.com/script/jxSzAth6-Markus-Channel-Dual-Expansion-Envelopes-V1",
   "version": "1",
   "strategyType": "condition",
@@ -44,5 +44,5 @@
   "parsedBy": "static",
   "confidence": 0.3,
   "rawHash": "f67bd9e3c340f0e5",
-  "createdAt": 1788946623414
+  "createdAt": 1788960445910
 }

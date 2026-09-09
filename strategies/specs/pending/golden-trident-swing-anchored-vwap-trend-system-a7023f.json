@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-a7023f",
-  "name": "Unknown Strategy",
+  "id": "golden-trident-swing-anchored-vwap-trend-system-a7023f",
+  "name": "Golden Trident | Swing-Anchored VWAP Trend System",
   "source": "https://www.tradingview.com/script/Eq4kPrrJ-Golden-Trident-Swing-Anchored-VWAP-Trend-System",
   "version": "1",
   "strategyType": "condition",
@@ -22,5 +22,5 @@
   "parsedBy": "static",
   "confidence": 0.3,
   "rawHash": "a7023fdcabdadede",
-  "createdAt": 1788945962877
+  "createdAt": 1788960445842
 }

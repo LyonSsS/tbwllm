@@ -12,7 +12,7 @@ Each table is the same strategies over a different trailing window. Sorted by to
 |--:|----------|-------:|--------:|-------:|------:|-------:|
 | 1 | EMA + RSI + VWAP Targets | +233.3% | -206.9% | 1.08 | 33.4% | 24 |
 | 2 | Gold Macro & Fiat Valuation Barometer | +0.0% | -440.2% | 0.00 | 0.0% | 0 |
-| 3 | Unknown Strategy | +0.0% | -440.2% | 0.00 | 0.0% | 0 |
+| 3 | TP/SL Signals + Days & Zones | +0.0% | -440.2% | 0.00 | 0.0% | 0 |
 | 4 | EMA 50×200 Cross — Trend Barometer | -0.7% | -440.9% | 0.23 | 55.5% | 153 |
 | 5 | EMA Trend Signals | -54.9% | -495.0% | -0.32 | 73.0% | 480 |
 | 6 | RSI with Bollinger Bands | -88.2% | -528.3% | -1.25 | 90.4% | 843 |
@@ -23,7 +23,7 @@ Each table is the same strategies over a different trailing window. Sorted by to
 |--:|----------|-------:|--------:|-------:|------:|-------:|
 | 1 | EMA + RSI + VWAP Targets | +14.2% | -810.2% | 0.35 | 95.1% | 89 |
 | 2 | Gold Macro & Fiat Valuation Barometer | +0.0% | -824.4% | 0.00 | 0.0% | 0 |
-| 3 | Unknown Strategy | +0.0% | -824.4% | 0.00 | 0.0% | 0 |
+| 3 | TP/SL Signals + Days & Zones | +0.0% | -824.4% | 0.00 | 0.0% | 0 |
 | 4 | EMA 50×200 Cross — Trend Barometer | -25.4% | -849.8% | 0.21 | 77.9% | 264 |
 | 5 | EMA Trend Signals | -34.4% | -858.8% | 0.17 | 83.5% | 770 |
 | 6 | RSI with Bollinger Bands | -97.5% | -921.8% | -0.90 | 98.0% | 1368 |
@@ -36,5 +36,5 @@ Each table is the same strategies over a different trailing window. Sorted by to
 | 2 | EMA + RSI + VWAP Targets | +225.0% | -1966.0% | 0.57 | 90.0% | 45 |
 | 3 | EMA 50×200 Cross — Trend Barometer | +12.3% | -2178.6% | 0.38 | 81.1% | 398 |
 | 4 | Gold Macro & Fiat Valuation Barometer | +0.0% | -2191.0% | 0.00 | 0.0% | 0 |
-| 5 | Unknown Strategy | +0.0% | -2191.0% | 0.00 | 0.0% | 0 |
+| 5 | TP/SL Signals + Days & Zones | +0.0% | -2191.0% | 0.00 | 0.0% | 0 |
 | 6 | RSI with Bollinger Bands | -99.8% | -2290.8% | -0.65 | 99.8% | 2155 |

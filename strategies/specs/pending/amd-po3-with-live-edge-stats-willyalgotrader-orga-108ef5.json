@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-108ef5",
-  "name": "Unknown Strategy",
+  "id": "amd-po3-with-live-edge-stats-willyalgotrader-orga-108ef5",
+  "name": "AMD Po3 with Live Edge Stats [WillyAlgoTrader] — OrGa",
   "source": "https://www.tradingview.com/script/UxVwdeN2",
   "version": "1",
   "strategyType": "mtf_scored",
@@ -69,5 +69,5 @@
   "parsedBy": "static",
   "confidence": 0.54,
   "rawHash": "108ef5de94846f88",
-  "createdAt": 1788945286829
+  "createdAt": 1788960445674
 }

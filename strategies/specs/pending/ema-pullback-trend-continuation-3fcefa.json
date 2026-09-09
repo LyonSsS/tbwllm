@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-3fcefa",
-  "name": "Unknown Strategy",
+  "id": "ema-pullback-trend-continuation-3fcefa",
+  "name": "EMA Pullback Trend Continuation",
   "source": "https://www.tradingview.com/script/PETyqH3b-EMA-Pullback-Trend-Continuation-Strategy-with-Volume-and-Momentu",
   "version": "1",
   "strategyType": "condition",
@@ -50,5 +50,5 @@
   "parsedBy": "static",
   "confidence": 0.9,
   "rawHash": "3fcefa158d7f8ee3",
-  "createdAt": 1788946322645
+  "createdAt": 1788960445719
 }

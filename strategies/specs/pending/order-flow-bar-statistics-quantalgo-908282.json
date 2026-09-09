@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-908282",
-  "name": "Unknown Strategy",
+  "id": "order-flow-bar-statistics-quantalgo-908282",
+  "name": "Order Flow Bar Statistics [QuantAlgo]",
   "source": "https://www.tradingview.com/script/kByFhbit-Order-Flow-Bar-Statistics-QuantAlgo",
   "version": "1",
   "strategyType": "mtf_scored",
@@ -36,5 +36,5 @@
   "parsedBy": "static",
   "confidence": 0.3,
   "rawHash": "9082825c69ebb709",
-  "createdAt": 1788946283092
+  "createdAt": 1788960445827
 }

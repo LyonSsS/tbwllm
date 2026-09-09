@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-0c397f",
-  "name": "Unknown Strategy",
+  "id": "btcusd-supertrend-ema-trend-filter-1h-0c397f",
+  "name": "BTCUSD Supertrend + EMA Trend Filter (1H)",
   "source": "https://www.tradingview.com/script/NgSIfKQx-Bitcoin-SuperFlip-Supertrend-EMA-Trend-Following-Strategy",
   "version": "1",
   "strategyType": "condition",
@@ -37,5 +37,5 @@
   "parsedBy": "static",
   "confidence": 0.6,
   "rawHash": "0c397fc26231c2e3",
-  "createdAt": 1788945408890
+  "createdAt": 1788960445658
 }

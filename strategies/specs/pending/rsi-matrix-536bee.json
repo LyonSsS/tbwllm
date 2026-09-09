@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-536bee",
-  "name": "Unknown Strategy",
+  "id": "rsi-matrix-536bee",
+  "name": "RSI_MATRIX",
   "source": "https://www.tradingview.com/script/PV6cfnjI",
   "version": "1",
   "strategyType": "condition",
@@ -37,5 +37,5 @@
   "parsedBy": "static",
   "confidence": 0.42,
   "rawHash": "536bee7512fd6507",
-  "createdAt": 1788946291588
+  "createdAt": 1788960445750
 }

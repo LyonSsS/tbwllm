@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-8fb6b4",
-  "name": "Unknown Strategy",
+  "id": "cross-asset-session-impulse-engine-phenlabs-8fb6b4",
+  "name": "Cross-Asset Session Impulse Engine [PhenLabs]",
   "source": "https://www.tradingview.com/script/j1gHuCnQ-Cross-Asset-Session-Impulse-Engine-PhenLabs",
   "version": "1",
   "strategyType": "mtf_scored",
@@ -31,5 +31,5 @@
   "parsedBy": "static",
   "confidence": 0.3,
   "rawHash": "8fb6b49a4c69a130",
-  "createdAt": 1788946187399
+  "createdAt": 1788960445824
 }

@@ -1,6 +1,6 @@
 {
-  "id": "unknown-strategy-e73a30",
-  "name": "Unknown Strategy",
+  "id": "msnr-double-breakout-level-e73a30",
+  "name": "MSnR Double Breakout Level",
   "source": "https://www.tradingview.com/script/0jssxZUC-MSnR-Double-Breakout-Level",
   "version": "1",
   "strategyType": "condition",
@@ -26,5 +26,5 @@
   "parsedBy": "static",
   "confidence": 0.42,
   "rawHash": "e73a305b14cd47ea",
-  "createdAt": 1788945955595
+  "createdAt": 1788960445899
 }

@@ -428,8 +428,12 @@ export function analyzePineScript(src: string, url: string): AnalysisResult {
   }
 
   // 4. Infer name from indicator title
-  const titleMatch = src.match(/indicator\s*\(\s*"([^"]+)"/);
-  const name = titleMatch ? titleMatch[1] : 'Unknown Strategy';
+  // Title from indicator(...) / strategy(...) — first string arg, or an
+  // explicit title=/shorttitle=. Handles single or double quotes.
+  const titleMatch =
+    src.match(/(?:indicator|strategy)\s*\(\s*(?:title\s*=\s*)?["']([^"'\n]{1,80})["']/i) ??
+    src.match(/(?:indicator|strategy)\s*\([^)]*?shorttitle\s*=\s*["']([^"'\n]{1,80})["']/i);
+  const name = titleMatch ? titleMatch[1].trim() : 'Unknown Strategy';
 
   // 4b. Auto-bind condition identifiers that are direct `X = ta.foo(src, len)`.
   const bindings = extractBindings(src, entry.conditions ?? [], parameters);
