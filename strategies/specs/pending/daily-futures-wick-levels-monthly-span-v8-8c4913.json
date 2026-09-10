@@ -4,6 +4,7 @@
   "source": "https://www.tradingview.com/script/YXjQETci-Daily-Key-Reversal-Levels-ThreeKay",
   "version": "1",
   "strategyType": "mtf_scored",
+  "timeframe": "1d",
   "assetClass": "any",
   "indicators": [
     {

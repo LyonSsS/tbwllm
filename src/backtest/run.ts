@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { StrategySpecSchema, type Candle } from '../core/types.js';
+import { StrategySpecSchema, type Candle, type Signal, type StrategySpec } from '../core/types.js';
 import { assemble } from '../assembly/assembler.js';
 import { findCached } from '../data/fetcher.js';
 import { runBacktest } from './engine.js';
@@ -55,30 +55,32 @@ const YEAR_MS = 365.25 * 24 * 3600 * 1000;
 const RESULTS_DIR = 'strategies/results';
 
 type Row = { id: string; name: string; ret: number; hold: number; sharpe: number; dd: number; trades: number; win: number };
+type Built = { spec: StrategySpec; run: (c: Candle[]) => Signal[] };
 
-// Run every assemblable spec over a candle set, best return first.
-function rankOver(candles: Candle[], writeDetail: boolean): Row[] {
-  const rows: Row[] = [];
-  const market = `${SYMBOL} ${TF}`;
+// Assemble every spec once (reused across every window × timeframe).
+function assembleAll(): { built: Built[]; hints: string[] } {
+  const built: Built[] = [];
+  const hints: string[] = [];
   for (const f of fs.readdirSync(SPECS_DIR).filter(f => f.endsWith('.json')).sort()) {
     const spec = loadSpec(path.join(SPECS_DIR, f));
+    if (spec.timeframe) hints.push(`${spec.name} → ${spec.timeframe}`);
     const a = assemble(spec);
-    if ('unassemblable' in a) continue;
-    const result = runBacktest(a.run(candles), candles, { costBps: BT_COST_BPS });
-    const m = result.metrics;
-    rows.push({
-      id: spec.id, name: spec.name,
-      ret: m.totalReturn, hold: m.buyHoldReturn ?? 0,
-      sharpe: m.sharpeRatio ?? 0, dd: m.maxDrawdown, trades: m.totalTrades, win: m.winRate,
-    });
-    if (writeDetail) {
-      fs.writeFileSync(path.join(RESULTS_DIR, `${spec.id}.json`), JSON.stringify({
-        specId: spec.id, name: spec.name, market, bars: candles.length,
-        runAt: new Date().toISOString(), ...result,
-      }, null, 2));
-    }
+    if (!('unassemblable' in a)) built.push({ spec, run: a.run });
   }
-  return rows.sort((x, y) => y.ret - x.ret);
+  return { built, hints };
+}
+
+function rankOn(built: Built[], candles: Candle[]): Row[] {
+  return built
+    .map(b => {
+      const m = runBacktest(b.run(candles), candles, { costBps: BT_COST_BPS }).metrics;
+      return {
+        id: b.spec.id, name: b.spec.name,
+        ret: m.totalReturn, hold: m.buyHoldReturn ?? 0,
+        sharpe: m.sharpeRatio ?? 0, dd: m.maxDrawdown, trades: m.totalTrades, win: m.winRate,
+      };
+    })
+    .sort((x, y) => y.ret - x.ret);
 }
 
 const COLS = ['#', 'strategy', 'return', 'vs hold', 'Sharpe', 'maxDD', 'trades'] as const;
@@ -137,74 +139,90 @@ function boxTable(rows: Row[]): string {
   return out.join('\n');
 }
 
-function all(candles: Candle[]): void {
+const LEGEND = [
+  `return  = strategy's total % gain/loss over the window`,
+  `vs hold = that return minus buy-and-hold BTC over the same bars  (positive = beat just holding)`,
+  `Sharpe  = mean bar-return / its std-dev, annualised  (>1 good · ~0 flat · <0 losing)`,
+  `maxDD   = largest peak-to-trough drop in account value over the window  (lower = smoother)`,
+  `trades  = round-trip positions; "—" = the strategy assembled but never met a condition`,
+];
+
+function all(): void {
   fs.mkdirSync(RESULTS_DIR, { recursive: true });
-  const lastTs = candles[candles.length - 1].timestamp;
-  const fullYears = (lastTs - candles[0].timestamp) / YEAR_MS;
 
-  // Windows: trailing 3y / 5y / full — all slices of the one cached series.
-  const windows = [3, 5, Math.round(fullYears)]
-    .filter((y, i, a) => a.indexOf(y) === i)
-    .filter(y => y <= fullYears + 0.1)
-    .map(y => ({ years: y, candles: candles.filter(c => c.timestamp >= lastTs - y * YEAR_MS) }));
+  const tfList = (process.env.BT_TFS ?? '1h,4h,1d').split(',').map(s => s.trim()).filter(Boolean);
+  const byTf = new Map<string, Candle[]>();
+  for (const tf of tfList) {
+    const c = findCached(SOURCE, SYMBOL, tf);
+    if (c && c.length) byTf.set(tf, c);
+    else console.warn(`[backtest] no cached ${SYMBOL} ${tf} — skipping (yarn data:fetch ${SYMBOL} ${tf} 2017-01-01 2025-09-01)`);
+  }
+  if (byTf.size === 0) { console.error('no cached data for any timeframe'); process.exit(1); }
+  const tfs = [...byTf.keys()];
 
-  const legend = [
-    `return  = strategy's total % gain/loss over the window`,
-    `vs hold = that return minus buy-and-hold BTC over the same bars  (positive = beat just holding)`,
-    `Sharpe  = mean bar-return / its std-dev, annualised  (>1 good · ~0 flat · <0 losing)`,
-    `maxDD   = largest peak-to-trough drop in account value over the window  (lower = smoother)`,
-    `trades  = round-trip positions; "—" = the strategy assembled but never met a condition`,
-  ];
-
-  const sections: string[] = [
-    `# Backtest ranking`,
-    ``,
-    `${SYMBOL} ${TF} · ${new Date().toISOString().slice(0, 10)} · ${BT_COST_BPS} bps/side cost · data ${new Date(candles[0].timestamp).toISOString().slice(0, 10)} → ${new Date(lastTs).toISOString().slice(0, 10)}`,
-    ``,
-    '```',
-    ...legend,
-    '```',
-    ``,
-    `Each table is the same strategies over a different trailing window, sorted by total return.`,
-    ``,
-    `**Read across the windows, not down one.** A strategy whose rank/return swings wildly between the 3y, 5y and 8y tables is fragile — a few outsized trades and warm-up luck, not an edge. Consistency across windows (and the sweep's "% of trials profitable") is the signal.`,
-  ];
+  const { built, hints } = assembleAll();
+  const primary = byTf.get(tfs[0])!;
+  const fullYears = (primary[primary.length - 1].timestamp - primary[0].timestamp) / YEAR_MS;
+  const windows = [3, 5, Math.round(fullYears)].filter((y, i, a) => a.indexOf(y) === i).filter(y => y <= fullYears + 0.1);
 
   const date = new Date().toISOString().slice(0, 10);
-  const report: string[] = [
-    `Backtest report — ${SYMBOL} ${TF} · ${date} · ${BT_COST_BPS} bps/side cost`,
-    `data ${new Date(candles[0].timestamp).toISOString().slice(0, 10)} → ${new Date(lastTs).toISOString().slice(0, 10)}`,
-    ``,
-    ...legend,
-    ``,
-    `Read across the windows, not down one — a strategy whose result swings between windows is fragile, not an edge.`,
+  const sections: string[] = [
+    `# Backtest ranking`, ``,
+    `${SYMBOL} · ${date} · ${BT_COST_BPS} bps/side cost · ${built.length} assemblable strategies`, ``,
+    '```', ...LEGEND, '```', ``,
+    `Grouped by window (3 / 5 / 8 years), then timeframe. Each strategy is run on every timeframe — most scripts don't declare one. Sorted by total return.`,
   ];
+  const report: string[] = [
+    `Backtest report — ${SYMBOL} · ${date} · ${BT_COST_BPS} bps/side cost`, ``,
+    ...LEGEND, ``,
+    `Grouped by window, then timeframe. Each strategy run on every timeframe.`,
+  ];
+  console.log(`\n${LEGEND.join('\n')}`);
 
-  console.log(`\n${legend.join('\n')}`);
+  for (const years of windows) {
+    console.log(`\n══ ${years} YEARS ══`);
+    sections.push(``, `## ${years} years`);
+    report.push(``, `══ ${years} YEARS ══`);
+    for (const tf of tfs) {
+      const c = byTf.get(tf)!;
+      const cutoff = c[c.length - 1].timestamp - years * YEAR_MS;
+      const slice = c.filter(x => x.timestamp >= cutoff);
+      const rows = rankOn(built, slice);
+      const head = `${tf}  ·  ${slice.length} bars  ·  buy & hold ${pct(rows[0]?.hold ?? 0)}`;
+      const table = boxTable(rows);
+      console.log(`\n${head}\n${table}`);
+      sections.push(``, `### ${head}`, ``, mdTable(rows));
+      report.push(``, head, table);
+    }
+  }
 
-  for (const w of windows) {
-    const rows = rankOver(w.candles, w.years === windows[windows.length - 1].years); // detail JSON from the longest window
-    const hold = rows[0]?.hold ?? 0;
-    const heading = `${w.years} years  ·  ${w.candles.length} bars  ·  buy & hold ${pct(hold)}`;
-    const table = boxTable(rows);
-    sections.push(``, `## ${heading}`, ``, mdTable(rows));
-    report.push(``, heading, table);
-    console.log(`\n${heading}`);
-    console.log(table);
+  if (hints.length) {
+    const lines = ['Declared timeframe (from the script itself):', ...hints.map(h => `  ${h}`)];
+    console.log(`\n${lines.join('\n')}`);
+    sections.push(``, `## Declared timeframe`, ``, ...hints.map(h => `- ${h}`));
+    report.push(``, ...lines);
+  }
+
+  // Per-strategy detail from the longest window on the primary timeframe.
+  const longest = windows[windows.length - 1];
+  const pc = primary.filter(x => x.timestamp >= primary[primary.length - 1].timestamp - longest * YEAR_MS);
+  for (const b of built) {
+    const result = runBacktest(b.run(pc), pc, { costBps: BT_COST_BPS });
+    fs.writeFileSync(path.join(RESULTS_DIR, `${b.spec.id}.json`), JSON.stringify({
+      specId: b.spec.id, name: b.spec.name, market: `${SYMBOL} ${tfs[0]}`, window: `${longest}y`,
+      bars: pc.length, runAt: new Date().toISOString(), ...result,
+    }, null, 2));
   }
 
   fs.writeFileSync(path.join(RESULTS_DIR, 'RANKING.md'), sections.join('\n') + '\n');
-
   fs.mkdirSync('reports', { recursive: true });
-  // Timestamp to the second so every run archives its own report for comparison.
   const stamp = new Date().toISOString().slice(0, 19).replace('T', '_').replace(/:/g, '');
-  const reportFile = `reports/backtest_${windows.map(w => w.years).join('-')}y_${stamp}.txt`;
+  const reportFile = `reports/backtest_${windows.join('-')}y_${tfs.join('')}_${stamp}.txt`;
   fs.writeFileSync(reportFile, report.join('\n') + '\n');
   console.log(`\nwrote ${RESULTS_DIR}/RANKING.md and ${reportFile}`);
 }
 
 const args = process.argv.slice(2);
-const candles = candlesOrDie();
-if (args.includes('--all')) all(candles);
-else if (args[0]) one(args[0], candles);
+if (args.includes('--all')) all();
+else if (args[0]) one(args[0], candlesOrDie());
 else { console.error('usage: yarn backtest <specId> | --all'); process.exit(1); }

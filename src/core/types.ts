@@ -164,6 +164,7 @@ export const StrategySpecSchema = z.object({
 
   // Constraints
   timeframeMin: z.string().optional(),  // e.g. "60" = 1H minimum
+  timeframe: z.string().optional(),     // intended chart timeframe if the script declares one (e.g. "1h", "1d")
   assetClass: z.enum(['crypto', 'forex', 'stocks', 'any']).default('any'),
 
   // Indicators (for condition / pattern / scored types)

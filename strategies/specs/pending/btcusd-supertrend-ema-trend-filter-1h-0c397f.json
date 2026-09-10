@@ -4,6 +4,7 @@
   "source": "https://www.tradingview.com/script/NgSIfKQx-Bitcoin-SuperFlip-Supertrend-EMA-Trend-Following-Strategy",
   "version": "1",
   "strategyType": "condition",
+  "timeframe": "1h",
   "assetClass": "any",
   "bindings": {
     "trendEMA": {
