@@ -4,6 +4,23 @@
 
 ---
 
+## Current state (2026-09) — see `docs/STATUS.md` for detail
+
+- **Phases 1–4 are done**, all in TypeScript. Phase 3 was built as a TS
+  vectorised backtester, **not** Python/vectorbt/Optuna as originally planned
+  (the repo stayed single-language).
+- Corpus: **134 StrategySpecs**; **6 assemble** from standard indicators.
+- Backtested on BTC/USDT across 1h/4h/1d and 3/5/8-year windows: **no strategy
+  beats buy-and-hold BTC**. The backtester is validated.
+- **Next:** parameter sweep + out-of-sample split → analyser clean-up (raise
+  assemblable to ~15-25) → multi-asset data → custom SMC indicators (only if a
+  family shows edge) → live bot (Phase 5, not started).
+
+The phase sections below are the original plan, kept for reference. Status tags
+updated; the Python specifics in Phase 3 were superseded by the TS implementation.
+
+---
+
 ## The Central Contract: `StrategySpec`
 
 Everything flows through a single Zod-validated JSON. It is the output of the ingestion pipeline, the input to the backtester, and the input to the live bot.
@@ -156,7 +173,7 @@ Use `--no-llm` flag to skip LLM entirely (zero API cost).
 
 ---
 
-## Phase 3: Backtest Engine (NEXT)
+## Phase 3: Backtest Engine (DONE — TypeScript, not Python)
 
 ### 3.1 Python vectorbt runner
 
@@ -193,7 +210,7 @@ python python/backtest/sweep.py --spec strategies/specs/pending/<id>.json
 
 ---
 
-## Phase 4: Strategy Assembler (NEXT)
+## Phase 4: Strategy Assembler (DONE)
 
 **File**: `src/assembly/assembler.ts`
 
@@ -208,7 +225,7 @@ Add new types by extending `INDICATOR_MAP` in the assembler.
 
 ---
 
-## Phase 5: Live Trading (PLANNED)
+## Phase 5: Live Trading (NOT STARTED)
 
 - [ ] `src/bot/exchange.ts` — ccxt websocket, Binance, candle close events
 - [ ] `src/bot/paper-trader.ts` — log signals, no real orders
