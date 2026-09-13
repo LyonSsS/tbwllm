@@ -9,9 +9,9 @@
     "direction": "BOTH",
     "conditions": [
       "histogramBuySignal and not tradeIsLive",
-      "bullLiquiditySweep and",
+      "bullLiquiditySweep and not bullSweepActive",
       "histogramSellSignal and not tradeIsLive and not validatedBuySignal",
-      "bearLiquiditySweep and"
+      "bearLiquiditySweep and not bearSweepActive"
     ]
   },
   "parameters": {

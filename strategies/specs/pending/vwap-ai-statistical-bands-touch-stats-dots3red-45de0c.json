@@ -17,8 +17,8 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "ta.crossover(close",
-      "ta.crossunder(close"
+      "ta.crossover(close, vwap_val)",
+      "ta.crossunder(close, vwap_val)"
     ]
   },
   "parameters": {

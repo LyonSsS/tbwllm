@@ -8,8 +8,6 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      ") support",
-      ") bool retroPass1 = a_retro or not st1.evtRetro bool retroPass2 = a_retro or not st2.evtRetro bool evBos1 = st1.evt != 0 and not st1.evtChoch and retroPass1 bool evChoch1 = st1.evt != 0 and st1.evtChoch and retroPass1 bool evBos2 = st2.evt != 0 and not st2.evtChoch and retroPass2 bool evChoch2 = st2.evt != 0 and st2.evtChoch and retroPass2 struct_alert(StructState st",
       "evBos1"
     ]
   },
@@ -83,7 +81,7 @@
     "a_score": true
   },
   "parsedBy": "static",
-  "confidence": 0.42,
+  "confidence": 0.3,
   "rawHash": "8d045f7436e91304",
   "createdAt": 1788945697813
 }

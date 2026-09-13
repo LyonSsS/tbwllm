@@ -63,11 +63,19 @@
       "outputKey": "lowest_low5"
     }
   ],
+  "bindings": {
+    "rsi": {
+      "type": "RSI",
+      "params": {
+        "period": "rsiLen"
+      }
+    }
+  },
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "ta.crossover(fast, slow) and",
-      "ta.crossunder(fast, slow) and"
+      "ta.crossover(fast, slow) and rsi >= rsiBuy",
+      "ta.crossunder(fast, slow) and rsi <= rsiSell"
     ]
   },
   "parameters": {

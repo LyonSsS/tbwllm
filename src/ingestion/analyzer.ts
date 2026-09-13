@@ -140,11 +140,31 @@ function extractIndicators(src: string): IndicatorConfig[] {
 
 // Find `name = <expr>` (or `name := <expr>`, or `var name = <expr>`) in the
 // source and return the right-hand side, single line only, comment stripped.
+// A Pine boolean/arithmetic expression continues on the next line when it
+// ends on a dangling and/or/not or has unclosed parens — authors often wrap
+// long conditions across lines with no line-continuation character.
+function continuesOnNextLine(s: string): boolean {
+  if (/\b(and|or|not)$/i.test(s)) return true;
+  const open = (s.match(/\(/g) ?? []).length;
+  const close = (s.match(/\)/g) ?? []).length;
+  return open > close;
+}
+
 function findAssignment(src: string, name: string): string | null {
   const re = new RegExp(`(?:^|\\n)\\s*(?:var\\s+|varip\\s+)?${name}\\s*(?::=|=)(?!=)\\s*([^\\n]+)`);
-  const m = src.match(re);
-  if (!m) return null;
-  return m[1].replace(/\/\/.*$/, '').trim();
+  const m = re.exec(src);
+  if (!m || m.index === undefined) return null;
+  let rhs = m[1].replace(/\/\/.*$/, '').trim();
+  let rest = src.slice(m.index + m[0].length);
+  for (let i = 0; i < 10 && continuesOnNextLine(rhs); i++) {
+    const next = /^(?:[ \t]*\n)*[ \t]*([^\n]+)/.exec(rest);
+    if (!next) break;
+    const line = next[1].replace(/\/\/.*$/, '').trim();
+    if (!line) break;
+    rhs = `${rhs} ${line}`.trim();
+    rest = rest.slice(next[0].length);
+  }
+  return rhs;
 }
 
 // A condition string that is just a bare identifier carries no logic an
@@ -272,21 +292,45 @@ function stripUiGates(cond: string): string {
   return (kept.length ? kept.join(' and ') : cond).replace(/\s+/g, ' ').trim();
 }
 
+// Scan from `start` (just past the call's opening paren) for the first
+// top-level argument: the text up to the first paren/bracket-depth-0 comma,
+// or the call's closing paren if there's no other argument.
+function firstTopLevelArg(s: string, start: number): { text: string; endIndex: number } | null {
+  let depth = 0;
+  for (let i = start; i < s.length; i++) {
+    const c = s[i];
+    if (c === '(' || c === '[') depth++;
+    else if (c === ')' || c === ']') {
+      if (depth === 0) return { text: s.slice(start, i), endIndex: i };
+      depth--;
+    } else if (c === ',' && depth === 0) {
+      return { text: s.slice(start, i), endIndex: i };
+    }
+  }
+  return null;
+}
+
 // Many indicator-style scripts emit their entry signal only through a chart
 // marker: `plotshape(longSig, "Buy", shape.triangleup, location.belowbar, …)`.
 // Pull the series arg from those and label it bull/bear by the call's styling.
+// The series arg is scanned paren-aware, since it's often itself a call with
+// its own commas (`plotshape(ta.crossover(fast, slow) ? … : na, …)`).
 function extractPlotSignals(src: string): { bull: string[]; bear: string[] } {
   const bull: string[] = [];
   const bear: string[] = [];
-  const re = /plot(?:shape|char|arrow)\s*\(\s*([^,\n]+?)\s*,([^\n]*)/g;
+  const callRe = /plot(?:shape|char|arrow)\s*\(/g;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(src)) !== null) {
-    let series = m[1].trim();
+  while ((m = callRe.exec(src)) !== null) {
+    const argStart = m.index + m[0].length;
+    const first = firstTopLevelArg(src, argStart);
+    if (!first) continue;
+    let series = first.text.trim();
     const tern = series.match(/^(.+?)\s*\?/); // `cond ? x : na` → cond
     if (tern) series = tern[1].trim();
     if (!/^[A-Za-z_]\w*$/.test(series) && !isEvaluableCondition(series)) continue;
 
-    const rest = m[2].toLowerCase();
+    const lineEnd = src.indexOf('\n', first.endIndex);
+    const rest = src.slice(first.endIndex, lineEnd === -1 ? src.length : lineEnd).toLowerCase();
     const isBull = /buy|long|bull|belowbar|triangleup|labelup|arrowup/.test(rest);
     const isBear = /sell|short|bear|abovebar|triangledown|labeldown|arrowdown/.test(rest);
     if (isBull && !isBear) bull.push(series);
@@ -295,12 +339,16 @@ function extractPlotSignals(src: string): { bull: string[]; bear: string[] } {
   return { bull, bear };
 }
 
+// Paren-aware: the condition arg is often itself a call with its own commas
+// (`alertcondition(ta.crossover(fast, slow), "title", "message")`), so a
+// naive split on the first comma truncates it mid-call.
 function extractAlertConditions(src: string): string[] {
   const conditions: string[] = [];
-  const re = /alertcondition\s*\(\s*([^,]+)/g;
+  const callRe = /alertcondition\s*\(/g;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(src)) !== null) {
-    conditions.push(m[1].trim());
+  while ((m = callRe.exec(src)) !== null) {
+    const first = firstTopLevelArg(src, m.index + m[0].length);
+    if (first) conditions.push(first.text.trim());
   }
   return conditions;
 }
@@ -403,6 +451,10 @@ function buildEntryFromAlerts(
 
 export function analyzePineScript(src: string, url: string): AnalysisResult {
   const rawHash = hash(src);
+  // Normalize line endings after hashing (rawHash keys curation.json, so it
+  // must stay stable) — ~70% of scraped scripts are CRLF, which silently
+  // breaks `//comment$`-style regexes and `[^\n]+` line captures downstream.
+  src = src.replace(/\r\n?/g, '\n');
   const unknownIndicators = extractUnknownIndicators(src);
 
   // 1. Is this tradeable at all?
