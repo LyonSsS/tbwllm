@@ -50,11 +50,25 @@ This is a real result, not a bug: the backtester was validated (the earlier
 coverage is only worth it once a strategy *family* shows edge under a proper
 parameter sweep.
 
+### Parameter sweep + out-of-sample (2026-09)
+
+`yarn sweep --all` random-searches each assemblable spec's parameters on a
+chronological 67/33 train/test split (tune on the first two-thirds, judge on the
+unseen last third), across 1h/4h/1d. Result → `strategies/results/SWEEP.md`.
+
+**No strategy holds out-of-sample.** The best case is `ema-50-200-cross` on 4h —
+train Sharpe 1.08, test Sharpe 0.86 (*marginal*). Every config that reached train
+Sharpe > 1 dropped to test Sharpe ≤ 0.3 (*overfit*): `rsi-with-bollinger-bands`
+on 4h went 1.26 → 0.30, `ema-trend-signals` on 1h went 1.04 → −0.37. So the
+parameter space has no robust edge region for these four — matching the
+buy-and-hold finding above, now from the tuning side.
+
 ## Next steps (priority order)
 
-1. **Parameter sweep + out-of-sample.** Sweep the ~6 assemblable strategies on
-   their home timeframe; split the data (tune on the first 2/3, score on the last
-   1/3) to catch overfitting. Only after this do we know if any idea has edge.
+1. ~~**Parameter sweep + out-of-sample.**~~ Done — `yarn sweep --all`, results in
+   `strategies/results/SWEEP.md`. Verdict: no assemblable strategy holds up
+   out-of-sample (best is *marginal*). None of the four current families is worth
+   pursuing further without new signal logic.
 2. **Analyser clean-up ("a′").** ~33 specs fail on *our* bugs, not on being
    custom: 16 have truncated conditions, 17 have no conditions. Fixing those +
    adding `HIGHEST_HIGH` / `LOWEST_LOW` / `MACD` / `STOCH` to `INDICATOR_MAP`
@@ -77,7 +91,8 @@ yarn reanalyze [--clean|--report]       # rebuild specs from the raw cache
 yarn assemble <specId> | --all          # spec → signals; coverage table
 yarn data:fetch BTC/USDT 1h 2017-01-01 2025-09-01
 yarn backtest <specId> | --all          # 9-table ranking + RANKING.md + reports/
-yarn sweep <specId> [--trials 300]      # random parameter search
+yarn sweep <specId> [--tf 1d] [--trials 300]   # param search, train/test split
+yarn sweep:all [--tf 1h,4h,1d] [--trials 200]  # every assemblable spec → SWEEP.md
 yarn typecheck                          # tsc --noEmit (there is no build step)
 ```
 
@@ -86,3 +101,4 @@ yarn typecheck                          # tsc --noEmit (there is no build step)
 - `docs/indicators.md` — the 3-layer indicator model and the assemble/skip decision logic
 - `docs/triage.md` — when a custom strategy is worth building vs shelving
 - `strategies/curation.json` — the manual overlay (skips + bindings)
+- `strategies/results/SWEEP.md` — latest out-of-sample parameter sweep (tracked)
