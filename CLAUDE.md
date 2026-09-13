@@ -49,7 +49,7 @@ result (then `parsedBy: "manual"`).
 
 | Stage | Path | Notes |
 |---|---|---|
-| Ingestion | `src/ingestion/` | `scraper.ts` (Playwright, `/scripts/page-N/`, `/last`, raw `.pine` + `.url` cache, persistent-context stealth), `analyzer.ts` (regex indicators, condition resolution, plotshape signals, title + timeframe + auto-binding), `db.ts` (SQLite resume), `pipeline.ts`, `parser.ts` (LLM enrichment — unused), `reanalyze.ts` (offline rebuild + curation). |
+| Ingestion | `src/ingestion/` | `scraper.ts` (Playwright, `/scripts/page-N/`, `/last`, raw `.pine` + `.url` cache, persistent-context stealth), `analyzer.ts` (CRLF-normalizes source first; regex indicators, multi-line/paren-aware condition resolution, plotshape signals, title + timeframe + auto-binding), `db.ts` (SQLite resume), `pipeline.ts`, `parser.ts` (LLM enrichment — unused), `reanalyze.ts` (offline rebuild + curation). |
 | Assembly | `src/assembly/` | `indicatorMap.ts` (`INDICATOR_MAP` over `trading-signals` + source-composition), `conditionEval.ts` (mini-language parser + vectorised evaluator, **no `eval`**), `assembler.ts` (spec → `Signal[]`, stop-and-reverse for two-sided strategies, `unassemblable` reporting), `cli.ts`. |
 | Data | `src/data/fetcher.ts` | ccxt/Binance public OHLCV, provider-abstracted, cached to `data/ohlcv/`, warns on short history. |
 | Backtest | `src/backtest/` | `engine.ts` (one-position sim, next-bar fills, bps cost, buy-&-hold benchmark), `run.ts` (windows × timeframes → `RANKING.md` + `reports/`), `sweep.ts` (random param search on a chronological train/test split → `SWEEP.md`). |
@@ -71,8 +71,9 @@ no I/O, no side effects.
 
 ## Key facts
 
-- **Corpus:** 134 specs, **6 assemble**, ~4 produce signals. The rest use custom
-  market-structure logic standard indicators can't express.
+- **Corpus:** 134 specs, **7 assemble**, ~4 produce signals. The rest use custom
+  market-structure logic standard indicators can't express (confirmed by the
+  analyser clean-up, not just assumed — see `docs/STATUS.md`).
 - **Backtest verdict:** on BTC/USDT, no strategy beats buy-and-hold on any
   timeframe or window, and none holds an edge under an out-of-sample parameter
   sweep (`strategies/results/SWEEP.md`). See `docs/STATUS.md`.

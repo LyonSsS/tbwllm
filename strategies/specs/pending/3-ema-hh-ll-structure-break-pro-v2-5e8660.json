@@ -9,9 +9,9 @@
     "direction": "BOTH",
     "conditions": [
       "finalBuy and not inTrade",
-      "not na(lastHigh) and",
+      "not na(lastHigh) and close > lastHigh and close[1] <= lastHigh",
       "finalSell and not inTrade",
-      "not na(lastLow) and"
+      "not na(lastLow) and close < lastLow and close[1] >= lastLow"
     ]
   },
   "parameters": {

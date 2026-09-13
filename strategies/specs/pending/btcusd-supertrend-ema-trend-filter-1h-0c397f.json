@@ -17,9 +17,9 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "ta.change(direction) < 0 // flipped to uptrend",
+      "ta.change(direction) < 0",
       "bullFlip and close > trendEMA and adxOK",
-      "ta.change(direction) > 0 // flipped to downtrend"
+      "ta.change(direction) > 0"
     ]
   },
   "parameters": {

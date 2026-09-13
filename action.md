@@ -9,7 +9,9 @@
 - **Phases 1–4 are done**, all in TypeScript. Phase 3 was built as a TS
   vectorised backtester, **not** Python/vectorbt/Optuna as originally planned
   (the repo stayed single-language).
-- Corpus: **134 StrategySpecs**; **6 assemble** from standard indicators.
+- Corpus: **134 StrategySpecs**; **7 assemble** from standard indicators (an
+  analyser clean-up pass confirmed the rest are genuinely custom logic, not
+  analyser bugs — see `docs/STATUS.md`).
 - Backtested on BTC/USDT across 1h/4h/1d and 3/5/8-year windows: **no strategy
   beats buy-and-hold BTC**. The backtester is validated.
 - Parameter sweep + out-of-sample train/test split (`yarn sweep:all` →

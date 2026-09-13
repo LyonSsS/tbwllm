@@ -8,8 +8,8 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "ta.crossover(impForWave",
-      "ta.crossunder(impForWave"
+      "ta.crossover(impForWave, 0)",
+      "ta.crossunder(impForWave, 0)"
     ]
   },
   "parameters": {

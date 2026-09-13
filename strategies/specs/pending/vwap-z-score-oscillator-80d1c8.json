@@ -8,10 +8,10 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "ta.crossover(oscTF",
-      "ta.crossover(oscTF",
-      "ta.crossunder(oscTF",
-      "ta.crossunder(oscTF"
+      "ta.crossover(oscTF, 0)",
+      "ta.crossover(oscTF, lvl2)",
+      "ta.crossunder(oscTF, 0)",
+      "ta.crossunder(oscTF, -lvl2)"
     ]
   },
   "parameters": {

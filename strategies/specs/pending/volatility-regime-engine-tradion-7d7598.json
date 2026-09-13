@@ -8,10 +8,10 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "normalBullIgnition or",
-      "barstate.isconfirmed and",
-      "normalBearIgnition or",
-      "barstate.isconfirmed and"
+      "normalBullIgnition or fastBullIgnition",
+      "barstate.isconfirmed and cycleState == 1 and bullCooldownOK and fastScore >= fastBreakoutLevel and bullSetupScore >= 60 and bullDominant and rvol >= fastBreakoutRVOL and bullBreakoutRecent and falseRisk != \"VERY HIGH\"",
+      "normalBearIgnition or fastBearIgnition",
+      "barstate.isconfirmed and cycleState == -1 and bearCooldownOK and fastScore >= fastBreakoutLevel and bearSetupScore >= 60 and bearDominant and rvol >= fastBreakoutRVOL and bearBreakoutRecent and falseRisk != \"VERY HIGH\""
     ]
   },
   "parameters": {

@@ -8,7 +8,7 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      ") calls allow users to set persistent alerts from the // TradingView Alerts panel in addition to the programmatic alert() calls above. alertcondition( bullBOS and isDisplacement",
+      "bullBOS and isDisplacement",
       "bearBOS and isDisplacement"
     ]
   },

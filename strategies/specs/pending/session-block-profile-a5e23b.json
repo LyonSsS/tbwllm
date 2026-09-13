@@ -8,7 +8,7 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "rNPulse >= minSamples and vNPulse >= minSamples and"
+      "rNPulse >= minSamples and vNPulse >= minSamples and rCenterPulse >= activityThreshold and vCenterPulse >= activityThreshold"
     ]
   },
   "parameters": {

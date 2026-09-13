@@ -35,8 +35,9 @@ Everything flows through one Zod-validated `StrategySpec` (`src/core/types.ts`).
 | Analyser clean-up · multi-asset data · custom SMC indicators | ⬜ next |
 | Live bot (`src/bot/`) | ⬜ not started |
 
-**Corpus:** 134 strategy specs; 6 assemble from standard indicators; the rest
-lean on custom market-structure logic.
+**Corpus:** 134 strategy specs; 7 assemble from standard indicators; the rest
+lean on custom market-structure logic (confirmed by an analyser clean-up pass,
+not just assumed).
 
 **Finding so far:** on BTC/USDT across 1h/4h/1d and 3/5/8-year windows, no
 strategy beats buy-and-hold BTC — and none holds an edge under an out-of-sample
