@@ -71,6 +71,8 @@ function providedKeys(spec: StrategySpec): { flat: Set<string>; multi: Map<strin
 const MULTI_OUTPUT: Record<string, string[]> = {
   BB: ['upper', 'middle', 'lower'],
   SUPERTREND: ['value', 'dir'],
+  MACD: ['macd', 'signal', 'histogram'],
+  STOCH: ['stochK', 'stochD', 'stochJ'],
 };
 
 // ─── assemble ───────────────────────────────────────────────────────────────

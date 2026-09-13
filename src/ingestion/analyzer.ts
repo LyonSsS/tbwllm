@@ -138,15 +138,41 @@ function extractIndicators(src: string): IndicatorConfig[] {
   return indicators;
 }
 
+// Blank out the interior of "..."/'...' string literals (length-preserving,
+// via an underscore filler) so paren/operator scans below don't get thrown
+// off by punctuation quoted inside a title/message string.
+function maskStrings(s: string): string {
+  let out = '';
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (c === '"' || c === "'") {
+      const q = c;
+      out += '_';
+      i++;
+      while (i < s.length && s[i] !== q) {
+        out += '_';
+        if (s[i] === '\\' && i + 1 < s.length) { i++; out += '_'; }
+        i++;
+      }
+      if (i < s.length) out += '_'; // closing quote
+      continue;
+    }
+    out += c;
+  }
+  return out;
+}
+
 // Find `name = <expr>` (or `name := <expr>`, or `var name = <expr>`) in the
 // source and return the right-hand side, single line only, comment stripped.
 // A Pine boolean/arithmetic expression continues on the next line when it
-// ends on a dangling and/or/not or has unclosed parens — authors often wrap
-// long conditions across lines with no line-continuation character.
+// ends on a dangling and/or/not/operator or has unclosed parens — authors
+// often wrap long conditions across lines with no line-continuation character.
 function continuesOnNextLine(s: string): boolean {
-  if (/\b(and|or|not)$/i.test(s)) return true;
-  const open = (s.match(/\(/g) ?? []).length;
-  const close = (s.match(/\)/g) ?? []).length;
+  const masked = maskStrings(s);
+  if (/\b(and|or|not)$/i.test(masked)) return true;
+  if (/[-+*/%<>=!?:&|]$/.test(masked)) return true;
+  const open = (masked.match(/\(/g) ?? []).length;
+  const close = (masked.match(/\)/g) ?? []).length;
   return open > close;
 }
 
@@ -294,11 +320,22 @@ function stripUiGates(cond: string): string {
 
 // Scan from `start` (just past the call's opening paren) for the first
 // top-level argument: the text up to the first paren/bracket-depth-0 comma,
-// or the call's closing paren if there's no other argument.
+// or the call's closing paren if there's no other argument. String literals
+// are skipped whole so a quoted paren/comma (a title/message arg) can't
+// desync the depth count.
 function firstTopLevelArg(s: string, start: number): { text: string; endIndex: number } | null {
   let depth = 0;
   for (let i = start; i < s.length; i++) {
     const c = s[i];
+    if (c === '"' || c === "'") {
+      const q = c;
+      i++;
+      while (i < s.length && s[i] !== q) {
+        if (s[i] === '\\' && i + 1 < s.length) i++;
+        i++;
+      }
+      continue; // loop's i++ steps past the closing quote
+    }
     if (c === '(' || c === '[') depth++;
     else if (c === ')' || c === ']') {
       if (depth === 0) return { text: s.slice(start, i), endIndex: i };

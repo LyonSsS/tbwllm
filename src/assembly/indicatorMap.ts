@@ -32,26 +32,28 @@ const num = (arr: Array<number | null>): Series => arr.map(v => (v == null ? NaN
 const P = (p: Record<string, number>, key: string, dflt: number): number =>
   Number.isFinite(p[key]) ? p[key] : dflt;
 
-// Rolling population standard deviation (trading-signals exports no SD class).
-function rollingStdDev(values: number[], period: number): number[] {
-  const out: number[] = [];
-  for (let i = 0; i < values.length; i++) {
-    if (i < period - 1) { out.push(NaN); continue; }
-    const win = values.slice(i - period + 1, i + 1);
-    const mean = win.reduce((s, v) => s + v, 0) / period;
-    out.push(Math.sqrt(win.reduce((s, v) => s + (v - mean) ** 2, 0) / period));
-  }
-  return out;
-}
-
-// Rolling max/min over a window — Pine's `ta.highest(series, len)` / `ta.lowest`.
-function rollingExtreme(values: number[], period: number, fn: (v: number[]) => number): number[] {
+// Apply `fn` over each trailing `period`-length window of `values`, NaN during
+// warm-up (shared skeleton for rollingStdDev / rollingExtreme below).
+function rollingWindow(values: number[], period: number, fn: (win: number[]) => number): number[] {
   const out: number[] = [];
   for (let i = 0; i < values.length; i++) {
     if (i < period - 1) { out.push(NaN); continue; }
     out.push(fn(values.slice(i - period + 1, i + 1)));
   }
   return out;
+}
+
+// Rolling population standard deviation (trading-signals exports no SD class).
+function rollingStdDev(values: number[], period: number): number[] {
+  return rollingWindow(values, period, win => {
+    const mean = win.reduce((s, v) => s + v, 0) / win.length;
+    return Math.sqrt(win.reduce((s, v) => s + (v - mean) ** 2, 0) / win.length);
+  });
+}
+
+// Rolling max/min over a window — Pine's `ta.highest(series, len)` / `ta.lowest`.
+function rollingExtreme(values: number[], period: number, fn: (v: number[]) => number): number[] {
+  return rollingWindow(values, period, fn);
 }
 
 // Indicators that only make sense on OHLC candles, not an arbitrary series.
