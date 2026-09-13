@@ -19,6 +19,7 @@
     "data:fetch": "tsx src/data/cli.ts",
     "backtest": "tsx src/backtest/run.ts",
     "sweep": "tsx src/backtest/sweep.ts",
+    "sweep:all": "tsx src/backtest/sweep.ts --all",
     "bot:paper": "tsx src/bot/paper-trader.ts",
     "bot:webhook": "tsx src/bot/webhook-server.ts"
   },

@@ -9,12 +9,18 @@
 - **Phases 1–4 are done**, all in TypeScript. Phase 3 was built as a TS
   vectorised backtester, **not** Python/vectorbt/Optuna as originally planned
   (the repo stayed single-language).
-- Corpus: **134 StrategySpecs**; **6 assemble** from standard indicators.
+- Corpus: **134 StrategySpecs**; **7 assemble** from standard indicators (an
+  analyser clean-up pass confirmed the rest are genuinely custom logic, not
+  analyser bugs — see `docs/STATUS.md`).
 - Backtested on BTC/USDT across 1h/4h/1d and 3/5/8-year windows: **no strategy
   beats buy-and-hold BTC**. The backtester is validated.
-- **Next:** parameter sweep + out-of-sample split → analyser clean-up (raise
-  assemblable to ~15-25) → multi-asset data → custom SMC indicators (only if a
-  family shows edge) → live bot (Phase 5, not started).
+- Parameter sweep + out-of-sample train/test split (`yarn sweep:all` →
+  `strategies/results/SWEEP.md`): **no assemblable strategy holds an edge** on
+  the unseen last third — best is *marginal*, the strong-on-train configs are
+  *overfit*.
+- **Next:** analyser clean-up (raise assemblable to ~15-25) → multi-asset data →
+  custom SMC indicators (only if a family shows edge) → live bot (Phase 5, not
+  started).
 
 The phase sections below are the original plan, kept for reference. Status tags
 updated; the Python specifics in Phase 3 were superseded by the TS implementation.

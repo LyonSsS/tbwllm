@@ -31,15 +31,17 @@ Everything flows through one Zod-validated `StrategySpec` (`src/core/types.ts`).
 | Assembler (`StrategySpec` → `Signal[]`) | ✅ |
 | OHLCV fetcher (ccxt/Binance, cached) | ✅ |
 | Backtest engine + windows × timeframes ranking | ✅ |
-| Parameter sweep | ✅ (random search) |
-| Out-of-sample split · multi-asset data · custom SMC indicators | ⬜ next |
+| Parameter sweep + out-of-sample train/test split | ✅ (`yarn sweep:all` → `SWEEP.md`) |
+| Analyser clean-up · multi-asset data · custom SMC indicators | ⬜ next |
 | Live bot (`src/bot/`) | ⬜ not started |
 
-**Corpus:** 134 strategy specs; 6 assemble from standard indicators; the rest
-lean on custom market-structure logic.
+**Corpus:** 134 strategy specs; 7 assemble from standard indicators; the rest
+lean on custom market-structure logic (confirmed by an analyser clean-up pass,
+not just assumed).
 
 **Finding so far:** on BTC/USDT across 1h/4h/1d and 3/5/8-year windows, no
-strategy beats buy-and-hold BTC. See `docs/STATUS.md`.
+strategy beats buy-and-hold BTC — and none holds an edge under an out-of-sample
+parameter sweep. See `docs/STATUS.md`.
 
 ## Commands
 
@@ -55,7 +57,8 @@ yarn assemble <specId>                 # one spec → signals on synthetic candl
 # Backtest
 yarn data:fetch BTC/USDT 1h 2017-01-01 2025-09-01   # once; also 4h and 1d
 yarn backtest --all                    # 9 tables → console + strategies/results/RANKING.md + reports/
-yarn sweep <specId> --trials 300       # random parameter search on one spec
+yarn sweep <specId> --tf 1d            # param search on one spec, train/test split
+yarn sweep:all                        # every assemblable spec → strategies/results/SWEEP.md
 
 # Dev
 yarn typecheck                         # tsc --noEmit (no build artifact)
