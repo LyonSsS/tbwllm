@@ -23,7 +23,8 @@ yarn reanalyze [--clean] [--report]     # rebuild every spec from strategies/raw
 yarn assemble <specId> | --all          # StrategySpec → Signal[]; --all = coverage table
 yarn data:fetch BTC/USDT 1h 2017-01-01 2025-09-01   # cache OHLCV (ccxt/Binance, no key)
 yarn backtest <specId> | --all          # --all = 9 tables (3 windows × 1h/4h/1d) + RANKING.md + reports/
-yarn sweep <specId> [--trials 300]      # random parameter search on one spec
+yarn sweep <specId> [--tf 1d] [--trials 300]   # param search on one spec, train/test split
+yarn sweep:all [--tf 1h,4h,1d]                 # sweep every assemblable spec → strategies/results/SWEEP.md
 ```
 
 `yarn ingest` (with LLM enrichment) needs `ANTHROPIC_API_KEY` and is not currently
@@ -51,7 +52,7 @@ result (then `parsedBy: "manual"`).
 | Ingestion | `src/ingestion/` | `scraper.ts` (Playwright, `/scripts/page-N/`, `/last`, raw `.pine` + `.url` cache, persistent-context stealth), `analyzer.ts` (regex indicators, condition resolution, plotshape signals, title + timeframe + auto-binding), `db.ts` (SQLite resume), `pipeline.ts`, `parser.ts` (LLM enrichment — unused), `reanalyze.ts` (offline rebuild + curation). |
 | Assembly | `src/assembly/` | `indicatorMap.ts` (`INDICATOR_MAP` over `trading-signals` + source-composition), `conditionEval.ts` (mini-language parser + vectorised evaluator, **no `eval`**), `assembler.ts` (spec → `Signal[]`, stop-and-reverse for two-sided strategies, `unassemblable` reporting), `cli.ts`. |
 | Data | `src/data/fetcher.ts` | ccxt/Binance public OHLCV, provider-abstracted, cached to `data/ohlcv/`, warns on short history. |
-| Backtest | `src/backtest/` | `engine.ts` (one-position sim, next-bar fills, bps cost, buy-&-hold benchmark), `run.ts` (windows × timeframes → `RANKING.md` + `reports/`), `sweep.ts` (random param search). |
+| Backtest | `src/backtest/` | `engine.ts` (one-position sim, next-bar fills, bps cost, buy-&-hold benchmark), `run.ts` (windows × timeframes → `RANKING.md` + `reports/`), `sweep.ts` (random param search on a chronological train/test split → `SWEEP.md`). |
 
 **Purity:** `assembler.run(candles) => Signal[]` and the backtest engine are pure —
 no I/O, no side effects.
@@ -73,10 +74,11 @@ no I/O, no side effects.
 - **Corpus:** 134 specs, **6 assemble**, ~4 produce signals. The rest use custom
   market-structure logic standard indicators can't express.
 - **Backtest verdict:** on BTC/USDT, no strategy beats buy-and-hold on any
-  timeframe or window. See `docs/STATUS.md`.
+  timeframe or window, and none holds an edge under an out-of-sample parameter
+  sweep (`strategies/results/SWEEP.md`). See `docs/STATUS.md`.
 - `data/` and `strategies/raw/` and `reports/` are gitignored (local caches).
-  `strategies/specs/pending/`, `curation.json`, `strategies/results/RANKING.md`
-  are tracked.
+  `strategies/specs/pending/`, `curation.json`, `strategies/results/RANKING.md`,
+  `strategies/results/SWEEP.md` are tracked.
 
 ## Config
 
