@@ -12,9 +12,13 @@
 - Corpus: **134 StrategySpecs**; **6 assemble** from standard indicators.
 - Backtested on BTC/USDT across 1h/4h/1d and 3/5/8-year windows: **no strategy
   beats buy-and-hold BTC**. The backtester is validated.
-- **Next:** parameter sweep + out-of-sample split → analyser clean-up (raise
-  assemblable to ~15-25) → multi-asset data → custom SMC indicators (only if a
-  family shows edge) → live bot (Phase 5, not started).
+- Parameter sweep + out-of-sample train/test split (`yarn sweep:all` →
+  `strategies/results/SWEEP.md`): **no assemblable strategy holds an edge** on
+  the unseen last third — best is *marginal*, the strong-on-train configs are
+  *overfit*.
+- **Next:** analyser clean-up (raise assemblable to ~15-25) → multi-asset data →
+  custom SMC indicators (only if a family shows edge) → live bot (Phase 5, not
+  started).
 
 The phase sections below are the original plan, kept for reference. Status tags
 updated; the Python specifics in Phase 3 were superseded by the TS implementation.
