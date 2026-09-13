@@ -8,10 +8,10 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "setupActive and",
-      "setupActive and",
-      "setupActive and",
-      "setupActive and"
+      "setupActive and radarState == \"ARMED\" and bullBias",
+      "setupActive and close >",
+      "setupActive and radarState == \"ARMED\" and bearBias",
+      "setupActive and close <"
     ]
   },
   "parameters": {

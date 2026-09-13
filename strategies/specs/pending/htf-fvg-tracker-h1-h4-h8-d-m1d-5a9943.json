@@ -8,9 +8,9 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "f_track(fire1, h1oA, h1hA, h1lA, h1cA, h1oB, h1hB, h1lB, h1cB,",
-      "f_track(fire4, h4oA, h4hA, h4lA, h4cA, h4oB, h4hB, h4lB, h4cB,",
-      "f_track(fire8, h8oA, h8hA, h8lA, h8cA, h8oB, h8hB, h8lB, h8cB,"
+      "f_track(fire1, h1oA, h1hA, h1lA, h1cA, h1oB, h1hB, h1lB, h1cB, h1oC, h1hC, h1lC, h1cC, h1tA, h1tB, h1tC, MS_H1, cap1 * MS_DAY, 0.0, store1, slot1, \"H1\")",
+      "f_track(fire4, h4oA, h4hA, h4lA, h4cA, h4oB, h4hB, h4lB, h4cB, h4oC, h4hC, h4lC, h4cC, h4tA, h4tB, h4tC, MS_H4, cap4 * MS_DAY, 0.0, store4, slot4, \"H4\")",
+      "f_track(fire8, h8oA, h8hA, h8lA, h8cA, h8oB, h8hB, h8lB, h8cB, h8oC, h8hC, h8lC, h8cC, h8tA, h8tB, h8tC, MS_H8, cap8 * MS_DAY, 0.0, store8, slot8, \"H8\")"
     ]
   },
   "parameters": {

@@ -8,7 +8,7 @@
   "entry": {
     "direction": "SELL",
     "conditions": [
-      "ta.crossunder(rollVal"
+      "ta.crossunder(rollVal, i_thresh)"
     ]
   },
   "parameters": {

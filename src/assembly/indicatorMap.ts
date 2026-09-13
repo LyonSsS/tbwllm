@@ -1,6 +1,7 @@
 import {
   RSI, EMA, SMA, WMA, HMA, ATR, VWAP, ROC, MOM, RMA, CCI, ADX,
-  BollingerBands, SuperTrend, TR, VWMA,
+  BollingerBands, SuperTrend, TR, VWMA, MACD, StochasticOscillator,
+  getMaximum, getMinimum,
 } from 'trading-signals';
 import type { Candle } from '../core/types.js';
 
@@ -43,8 +44,18 @@ function rollingStdDev(values: number[], period: number): number[] {
   return out;
 }
 
+// Rolling max/min over a window — Pine's `ta.highest(series, len)` / `ta.lowest`.
+function rollingExtreme(values: number[], period: number, fn: (v: number[]) => number): number[] {
+  const out: number[] = [];
+  for (let i = 0; i < values.length; i++) {
+    if (i < period - 1) { out.push(NaN); continue; }
+    out.push(fn(values.slice(i - period + 1, i + 1)));
+  }
+  return out;
+}
+
 // Indicators that only make sense on OHLC candles, not an arbitrary series.
-export const OHLC_INDICATORS = new Set(['ATR', 'TR', 'ADX', 'VWAP', 'VWMA', 'SUPERTREND', 'CCI']);
+export const OHLC_INDICATORS = new Set(['ATR', 'TR', 'ADX', 'VWAP', 'VWMA', 'SUPERTREND', 'CCI', 'STOCH']);
 
 export const INDICATOR_MAP: Record<string, IndicatorFn> = {
   RSI: ({ values, params: p }) => num(new RSI(P(p, 'period', 14)).updates(values, false)),
@@ -78,6 +89,35 @@ export const INDICATOR_MAP: Record<string, IndicatorFn> = {
     return {
       value: out.map(v => (v == null ? NaN : v.supertrend)),
       dir: out.map(v => (v == null ? NaN : v.trend === 'BULLISH' ? 1 : -1)),
+    };
+  },
+
+  HIGHEST_HIGH: ({ values, params: p }) => rollingExtreme(values, P(p, 'period', 14), getMaximum),
+  LOWEST_LOW: ({ values, params: p }) => rollingExtreme(values, P(p, 'period', 14), getMinimum),
+
+  MACD: ({ values, params: p }) => {
+    const fast = P(p, 'fastPeriod', 12);
+    const slow = P(p, 'slowPeriod', 26);
+    const signal = P(p, 'signalPeriod', 9);
+    const out = new MACD(new EMA(fast), new EMA(slow), new EMA(signal)).updates(values, false);
+    return {
+      macd: out.map(v => (v == null ? NaN : v.macd)),
+      signal: out.map(v => (v == null ? NaN : v.signal)),
+      histogram: out.map(v => (v == null ? NaN : v.histogram)),
+    };
+  },
+
+  STOCH: ({ candles, params: p }) => {
+    const cfg = {
+      kPeriod: P(p, 'kPeriod', 14),
+      kSlowingPeriod: P(p, 'kSlowingPeriod', 3),
+      dPeriod: P(p, 'dPeriod', 3),
+    };
+    const out = new StochasticOscillator(cfg).updates(hlc(candles), false);
+    return {
+      stochK: out.map(v => (v == null ? NaN : v.stochK)),
+      stochD: out.map(v => (v == null ? NaN : v.stochD)),
+      stochJ: out.map(v => (v == null ? NaN : v.stochJ)),
     };
   },
 };

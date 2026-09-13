@@ -8,10 +8,10 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      "bar_index >= 2 and low > high[2] and close[1] > high[2] and",
-      "barstate.isconfirmed and not na(activeHigh) and not highBroken and",
-      "bar_index >= 2 and high < low[2] and close[1] < low[2] and",
-      "barstate.isconfirmed and not na(activeLow) and not lowBroken and"
+      "bar_index >= 2 and low > high[2] and close[1] > high[2] and (low - high[2]) / high[2] > fvgThreshold",
+      "barstate.isconfirmed and not na(activeHigh) and not highBroken and close > activeHigh and close[1] <= activeHigh",
+      "bar_index >= 2 and high < low[2] and close[1] < low[2] and (low[2] - high) / high > fvgThreshold",
+      "barstate.isconfirmed and not na(activeLow) and not lowBroken and close < activeLow and close[1] >= activeLow"
     ]
   },
   "parameters": {

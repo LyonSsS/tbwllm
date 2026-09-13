@@ -34,9 +34,9 @@ TradingView /scripts/  →  scraper  →  raw .pine cache
 ## The corpus
 
 - **134 `StrategySpec` JSONs** in `strategies/specs/pending/` (from a 10-page crawl).
-- **6 assemble with zero hand-work**; ~4 of those produce real signals (the EMA/RSI ones), 2 assemble but never trigger (bespoke score, MTF binding gap).
+- **7 assemble with zero hand-work**; ~4 of those produce real signals (the EMA/RSI ones), 3 assemble but never trigger (bespoke score, MTF binding gap).
 - `strategies/curation.json` — 14 entries: 6 curated-skip (`not-a-strategy`), 5 manual bindings/rewrites, plus 2 dead-but-kept.
-- The other ~120 reference **custom market-structure logic** (FVGs, order blocks, bespoke scores) that standard indicators can't express. See `docs/triage.md`.
+- The other ~127 reference **custom market-structure logic** (FVGs, order blocks, bespoke scores) that standard indicators can't express — confirmed by the analyser clean-up below, not just assumed. See `docs/triage.md`.
 
 ## Key finding
 
@@ -55,10 +55,28 @@ parameter sweep.
 1. **Parameter sweep + out-of-sample.** Sweep the ~6 assemblable strategies on
    their home timeframe; split the data (tune on the first 2/3, score on the last
    1/3) to catch overfitting. Only after this do we know if any idea has edge.
-2. **Analyser clean-up ("a′").** ~33 specs fail on *our* bugs, not on being
-   custom: 16 have truncated conditions, 17 have no conditions. Fixing those +
-   adding `HIGHEST_HIGH` / `LOWEST_LOW` / `MACD` / `STOCH` to `INDICATOR_MAP`
-   would raise assemblable from 6 to ~15-25.
+2. ~~**Analyser clean-up ("a′").**~~ Done, with a lower yield than hoped: assemblable
+   went 6 → 7, not to ~15-25. Real root causes fixed: (a) **68% of scraped raw
+   `.pine` files use CRLF line endings**, which silently broke every
+   `//comment$`-anchored regex and `[^\n]+` line capture in the analyser —
+   normalized once in `analyzePineScript`; (b) multi-line boolean expressions
+   (`x = a and\n b`) were truncated at the first newline — `findAssignment` now
+   pulls in continuation lines while the expression ends on a dangling
+   `and/or/not` or has unclosed parens; (c) `alertcondition(...)` / `plotshape(...)`
+   argument extraction split on the first comma, truncating calls with their own
+   nested commas (`ta.crossover(a, b)`) — now paren-aware. Together these took
+   unparseable-condition failures from 16 → 0 and fixed several more silently-
+   garbled (but not error-throwing) conditions. Added `HIGHEST_HIGH` / `LOWEST_LOW`
+   / `MACD` / `STOCH` to `INDICATOR_MAP` (only `combo-oscillator-macd-stoch-rsi-ema`
+   newly assembles, 0 signals). **Conclusion: the ~127 non-assembling specs are
+   genuinely custom market-structure logic, not analyser bugs** — confirmed, not
+   assumed. One more analyser gap found but *not* fixed (new scope): many
+   scripts set a signal flag via `if <real condition>\n    flag := true` rather
+   than `flag = <expression>` — `resolveCondition` currently resolves the flag to
+   the literal `true` (and drops it) instead of the guarding `if`'s condition.
+   Affects several of the 17 no-condition specs; worth a future PR with its own
+   review (needs indentation-aware block scanning, more failure-prone than the
+   fixes above).
 3. **Multi-asset data.** Add a forex/stock OHLCV provider so the non-crypto
    strategies (gold barometer, etc.) get a fair test.
 4. **Custom-primitive layer (`docs/indicators.md` Phase I4).** Build FVG /

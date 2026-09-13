@@ -24,9 +24,7 @@
   "entry": {
     "direction": "BOTH",
     "conditions": [
-      ") alerts. longEntrySignal := dir == 1 shortEntrySignal := dir == -1 distDir := dir distConfScore := confScore distConfMax := confMax distConfText := confText distConfGrade := confGrade // Separate OrGa entry badge. Kept independent from showLabelsInput so the // entry marker remains visible even when normal M/D event labels are hidden. if showEntryMarkerInput float markerY = dir == 1 ? low - atr14 * 0.35 : high + atr14 * 0.35 color markerBg = dir == 1 ? colTgtInput : colStopInput string markerTxt = entryEmojiInput + (dir == 1 ? \" LONG\" : \" SHORT\") label entryBadge = label.new(bar_index",
       "alertsOnInput and longEntrySignal",
-      ") alerts. longEntrySignal := dir == 1 shortEntrySignal := dir == -1 distDir := dir distConfScore := confScore distConfMax := confMax distConfText := confText distConfGrade := confGrade // Separate OrGa entry badge. Kept independent from showLabelsInput so the // entry marker remains visible even when normal M/D event labels are hidden. if showEntryMarkerInput float markerY = dir == 1 ? low - atr14 * 0.35 : high + atr14 * 0.35 color markerBg = dir == 1 ? colTgtInput : colStopInput string markerTxt = entryEmojiInput + (dir == 1 ? \" LONG\" : \" SHORT\") label entryBadge = label.new(bar_index",
       "alertsOnInput and shortEntrySignal"
     ]
   },
