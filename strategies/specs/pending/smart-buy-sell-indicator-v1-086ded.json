@@ -64,6 +64,18 @@
     }
   ],
   "bindings": {
+    "fast": {
+      "type": "EMA",
+      "params": {
+        "period": "fastLen"
+      }
+    },
+    "slow": {
+      "type": "EMA",
+      "params": {
+        "period": "slowLen"
+      }
+    },
     "rsi": {
       "type": "RSI",
       "params": {

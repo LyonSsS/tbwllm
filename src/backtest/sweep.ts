@@ -51,10 +51,11 @@ function loadSpec(file: string): StrategySpec {
 const day = (ts: number) => new Date(ts).toISOString().slice(0, 10);
 const pct = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(1)}%`;
 
-function splitCandles(c: Candle[]): Split {
+function splitCandles(c: Candle[]): Split | null {
   const i = Math.floor(c.length * TRAIN_FRAC);
   const train = c.slice(0, i);
   const test = c.slice(i);
+  if (train.length === 0 || test.length === 0) return null;
   return {
     train: { candles: train, from: day(train[0].timestamp), to: day(train[train.length - 1].timestamp) },
     test: { candles: test, from: day(test[0].timestamp), to: day(test[test.length - 1].timestamp) },
@@ -301,6 +302,7 @@ if (isAll) {
     const c = candlesFor(tf);
     if (!c || !c.length) { console.warn(`no cached ${SYMBOL} ${tf} — skipping (yarn data:fetch ${SYMBOL} ${tf} 2017-01-01 2025-09-01)`); continue; }
     const split = splitCandles(c);
+    if (!split) { console.warn(`too few cached ${SYMBOL} ${tf} candles (${c.length}) to split train/test — skipping`); continue; }
     for (const base of assemblable) {
       process.stderr.write(`  sweeping ${base.id} @ ${tf}[K\r`);
       rows.push({ r: sweepSpec(base, split, trials, minTrades), tf });
@@ -326,9 +328,10 @@ if (isAll) {
   }
   const tf = tfArg ?? process.env.BT_TF ?? '1h';
   const c = candlesFor(tf);
-  if (!c) { console.error(`no cached ${SOURCE} ${SYMBOL} ${tf} — run yarn data:fetch first`); process.exit(1); }
+  if (!c || !c.length) { console.error(`no cached ${SOURCE} ${SYMBOL} ${tf} — run yarn data:fetch first`); process.exit(1); }
   const base = loadSpec(path.join(SPECS_DIR, specId.endsWith('.json') ? specId : `${specId}.json`));
   if ('unassemblable' in assemble(base)) { console.error(`${base.id} is not assemblable — nothing to sweep`); process.exit(1); }
   const split = splitCandles(c);
+  if (!split) { console.error(`too few cached ${SYMBOL} ${tf} candles (${c.length}) to split train/test`); process.exit(1); }
   printOne(sweepSpec(base, split, trials, minTrades), split, tf, minTrades);
 }

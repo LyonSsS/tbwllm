@@ -9,9 +9,9 @@
     "direction": "BOTH",
     "conditions": [
       "setupActive and radarState == \"ARMED\" and bullBias",
-      "setupActive and close >",
+      "setupActive and close > boxTop + breakoutBuffer and bullPressure > bearPressure",
       "setupActive and radarState == \"ARMED\" and bearBias",
-      "setupActive and close <"
+      "setupActive and close < boxBottom - breakoutBuffer and bearPressure > bullPressure"
     ]
   },
   "parameters": {
