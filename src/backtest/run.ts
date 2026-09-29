@@ -20,6 +20,16 @@ const SYMBOL = process.env.BT_SYMBOL ?? 'BTC/USDT';
 const TF = process.env.BT_TF ?? '1h';
 const BT_COST_BPS = Number(process.env.BT_COST_BPS) || 5;
 
+// Extra markets tested once, daily-only, alongside the primary crypto run
+// (same source-abstracted fetcher, just the 'yahoo' provider — see
+// src/data/fetcher.ts). Add more here to extend coverage later, e.g. other
+// FX crosses or indices; each reuses crypto's own window list rather than
+// its own (longer) history, so results stay comparable across markets.
+const EXTRA_MARKETS = [
+  { source: 'yahoo', symbol: '^GSPC', label: 'S&P 500' },
+  { source: 'yahoo', symbol: 'EURUSD=X', label: 'EUR/USD' },
+];
+
 function candlesOrDie(): Candle[] {
   const c = findCached(SOURCE, SYMBOL, TF);
   if (!c) {
@@ -117,6 +127,21 @@ const LEGEND = [
   `trades  = round-trip positions; "—" = the strategy assembled but never met a condition`,
 ];
 
+// Renders one (window, timeframe, candles) table to console + the two report buffers.
+function renderWindow(
+  years: number, tf: string, candles: Candle[], built: Built[],
+  sections: string[], report: string[],
+): void {
+  const cutoff = candles[candles.length - 1].timestamp - years * YEAR_MS;
+  const slice = candles.filter(x => x.timestamp >= cutoff);
+  const rows = rankOn(built, slice);
+  const head = `${tf}  ·  ${slice.length} bars  ·  buy & hold ${pct(rows[0]?.hold ?? 0)}`;
+  const table = boxTable([...COLS], boxCells(rows));
+  console.log(`\n${head}\n${table}`);
+  sections.push(``, `### ${head}`, ``, mdTable([...COLS], cells(rows)));
+  report.push(``, head, table);
+}
+
 function all(): void {
   fs.mkdirSync(RESULTS_DIR, { recursive: true });
 
@@ -154,15 +179,25 @@ function all(): void {
     sections.push(``, `## ${years} years`);
     report.push(``, `══ ${years} YEARS ══`);
     for (const tf of tfs) {
-      const c = byTf.get(tf)!;
-      const cutoff = c[c.length - 1].timestamp - years * YEAR_MS;
-      const slice = c.filter(x => x.timestamp >= cutoff);
-      const rows = rankOn(built, slice);
-      const head = `${tf}  ·  ${slice.length} bars  ·  buy & hold ${pct(rows[0]?.hold ?? 0)}`;
-      const table = boxTable([...COLS], boxCells(rows));
-      console.log(`\n${head}\n${table}`);
-      sections.push(``, `### ${head}`, ``, mdTable([...COLS], cells(rows)));
-      report.push(``, head, table);
+      renderWindow(years, tf, byTf.get(tf)!, built, sections, report);
+    }
+  }
+
+  // Extra markets: daily-only, reusing crypto's own window list (not their
+  // own — much longer — history) so results stay comparable across markets.
+  for (const market of EXTRA_MARKETS) {
+    const c = findCached(market.source, market.symbol, '1d');
+    if (!c || !c.length) {
+      console.warn(`[backtest] no cached ${market.source} ${market.symbol} 1d — skipping (yarn data:fetch '${market.symbol}' 1d <from> <to> ${market.source})`);
+      continue;
+    }
+    const marketFullYears = (c[c.length - 1].timestamp - c[0].timestamp) / YEAR_MS;
+    const marketWindows = windows.filter(y => y <= marketFullYears + 0.1);
+    console.log(`\n════ ${market.label} (daily) ════`);
+    sections.push(``, `## ${market.label} (daily)`);
+    report.push(``, `════ ${market.label} (daily) ════`);
+    for (const years of marketWindows) {
+      renderWindow(years, `${years}y`, c, built, sections, report);
     }
   }
 

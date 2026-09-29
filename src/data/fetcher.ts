@@ -5,8 +5,11 @@ import { z } from 'zod';
 import { CandleSchema, type Candle } from '../core/types.js';
 
 // ============================================================================
-// OHLCV fetcher — provider-abstracted (crypto now, forex / stocks later),
-// cached to data/ohlcv/ so history is downloaded once.
+// OHLCV fetcher — provider-abstracted: 'binance' (crypto, via ccxt) and
+// 'yahoo' (indices/forex, via Yahoo Finance's chart API — no key needed;
+// covers both asset classes since Yahoo tickers span stocks/indices, like
+// '^GSPC', and FX crosses, like 'EURUSD=X'). Cached to data/ohlcv/ so
+// history is downloaded once.
 // ============================================================================
 
 const CACHE_DIR = 'data/ohlcv';
@@ -78,8 +81,61 @@ async function fetchBinance(s: DataSpec): Promise<Candle[]> {
   return out;
 }
 
+// Yahoo's chart API only understands these intervals; no native 4h (a future
+// resample-from-1h would be needed for that).
+const YAHOO_INTERVAL: Record<string, string> = {
+  '1m': '1m', '5m': '5m', '15m': '15m', '30m': '30m', '1h': '1h', '1d': '1d',
+};
+
+interface YahooChartResponse {
+  chart: {
+    result: [{
+      timestamp: number[];
+      indicators: { quote: [{ open: (number | null)[]; high: (number | null)[]; low: (number | null)[]; close: (number | null)[]; volume: (number | null)[] }] };
+    }] | null;
+    error: { description: string } | null;
+  };
+}
+
+/** Pure parse of Yahoo's chart JSON into candles, dropping bars with a null OHLC (holidays / gaps). */
+export function parseYahooChart(body: YahooChartResponse): Candle[] {
+  const result = body.chart.result?.[0];
+  if (!result) throw new Error(body.chart.error?.description ?? 'empty Yahoo chart response');
+  const { timestamp, indicators } = result;
+  const q = indicators.quote[0];
+  const out: Candle[] = [];
+  for (let i = 0; i < timestamp.length; i++) {
+    const { open, high, low, close } = q;
+    if (open[i] == null || high[i] == null || low[i] == null || close[i] == null) continue;
+    out.push({
+      timestamp: timestamp[i] * 1000,
+      open: open[i]!, high: high[i]!, low: low[i]!, close: close[i]!,
+      volume: q.volume[i] ?? 0,
+    });
+  }
+  return out;
+}
+
+async function fetchYahoo(s: DataSpec): Promise<Candle[]> {
+  const interval = YAHOO_INTERVAL[s.timeframe];
+  if (!interval) throw new Error(`unsupported Yahoo timeframe "${s.timeframe}"`);
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(s.symbol)}` +
+    `?interval=${interval}&period1=${Math.floor(s.since / 1000)}&period2=${Math.ceil(s.until / 1000)}`;
+  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+  if (!res.ok) throw new Error(`Yahoo chart API ${res.status} for ${s.symbol}`);
+  const out = parseYahooChart(await res.json() as YahooChartResponse);
+
+  if (out.length) {
+    const first = out[0].timestamp;
+    const gotY = (out[out.length - 1].timestamp - first) / YEAR_MS;
+    console.log(`[data] actual range ${day(first)} → ${day(out[out.length - 1].timestamp)} (${gotY.toFixed(1)}y, ${out.length} candles)`);
+  }
+  return out;
+}
+
 const PROVIDERS: Record<string, (s: DataSpec) => Promise<Candle[]>> = {
   binance: fetchBinance,
+  yahoo: fetchYahoo,
 };
 
 // ─── public API ─────────────────────────────────────────────────────────────
