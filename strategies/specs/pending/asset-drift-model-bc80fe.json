@@ -1,0 +1,28 @@
+{
+  "id": "asset-drift-model-bc80fe",
+  "name": "Asset Drift Model",
+  "source": "https://www.tradingview.com/script/NBPTOyXr-Asset-Drift-Model",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "strongEvidence and direction > 0",
+      "strongEvidence and direction < 0",
+      "classCode == 1"
+    ]
+  },
+  "parameters": {
+    "i_bgMode": "On",
+    "i_bgInt": 75,
+    "i_showDash": true,
+    "i_showWM": true,
+    "i_dark": true,
+    "i_alerts": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "bc80fed717d48056",
+  "createdAt": 1790681169576
+}

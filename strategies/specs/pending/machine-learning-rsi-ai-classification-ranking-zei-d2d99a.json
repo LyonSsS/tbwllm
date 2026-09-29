@@ -1,0 +1,93 @@
+{
+  "id": "machine-learning-rsi-ai-classification-ranking-zei-d2d99a",
+  "name": "Machine Learning RSI | AI Classification & Ranking (Zeiierman)",
+  "source": "https://www.tradingview.com/script/VrTL3VwF-Machine-Learning-RSI-AI-Classification-Ranking-Zeiierman",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "ema20"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "ema5"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "highest_high5"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "lowest_low5"
+    },
+    {
+      "type": "STDDEV",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "stddev14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "flipLong and qualifies and coolOK and barOK",
+      "triggerLong or triggerShort",
+      "flipShort and qualifies and coolOK and barOK",
+      "triggerLong or triggerShort"
+    ]
+  },
+  "parameters": {
+    "rsiBase": 14,
+    "memoryDepth": 500,
+    "kNeighbors": 8,
+    "paintBars": true,
+    "gateRank": 60,
+    "gateConf": 50,
+    "useTrendGate": true,
+    "useVolBand": true,
+    "volBandLo": 20,
+    "useChop": true,
+    "atrFactor": 0.5,
+    "autoWeightsOn": true,
+    "autoSpeed": 1,
+    "wVal": 1,
+    "wSlp": 1,
+    "wAcc": 1,
+    "wMid": 1,
+    "wPct": 1,
+    "wChn": 1,
+    "wSpr": 1,
+    "wReg": 1,
+    "stMultBase": 1.5,
+    "stMlResp": 1,
+    "maTypeInput": "SMA",
+    "maLengthInput": 14,
+    "bbMultInput": 2
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "d2d99ab55dc5429b",
+  "createdAt": 1790680792683
+}

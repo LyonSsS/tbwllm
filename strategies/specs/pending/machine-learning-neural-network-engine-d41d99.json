@@ -1,0 +1,105 @@
+{
+  "id": "machine-learning-neural-network-engine-d41d99",
+  "name": "Machine Learning Neural Network Engine",
+  "source": "https://www.tradingview.com/script/7sKZIrbB-Machine-Learning-Neural-Network-Engine",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "RSI",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "rsi14"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 21
+      },
+      "outputKey": "ema21"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 34
+      },
+      "outputKey": "ema34"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 55
+      },
+      "outputKey": "ema55"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 120
+      },
+      "outputKey": "ema120"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 250
+      },
+      "outputKey": "ema250"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "sma50"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 100
+      },
+      "outputKey": "sma100"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 63
+      },
+      "outputKey": "highest_high63"
+    },
+    {
+      "type": "LINREG",
+      "params": {
+        "period": 20,
+        "offset": 0
+      },
+      "outputKey": "linreg20"
+    }
+  ],
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "transitionLong"
+    ]
+  },
+  "parameters": {
+    "response": "Balanced",
+    "selectivity": "Balanced",
+    "enforceDaily": true,
+    "tintCandles": true,
+    "oneWayCostPercent": 0.07
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "d41d99588750a81d",
+  "createdAt": 1790680712671
+}

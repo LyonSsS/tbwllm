@@ -1,0 +1,23 @@
+{
+  "id": "unknown-strategy-0a0a61",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/VFzCk3HX-TASC-2026-08-An-Ag-Selling-Model",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH"
+  },
+  "parameters": {
+    "len": 40,
+    "atrLen": 20,
+    "atrMulti": 2.5,
+    "startCropYear": 11,
+    "delayMonths": 2,
+    "dBetween": 30
+  },
+  "parsedBy": "static",
+  "confidence": 0.43,
+  "rawHash": "0a0a6122b6c833e6",
+  "createdAt": 1790680703305
+}

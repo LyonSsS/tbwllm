@@ -1,0 +1,33 @@
+{
+  "id": "volume-bubbles-quantalgo-573609",
+  "name": "Volume Bubbles [QuantAlgo]",
+  "source": "https://www.tradingview.com/script/CjNK8au1-Volume-Bubbles-QuantAlgo",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "isBigVisible",
+      "isBigVisible or isMedVisible",
+      "isAnyVisible"
+    ]
+  },
+  "parameters": {
+    "detectMethod": "Volume OR Delta",
+    "classifyMode": "Both",
+    "useCustomTF": false,
+    "smallPct": 75,
+    "mediumPct": 90,
+    "bigPct": 97,
+    "consensusMode": "Majority (2 of 3",
+    "shortLen": 20,
+    "midLen": 50,
+    "longLen": 100,
+    "colorPreset": "Custom"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "573609c5bc74eadb",
+  "createdAt": 1790680920992
+}

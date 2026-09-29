@@ -1,0 +1,59 @@
+{
+  "id": "holographic-market-microstructure-alphanatt-d85fe1",
+  "name": "Holographic Market Microstructure | AlphaNatt",
+  "source": "https://www.tradingview.com/script/0Nz4M9e7-Holographic-Market-Microstructure-AlphaNatt",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    },
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "bindings": {
+    "smaVol20": {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "(high - low) > voidThreshold and volume < smaVol20 * 0.7",
+      "math.abs(ofiNormalized) > 2",
+      "smartMoneyIndex != 0"
+    ]
+  },
+  "parameters": {
+    "microDepth": 50,
+    "liquidityThreshold": 1.5,
+    "imbalanceRatio": 2,
+    "smartMoneyLength": 20,
+    "accumThreshold": 70,
+    "fractalPeriod": 5,
+    "structureDepth": 3,
+    "heatmapBars": 100,
+    "heatmapLevels": 10,
+    "heatmapOpacity": 95,
+    "theme": "Aeon",
+    "glowEffect": true,
+    "pulseAnimation": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "d85fe164c34c7a18",
+  "createdAt": 1790681323877
+}

@@ -1,0 +1,35 @@
+{
+  "id": "mad-gann-o-maticus-a3d82c",
+  "name": "[Mad] Gann o Maticus",
+  "source": "https://www.tradingview.com/script/UVBy6VlF-MAD-Gann-o-Maticus",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH"
+  },
+  "parameters": {
+    "b_cleanup": true,
+    "i_tf_str": "1 Day",
+    "i_astro_planet": "Moon",
+    "i_astro_cycle": "High Latitude",
+    "b_showTable": true,
+    "i_scale_mode": "Classic Pivots",
+    "i_upperPivot": "R3",
+    "i_lowerPivot": "S1",
+    "i_base": "Close",
+    "i_dc_len": 20,
+    "i_atr_len": 14,
+    "i_atr_mult": 2,
+    "i_sd_len": 20,
+    "i_sd_mult": 2,
+    "i_pct_len": 50,
+    "i_pct_low": 10,
+    "i_pct_high": 90,
+    "i_min_height_atr_mult": 0.5
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "a3d82c30489c7df6",
+  "createdAt": 1790681059586
+}

@@ -1,0 +1,74 @@
+{
+  "id": "wyckoff-schematic-by-kingshuk-ghosh-dd53b1",
+  "name": "Wyckoff Schematic by Kingshuk Ghosh",
+  "source": "https://www.tradingview.com/script/gQynUonZ-Wyckoff-Schematic-by-Kingshuk-Ghosh",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "highest_high50"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 30
+      },
+      "outputKey": "highest_high30"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "lowest_low50"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 30
+      },
+      "outputKey": "lowest_low30"
+    }
+  ],
+  "bindings": {
+    "avgVolume": {
+      "type": "SMA",
+      "params": {
+        "period": "lookback"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "climaxVolume and close < open and low <= ta.lowest(low, 30) and close < close[1]",
+      "close > open and volume > avgVolume and low[1] == ta.lowest(low[1], 30) and close > close[1] * 1.01",
+      "low < ta.lowest(low[1], 20) and close > open and volume > avgVolume and close > low * 1.01"
+    ]
+  },
+  "parameters": {
+    "lookback": 100,
+    "volMultiplier": 1.5,
+    "autoDetect": true,
+    "minBarsBetweenLabels": 20,
+    "zigzagLength": 4,
+    "waveViewHeight": 0.15,
+    "monthlySwingLegs": 10
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "dd53b1b545420868",
+  "createdAt": 1790681196806
+}

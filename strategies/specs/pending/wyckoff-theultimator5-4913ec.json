@@ -1,0 +1,40 @@
+{
+  "id": "wyckoff-theultimator5-4913ec",
+  "name": "Wyckoff [theUltimator5]",
+  "source": "https://www.tradingview.com/script/tJzKloJn-Wyckoff-theUltimator5",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "chartLongEntryNow",
+      "chartShortEntryNow"
+    ]
+  },
+  "parameters": {
+    "manualOn": false,
+    "schemModeInput": "Auto",
+    "schemPanelCount": 2,
+    "schem1_choice": "Accumulation Schematic 1",
+    "schem2_choice": "Distribution Schematic 1",
+    "schemHeightATR": 10,
+    "schemCenterY": 6,
+    "schemGapATR": 2,
+    "schemBarsPerX": 4,
+    "historicalOverlayOffsetATR": 0.1,
+    "historicalChartMinPhaseInput": "C",
+    "historicalSchematicMinPhaseInput": "C",
+    "currentChartMinPhaseInput": "B",
+    "allowHTFOverride": true,
+    "entryStrictness": "Standard",
+    "entryLabelTriggerInput": "Auto (Entry Strictness",
+    "manualBars": 100,
+    "manualATRMult": 2,
+    "manualShowLevels": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "4913ecd8e5c8ac6a",
+  "createdAt": 1790680572235
+}

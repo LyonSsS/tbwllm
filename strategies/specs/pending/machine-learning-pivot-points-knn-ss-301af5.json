@@ -1,0 +1,61 @@
+{
+  "id": "machine-learning-pivot-points-knn-ss-301af5",
+  "name": "Machine Learning Pivot Points (KNN) [SS]",
+  "source": "https://www.tradingview.com/script/PwVoxMSo-Machine-Learning-Pivot-Points-KNN-SS",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    },
+    {
+      "type": "PIVOT_HIGH",
+      "params": {
+        "period": 10
+      },
+      "outputKey": "pivot_high10"
+    },
+    {
+      "type": "PIVOT_LOW",
+      "params": {
+        "period": 10
+      },
+      "outputKey": "pivot_low10"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 4
+      },
+      "outputKey": "highest_high4"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 4
+      },
+      "outputKey": "lowest_low4"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "transition_low and is_historical",
+      "transition_high and is_historical"
+    ]
+  },
+  "parameters": {
+    "user_pivs": 10,
+    "knn_clusters": 2,
+    "len": 20
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "301af5756e44345e",
+  "createdAt": 1790681001862
+}

@@ -1,0 +1,38 @@
+{
+  "id": "session-edge-profiler-flux-charts-d8eba6",
+  "name": "Session Edge Profiler | Flux Charts",
+  "source": "https://www.tradingview.com/script/T1V41Bl5-Session-Edge-Profiler-Flux-Charts",
+  "version": "1",
+  "strategyType": "pattern",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "enAsia": true,
+    "nameAsia": "Asia",
+    "enLondon": true,
+    "nameLondon": "London",
+    "enNYAM": true,
+    "nameNYAM": "NY AM",
+    "enLunch": true,
+    "nameLunch": "NY Lunch",
+    "enNYPM": true,
+    "nameNYPM": "NY PM",
+    "wdSun": false,
+    "wdMon": true,
+    "wdTue": true,
+    "wdWed": true,
+    "wdThu": true,
+    "wdFri": true,
+    "wdSat": false,
+    "atrLen": 14,
+    "pivotLen": 5,
+    "dashTheme": "Dark Mode"
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "d8eba64d9f3cd927",
+  "createdAt": 1790680759439
+}

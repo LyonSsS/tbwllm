@@ -1,0 +1,46 @@
+{
+  "id": "swing-structure-forecast-boswaves-8e317f",
+  "name": "Swing Structure Forecast [BOSWaves]",
+  "source": "https://www.tradingview.com/script/Ft4zyO1F-Swing-Structure-Forecast-BOSWaves",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "atr200"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "dir != dir[1] and dir",
+      "dir != dir[1] and not dir"
+    ]
+  },
+  "parameters": {
+    "swingLen": 16,
+    "zoneATR": 0.3,
+    "maxAge": 300,
+    "samples": 20,
+    "method": "Weighted",
+    "fwdBars": 5,
+    "fib1Active": true,
+    "fib1Val": 1,
+    "fib2Active": true,
+    "fib2Val": 1.272,
+    "fib3Active": true,
+    "fib3Val": 1.618,
+    "fib4Active": false,
+    "fib4Val": 2,
+    "fib5Active": false,
+    "fib5Val": 2.618
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "8e317f2cd61e058c",
+  "createdAt": 1790680945196
+}

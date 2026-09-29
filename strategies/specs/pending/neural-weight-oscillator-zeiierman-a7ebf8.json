@@ -1,0 +1,44 @@
+{
+  "id": "neural-weight-oscillator-zeiierman-a7ebf8",
+  "name": "Neural Weight Oscillator (Zeiierman)",
+  "source": "https://www.tradingview.com/script/bfu1hmkS-Neural-Weight-Oscillator-Zeiierman",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "signalLine": {
+      "type": "EMA",
+      "params": {
+        "period": "signalLen"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(osc, signalLine) and osc < 30 and bullSweep",
+      "ta.crossunder(osc, signalLine) and osc > 70 and bearSweep"
+    ]
+  },
+  "parameters": {
+    "lenFast": 20,
+    "lenSlow": 100,
+    "smoothLen": 5,
+    "bestCriterion": "Trend",
+    "worstCriterion": "Momentum",
+    "boTrend": 1,
+    "boMean": 3,
+    "boMomentum": 6,
+    "owTrend": 6,
+    "owMean": 3,
+    "owMomentum": 1,
+    "useTraining": true,
+    "learnInfluence": 0.3,
+    "lineInfluence": 0.25,
+    "signalLen": 9
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "a7ebf88cab27bc6d",
+  "createdAt": 1790680834697
+}

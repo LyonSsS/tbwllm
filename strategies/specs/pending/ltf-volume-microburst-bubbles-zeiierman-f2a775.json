@@ -1,0 +1,39 @@
+{
+  "id": "ltf-volume-microburst-bubbles-zeiierman-f2a775",
+  "name": "LTF Volume Microburst Bubbles (Zeiierman)",
+  "source": "https://www.tradingview.com/script/Hdskv6Q5-LTF-Volume-Microburst-Bubbles-Zeiierman",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "bullRaw and scoreRaw >= sigMin",
+      "bullSig or bearSig or extremeBurst",
+      "bearRaw and scoreRaw <= -sigMin",
+      "bullSig or bearSig or extremeBurst"
+    ]
+  },
+  "parameters": {
+    "autoLtf": true,
+    "baseLen": 50,
+    "spikeMin": 2.5,
+    "effMin": 0.1,
+    "sigMin": 35,
+    "tzMode": "Market Local",
+    "sydOn": false,
+    "tokOn": false,
+    "lonOn": true,
+    "nyOn": true,
+    "bubScale": "Normal",
+    "bubFade": 4,
+    "lvlGap": 15,
+    "lvlAge": 2000,
+    "lvlStyleIn": "Solid",
+    "colorBars": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "f2a7759e03d297f6",
+  "createdAt": 1790680636566
+}

@@ -1,0 +1,38 @@
+{
+  "id": "central-bank-liquidity-gap-indicator-35851b",
+  "name": "Central Bank Liquidity Gap Indicator",
+  "source": "https://www.tradingview.com/script/udTI2IUw-Central-Bank-Liquidity-Gap-Indicator",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(money_flow_divergence, 0)",
+      "buy_signal",
+      "ta.crossunder(money_flow_divergence, 0)"
+    ]
+  },
+  "parameters": {
+    "lookbackPeriod": 4,
+    "comparison_ticker": "SP:SPX",
+    "use_us_m2": true,
+    "use_china_m2": false,
+    "use_eurozone_m2": false,
+    "use_japan_m2": false,
+    "use_uk_m2": false,
+    "use_canada_m2": false,
+    "use_swiss_m2": false,
+    "use_india_m2": false,
+    "use_net_liquidity": false,
+    "net_liquidity_weight": 50,
+    "buy_threshold": 5,
+    "corr_lookback": 4,
+    "lead_periods": 12,
+    "color_theme": "Gradient Green/Red"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "35851bc28ad0e5c3",
+  "createdAt": 1790681142202
+}

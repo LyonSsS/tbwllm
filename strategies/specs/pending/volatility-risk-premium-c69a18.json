@@ -1,0 +1,47 @@
+{
+  "id": "volatility-risk-premium-c69a18",
+  "name": "Volatility Risk Premium",
+  "source": "https://www.tradingview.com/script/UJgVgUvT-Volatility-Risk-Premium",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "bindings": {
+    "vrp": {
+      "type": "EMA",
+      "params": {
+        "period": "vrp_smoothing"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "mr_oversold and vrp > nz(vrp[1])",
+      "ta.crossover(rv_slope, 0)",
+      "mr_overbought and vrp < nz(vrp[1])",
+      "ta.crossunder(rv_slope, 0)"
+    ]
+  },
+  "parameters": {
+    "rv_length": 20,
+    "rv_method": "Close-to-Close",
+    "vrp_smoothing": 5,
+    "vrp_lookback": 252,
+    "threshold_high": 5,
+    "threshold_extreme": 10,
+    "threshold_low": -2,
+    "rv_short": 10,
+    "rv_long": 60,
+    "mr_zscore_threshold": 2,
+    "bb_mult": 2,
+    "color_candles": true,
+    "vrp_momentum_length": 5,
+    "color_scheme": "EdgeTools",
+    "use_dark_mode": true,
+    "background_intensity": 85
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "c69a182be0c3c9c8",
+  "createdAt": 1790681275306
+}

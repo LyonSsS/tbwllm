@@ -12,7 +12,7 @@ const BASE_URL = 'https://www.tradingview.com';
 // pre-filter closed-source but only paginates to ~page 2. Override with
 // TV_SCRIPTS_PATH (e.g. '/scripts/opensource/', '/scripts/editors-picks/').
 const rawScriptsPath = process.env.TV_SCRIPTS_PATH ?? '/scripts/';
-const SCRIPTS_PATH = rawScriptsPath.endsWith('/') ? rawScriptsPath : `${rawScriptsPath}/`;
+export const SCRIPTS_PATH = rawScriptsPath.endsWith('/') ? rawScriptsPath : `${rawScriptsPath}/`;
 const SCRIPTS_URL = `${BASE_URL}${SCRIPTS_PATH}`;
 
 /**
