@@ -1,0 +1,35 @@
+{
+  "id": "classic-donchian-turtle-breakout",
+  "name": "Donchian Channel Breakout (Turtle Rules)",
+  "source": "Classic — Turtle Trading Rules (Richard Dennis / William Eckhardt), simplified single-unit System 1",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "donchianHighEntry": { "type": "HIGHEST_HIGH", "source": "high", "params": { "period": "entryLen" } },
+    "donchianLowEntry": { "type": "LOWEST_LOW", "source": "low", "params": { "period": "entryLen" } },
+    "donchianHighExit": { "type": "HIGHEST_HIGH", "source": "high", "params": { "period": "exitLen" } },
+    "donchianLowExit": { "type": "LOWEST_LOW", "source": "low", "params": { "period": "exitLen" } }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "close > donchianHighEntry[1]",
+      "close < donchianLowEntry[1]"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "close < donchianLowExit[1]",
+      "close > donchianHighExit[1]"
+    ]
+  },
+  "parameters": {
+    "entryLen": 20,
+    "exitLen": 10
+  },
+  "parsedBy": "manual",
+  "confidence": 1,
+  "notes": "Hand-authored baseline, not scraped. N-bar breakout trend-following: enter long on a new entryLen-bar high, short on a new entryLen-bar low; exit on the opposite (shorter) exitLen-bar extreme — the real Turtle system's faster exit channel, not just a stop-and-reverse.",
+  "createdAt": 1790676928530
+}

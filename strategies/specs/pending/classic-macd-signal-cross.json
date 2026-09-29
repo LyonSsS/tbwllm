@@ -1,0 +1,27 @@
+{
+  "id": "classic-macd-signal-cross",
+  "name": "MACD Signal Line Crossover",
+  "source": "Classic — Gerald Appel's MACD, signal-line crossover system",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "macd": { "type": "MACD", "params": { "fastPeriod": "fastPeriod", "slowPeriod": "slowPeriod", "signalPeriod": "signalPeriod" } }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(macd.macd, macd.signal)",
+      "ta.crossunder(macd.macd, macd.signal)"
+    ]
+  },
+  "parameters": {
+    "fastPeriod": 12,
+    "slowPeriod": 26,
+    "signalPeriod": 9
+  },
+  "parsedBy": "manual",
+  "confidence": 1,
+  "notes": "Hand-authored baseline, not scraped. Textbook MACD: long when the MACD line crosses above its signal line, short (stop-and-reverse) on the opposite cross. No separate exit — the reversal condition closes/flips the position.",
+  "createdAt": 1790676928530
+}

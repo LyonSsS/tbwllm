@@ -1,0 +1,30 @@
+{
+  "id": "classic-bollinger-bounce",
+  "name": "Bollinger Band Bounce",
+  "source": "Classic — John Bollinger's Bollinger Band mean-reversion ('the bands') system",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "bb": { "type": "BB", "params": { "period": "bbLength", "stdDev": "bbStdDev" } }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "close < bb.lower"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "close > bb.middle"
+    ]
+  },
+  "parameters": {
+    "bbLength": 20,
+    "bbStdDev": 2
+  },
+  "parsedBy": "manual",
+  "confidence": 1,
+  "notes": "Hand-authored baseline, not scraped. Classic volatility mean-reversion: buy when price closes outside (below) the lower band, exit at the middle band (the moving-average basis). Long-only.",
+  "createdAt": 1790676928530
+}
