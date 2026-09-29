@@ -71,12 +71,14 @@ no I/O, no side effects.
 
 ## Key facts
 
-- **Corpus:** 134 specs, **7 assemble**, ~4 produce signals. The rest use custom
-  market-structure logic standard indicators can't express (confirmed by the
-  analyser clean-up, not just assumed — see `docs/STATUS.md`).
+- **Corpus:** 198 specs (scraped Pine + hand-authored classics + freqtrade —
+  see `docs/STATUS.md` "Strategy sourcing"), **20 assemble**. Most of the rest
+  use custom market-structure logic standard indicators can't express (confirmed
+  by the analyser clean-up, not just assumed — see `docs/STATUS.md`).
 - **Backtest verdict:** on BTC/USDT, no strategy beats buy-and-hold on any
-  timeframe or window, and none holds an edge under an out-of-sample parameter
-  sweep (`strategies/results/SWEEP.md`). See `docs/STATUS.md`.
+  timeframe or window. Under a walk-forward out-of-sample sweep (≥75% of folds
+  must hold, not one lucky split — `strategies/results/SWEEP.md`), one strategy
+  holds up: `smart-buy-sell-indicator-v1-0` on BTC/USDT 1h. See `docs/STATUS.md`.
 - `data/` and `strategies/raw/` and `reports/` are gitignored (local caches).
   `strategies/specs/pending/`, `curation.json`, `strategies/results/RANKING.md`,
   `strategies/results/SWEEP.md` are tracked.
