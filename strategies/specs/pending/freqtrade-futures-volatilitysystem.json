@@ -1,0 +1,30 @@
+{
+  "id": "freqtrade-futures-volatilitysystem",
+  "name": "VolatilitySystem",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/futures/VolatilitySystem.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1h",
+  "bindings": {
+    "atr": {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      }
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "close_change * 1 > atr[1]"
+    ]
+  },
+  "exit": {
+    "stopLoss": "entry * (1 + -1)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245234
+}

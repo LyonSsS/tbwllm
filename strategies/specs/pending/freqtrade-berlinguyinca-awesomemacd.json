@@ -1,0 +1,36 @@
+{
+  "id": "freqtrade-berlinguyinca-awesomemacd",
+  "name": "AwesomeMacd",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/AwesomeMacd.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1h",
+  "bindings": {
+    "adx": {
+      "type": "ADX",
+      "params": {
+        "period": 14
+      }
+    },
+    "macd": {
+      "type": "MACD"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(macd.macd > 0) and (ao > 0) and (ao[1] < 0)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(macd.macd < 0) and (ao < 0) and (ao[1] > 0)"
+    ],
+    "stopLoss": "entry * (1 + -0.25)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245229
+}

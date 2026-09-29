@@ -1,0 +1,33 @@
+{
+  "id": "freqtrade-berlinguyinca-macdstrategy-crossed",
+  "name": "MACDStrategy_crossed",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/MACDStrategy_crossed.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "cci": {
+      "type": "CCI"
+    },
+    "macd": {
+      "type": "MACD"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "ta.crossover(macd.macd, macd.signal) and (cci <= -50.0)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "ta.crossunder(macd.macd, macd.signal) and (cci >= 100.0)"
+    ],
+    "stopLoss": "entry * (1 + -0.3)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245232
+}

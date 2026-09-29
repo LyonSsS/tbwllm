@@ -1,0 +1,39 @@
+{
+  "id": "freqtrade-berlinguyinca-freqtrade-backtest-validation-freqtr",
+  "name": "Freqtrade_backtest_validation_freqtrade1",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/Freqtrade_backtest_validation_freqtrade1.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1h",
+  "bindings": {
+    "fastMA": {
+      "type": "SMA",
+      "params": {
+        "period": 14
+      }
+    },
+    "slowMA": {
+      "type": "SMA",
+      "params": {
+        "period": 28
+      }
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "fastMA > slowMA"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "fastMA < slowMA"
+    ],
+    "stopLoss": "entry * (1 + -0.90)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245231
+}

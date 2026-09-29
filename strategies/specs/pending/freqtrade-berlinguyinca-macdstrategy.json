@@ -1,0 +1,37 @@
+{
+  "id": "freqtrade-berlinguyinca-macdstrategy",
+  "name": "MACDStrategy",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/MACDStrategy.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "cci": {
+      "type": "CCI"
+    },
+    "macd": {
+      "type": "MACD"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(macd.macd > macd.signal) and (cci <= buy_cci) and (volume > 0)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(macd.macd < macd.signal) and (cci >= sell_cci) and (volume > 0)"
+    ],
+    "stopLoss": "entry * (1 + -0.3)"
+  },
+  "parameters": {
+    "buy_cci": -48,
+    "sell_cci": 687
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245232
+}

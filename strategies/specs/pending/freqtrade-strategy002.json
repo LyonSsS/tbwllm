@@ -1,0 +1,37 @@
+{
+  "id": "freqtrade-strategy002",
+  "name": "Strategy002",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/Strategy002.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "rsi": {
+      "type": "RSI"
+    },
+    "bb": {
+      "type": "BB",
+      "params": {
+        "period": 20,
+        "stdDev": 2
+      }
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(rsi < 30) and (slowk < 20) and (bb.lower > close) and (CDLHAMMER == 100)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(sar > close) and (fisher_rsi > 0.3)"
+    ],
+    "stopLoss": "entry * (1 + -0.10)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245227
+}

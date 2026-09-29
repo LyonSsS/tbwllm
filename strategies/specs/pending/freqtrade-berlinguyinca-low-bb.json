@@ -1,0 +1,36 @@
+{
+  "id": "freqtrade-berlinguyinca-low-bb",
+  "name": "Low_BB",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/Low_BB.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1m",
+  "bindings": {
+    "cci": {
+      "type": "CCI"
+    },
+    "rsi": {
+      "type": "RSI",
+      "params": {
+        "period": 7
+      }
+    },
+    "macd": {
+      "type": "MACD"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "close <= 0.98 * bb_lowerband"
+    ]
+  },
+  "exit": {
+    "stopLoss": "entry * (1 + -0.015)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245232
+}
