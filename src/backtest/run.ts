@@ -4,6 +4,7 @@ import { StrategySpecSchema, type Candle, type Signal, type StrategySpec } from 
 import { assemble } from '../assembly/assembler.js';
 import { findCached } from '../data/fetcher.js';
 import { runBacktest } from './engine.js';
+import { pct, ipct, boxTable, mdTable } from './format.js';
 
 // ============================================================================
 //   yarn backtest <specId>         backtest one spec on cached BTC/USDT 1h
@@ -31,8 +32,6 @@ function candlesOrDie(): Candle[] {
 function loadSpec(file: string) {
   return StrategySpecSchema.parse(JSON.parse(fs.readFileSync(file, 'utf8')));
 }
-
-const pct = (x: number) => `${x >= 0 ? '+' : ''}${x.toFixed(1)}%`;
 
 function one(specId: string, candles: Candle[]): void {
   const spec = loadSpec(path.join(SPECS_DIR, specId.endsWith('.json') ? specId : `${specId}.json`));
@@ -93,24 +92,13 @@ function cells(rows: Row[]): string[][] {
   ]);
 }
 
-function mdTable(rows: Row[]): string {
-  return [
-    `| ${COLS.join(' | ')} |`,
-    `|--:|----------|-------:|--------:|-------:|------:|-------:|`,
-    ...cells(rows).map(c => `| ${c.join(' | ')} |`),
-  ].join('\n');
-}
-
-// Bordered console table: box-drawing borders, centered headers, a rule
-// between every data row, strategy left-aligned (clipped to a fixed width so
-// the table never wraps), everything else right-aligned.
+// Strategy name clipped to a fixed width so the box table never wraps.
 const NAME_W = 26;
+const clip = (s: string) => (s.length <= NAME_W ? s : s.slice(0, NAME_W - 1) + '…');
 
-function boxTable(rows: Row[]): string {
-  const ipct = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(Math.round(x))}%`;
-  const clip = (s: string) => (s.length <= NAME_W ? s : s.slice(0, NAME_W - 1) + '…');
+function boxCells(rows: Row[]): string[][] {
   const dash = '—';
-  const body = rows.map((r, i) => [
+  return rows.map((r, i) => [
     String(i + 1),
     clip(r.name),
     r.trades === 0 ? dash : ipct(r.ret),
@@ -119,24 +107,6 @@ function boxTable(rows: Row[]): string {
     r.trades === 0 ? dash : `${Math.round(r.dd)}%`,
     String(r.trades),
   ]);
-  const headers = [...COLS];
-  const w = headers.map((h, i) => Math.max(h.length, i === 0 ? 3 : 0, ...body.map(r => r[i].length)));
-
-  const center = (s: string, width: number) => {
-    const left = Math.floor((width - s.length) / 2);
-    return ' '.repeat(left) + s + ' '.repeat(width - s.length - left);
-  };
-  const rule = (l: string, m: string, rt: string) => l + w.map(x => '─'.repeat(x + 2)).join(m) + rt;
-  const headLine = '│ ' + headers.map((h, i) => center(h, w[i])).join(' │ ') + ' │';
-  const dataLine = (c: string[]) => '│ ' + c.map((v, i) => (i === 1 ? v.padEnd(w[i]) : v.padStart(w[i]))).join(' │ ') + ' │';
-
-  const out = [rule('┌', '┬', '┐'), headLine, rule('├', '┼', '┤')];
-  body.forEach((c) => {
-    out.push(dataLine(c));
-    out.push(rule('├', '┼', '┤'));
-  });
-  out[out.length - 1] = rule('└', '┴', '┘');
-  return out.join('\n');
 }
 
 const LEGEND = [
@@ -189,9 +159,9 @@ function all(): void {
       const slice = c.filter(x => x.timestamp >= cutoff);
       const rows = rankOn(built, slice);
       const head = `${tf}  ·  ${slice.length} bars  ·  buy & hold ${pct(rows[0]?.hold ?? 0)}`;
-      const table = boxTable(rows);
+      const table = boxTable([...COLS], boxCells(rows));
       console.log(`\n${head}\n${table}`);
-      sections.push(``, `### ${head}`, ``, mdTable(rows));
+      sections.push(``, `### ${head}`, ``, mdTable([...COLS], cells(rows)));
       report.push(``, head, table);
     }
   }

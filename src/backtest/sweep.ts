@@ -4,6 +4,7 @@ import { StrategySpecSchema, type Candle, type StrategySpec, type BacktestMetric
 import { assemble } from '../assembly/assembler.js';
 import { findCached } from '../data/fetcher.js';
 import { runBacktest } from './engine.js';
+import { pct, boxTable, mdTable } from './format.js';
 
 // ============================================================================
 //   yarn sweep <specId> [--trials 300] [--min-trades 5] [--tf 1h]
@@ -49,7 +50,6 @@ function loadSpec(file: string): StrategySpec {
 }
 
 const day = (ts: number) => new Date(ts).toISOString().slice(0, 10);
-const pct = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(1)}%`;
 
 function splitCandles(c: Candle[]): Split | null {
   const i = Math.floor(c.length * TRAIN_FRAC);
@@ -221,29 +221,6 @@ function tableRows(rows: { r: SweepResult; tf: string }[], minTrades: number): s
       VLABEL[verdict(x.r, minTrades)],
     ];
   });
-}
-
-function boxTable(headers: string[], rows: string[][]): string {
-  const w = headers.map((h, i) => Math.max(h.length, ...rows.map(r => r[i].length)));
-  const center = (s: string, width: number) => {
-    const l = Math.floor((width - s.length) / 2);
-    return ' '.repeat(l) + s + ' '.repeat(width - s.length - l);
-  };
-  const rule = (l: string, m: string, rgt: string) => l + w.map(x => '─'.repeat(x + 2)).join(m) + rgt;
-  const head = '│ ' + headers.map((h, i) => center(h, w[i])).join(' │ ') + ' │';
-  const line = (c: string[]) => '│ ' + c.map((v, i) => (i === 1 ? v.padEnd(w[i]) : v.padStart(w[i]))).join(' │ ') + ' │';
-  const out = [rule('┌', '┬', '┐'), head, rule('├', '┼', '┤')];
-  rows.forEach(r => { out.push(line(r)); out.push(rule('├', '┼', '┤')); });
-  out[out.length - 1] = rule('└', '┴', '┘');
-  return out.join('\n');
-}
-
-function mdTable(headers: string[], rows: string[][]): string {
-  return [
-    `| ${headers.join(' | ')} |`,
-    `|${headers.map(() => '---').join('|')}|`,
-    ...rows.map(r => `| ${r.join(' | ')} |`),
-  ].join('\n');
 }
 
 function writeSweepMd(rows: { r: SweepResult; tf: string }[], trials: number, minTrades: number): string {
