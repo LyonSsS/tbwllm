@@ -7,22 +7,29 @@ import { runBacktest } from './engine.js';
 import { pct, boxTable, mdTable } from './format.js';
 
 // ============================================================================
-//   yarn sweep <specId> [--trials 300] [--min-trades 5] [--tf 1h]
-//   yarn sweep --all    [--trials 200] [--min-trades 5] [--tf 1h,4h,1d]
+//   yarn sweep <specId> [--trials 300] [--min-trades 5] [--tf 1h] [--folds 4]
+//   yarn sweep --all    [--trials 200] [--min-trades 5] [--tf 1h,4h,1d] [--folds 4]
 //
-// Random-searches a spec's numeric parameters, scoring every candidate on a
-// chronological train/test split: the first 2/3 of history tunes the config,
-// the last 1/3 — never seen during the search — judges it. A parameter set
-// that only shines in-sample is overfitting; the search reports the best-by-
-// train config together with how it did on the unseen test slice, so a real
-// edge (holds out-of-sample) is distinguishable from a curve-fit.
+// Random-searches a spec's numeric parameters across an *anchored walk-
+// forward* split, not one static train/test cut: history is divided into
+// `folds + 1` equal chronological blocks, and fold i trains on the
+// expanding window of every block before it, testing on the next block it
+// has never seen. Each block is used as a test slice exactly once, so a
+// fold's test data can never leak into an earlier fold's training window.
+//
+// A single lucky (or unlucky) split can make a worthless strategy look
+// good, or a real one look bad — picking the best-by-train config on one
+// 67/33 cut is itself a form of overfitting once you consider that cut was
+// one of many possible ones. Requiring the result to hold up on most folds,
+// not just one, is what actually distinguishes a real edge from a curve-fit.
 // ============================================================================
 
 const SPECS_DIR = 'strategies/specs/pending';
 const RESULTS_DIR = 'strategies/results';
 const SOURCE = process.env.BT_SOURCE ?? 'binance';
 const SYMBOL = process.env.BT_SYMBOL ?? 'BTC/USDT';
-const TRAIN_FRAC = 2 / 3;
+const DEFAULT_FOLDS = 4;
+const MIN_BLOCK_BARS = 20; // below this a block is too thin to backtest meaningfully
 
 type Range = { lo: number; hi: number; int: boolean };
 type Slice = { candles: Candle[]; from: string; to: string };
@@ -51,15 +58,33 @@ function loadSpec(file: string): StrategySpec {
 
 const day = (ts: number) => new Date(ts).toISOString().slice(0, 10);
 
-function splitCandles(c: Candle[]): Split | null {
-  const i = Math.floor(c.length * TRAIN_FRAC);
-  const train = c.slice(0, i);
-  const test = c.slice(i);
-  if (train.length === 0 || test.length === 0) return null;
-  return {
-    train: { candles: train, from: day(train[0].timestamp), to: day(train[train.length - 1].timestamp) },
-    test: { candles: test, from: day(test[0].timestamp), to: day(test[test.length - 1].timestamp) },
-  };
+function toSlice(c: Candle[]): Slice {
+  return { candles: c, from: day(c[0].timestamp), to: day(c[c.length - 1].timestamp) };
+}
+
+// `numFolds + 1` equal chronological blocks → `numFolds` folds. Fold i
+// trains on blocks[0..i] concatenated (an expanding/"anchored" window) and
+// tests on block[i+1], which no earlier fold ever trained or tested on.
+function buildFolds(candles: Candle[], numFolds: number): Split[] {
+  const numBlocks = numFolds + 1;
+  const blockLen = Math.floor(candles.length / numBlocks);
+  if (blockLen < MIN_BLOCK_BARS) return [];
+
+  const blocks: Candle[][] = [];
+  for (let i = 0; i < numBlocks; i++) {
+    const start = i * blockLen;
+    const end = i === numBlocks - 1 ? candles.length : start + blockLen;
+    blocks.push(candles.slice(start, end));
+  }
+
+  const folds: Split[] = [];
+  for (let i = 1; i < numBlocks; i++) {
+    const train = blocks.slice(0, i).flat();
+    const test = blocks[i];
+    if (train.length === 0 || test.length === 0) continue;
+    folds.push({ train: toSlice(train), test: toSlice(test) });
+  }
+  return folds;
 }
 
 function score(spec: StrategySpec, candles: Candle[]): BacktestMetrics | null {
@@ -94,6 +119,8 @@ type SweepResult = {
   oracle: Pick | null; // highest test Sharpe among valid trials (hindsight upper bound)
 };
 
+// One fold's random search — unchanged from the single-split version, just
+// invoked once per fold now instead of once per spec.
 function sweepSpec(base: StrategySpec, split: Split, trials: number, minTrades: number): SweepResult {
   const ranges = sweepableRanges(base);
   const swept = [...ranges.keys()];
@@ -143,14 +170,58 @@ function verdict(r: SweepResult, minTrades: number): Verdict {
   return 'overfit';
 }
 
+// ── walk-forward aggregation across folds ──────────────────────────────────
+
+type WFVerdict = 'holds' | 'marginal' | 'overfit' | 'weak' | 'no-signal';
+
+type WalkForwardResult = {
+  id: string;
+  swept: string[];
+  folds: SweepResult[];
+  foldVerdicts: Verdict[];
+  holdRate: number; // fraction of folds that individually verdict 'holds'
+  avgTestSharpe: number | null;
+  verdict: WFVerdict;
+};
+
+// Holds only if the *majority* of folds individually hold (≥75%) — a
+// single lucky fold isn't enough. 'marginal' if at least one fold held, or
+// most folds landed holds/marginal/thin without clearing the bar outright.
+function aggregateVerdict(perFold: Verdict[]): WFVerdict {
+  if (perFold.length === 0 || perFold.every(v => v === 'no-signal')) return 'no-signal';
+  const holdRate = perFold.filter(v => v === 'holds').length / perFold.length;
+  if (holdRate >= 0.75) return 'holds';
+  const okRate = perFold.filter(v => v === 'holds' || v === 'marginal' || v === 'thin').length / perFold.length;
+  if (holdRate > 0 || okRate >= 0.5) return 'marginal';
+  if (perFold.some(v => v === 'weak')) return 'weak';
+  return 'overfit';
+}
+
+function sweepWalkForward(base: StrategySpec, folds: Split[], trials: number, minTrades: number): WalkForwardResult {
+  const foldResults = folds.map(f => sweepSpec(base, f, trials, minTrades));
+  const foldVerdicts = foldResults.map(r => verdict(r, minTrades));
+  const testSharpes = foldResults
+    .map(r => (r.best?.test ? shp(r.best.test) : null))
+    .filter((x): x is number => x !== null);
+  return {
+    id: base.id,
+    swept: foldResults[0]?.swept ?? [],
+    folds: foldResults,
+    foldVerdicts,
+    holdRate: foldVerdicts.filter(v => v === 'holds').length / (folds.length || 1),
+    avgTestSharpe: testSharpes.length ? testSharpes.reduce((a, b) => a + b, 0) / testSharpes.length : null,
+    verdict: aggregateVerdict(foldVerdicts),
+  };
+}
+
 const LEGEND = [
-  `tr = train slice (first ${Math.round(TRAIN_FRAC * 100)}%, tuned on) · te = test slice (last ${100 - Math.round(TRAIN_FRAC * 100)}%, unseen during search)`,
-  `holds    = best-by-train config keeps Sharpe > 1 and a positive return on the test slice`,
+  `Anchored walk-forward: history → folds+1 equal blocks; fold i trains on every block before it (expanding window), tests on the next untouched block.`,
+  `holds    = that fold's best-by-train config keeps Sharpe > 1 and a positive return on its test block`,
   `marginal = test Sharpe 0.5–1`,
   `overfit  = strong on train (Sharpe > 1) but test Sharpe < 0.5`,
   `weak     = no sampled config even reached train Sharpe > 1`,
   `thin     = would hold but too few test trades to trust`,
-  `no signal= nothing met the min-trades bar on train`,
+  `verdict  = aggregated across folds — HOLDS needs ≥75% of folds to individually hold, not just one`,
 ];
 
 // ── single-spec detailed output ────────────────────────────────────────────
@@ -161,87 +232,65 @@ function fmt(m: BacktestMetrics | null): string {
     .toString().padStart(3)}%  trades ${m.totalTrades}`;
 }
 
-function printOne(r: SweepResult, split: Split, tf: string, minTrades: number): void {
-  console.log(`\n${r.id}`);
-  console.log(`  ${r.swept.length} sweepable param(s) on ${tf}: ${r.swept.join(', ') || '(none)'}`);
-  console.log(`  train ${split.train.candles.length} bars ${split.train.from}→${split.train.to}  ·  test ${split.test.candles.length} bars ${split.test.from}→${split.test.to}`);
+function printOne(wf: WalkForwardResult, folds: Split[], tf: string): void {
+  console.log(`\n${wf.id}`);
+  console.log(`  ${wf.swept.length} sweepable param(s) on ${tf}: ${wf.swept.join(', ') || '(none)'}`);
 
-  console.log(`\n  baseline (author defaults)`);
-  console.log(`    train  ${fmt(r.baseTrain)}`);
-  console.log(`    test   ${fmt(r.baseTest)}`);
+  if (wf.swept.length === 0) { console.log('\n  no sweepable numeric parameters — nothing to search'); return; }
 
-  if (r.swept.length === 0) { console.log('\n  no sweepable numeric parameters — nothing to search'); return; }
+  wf.folds.forEach((r, i) => {
+    const s = folds[i];
+    console.log(`\n  fold ${i + 1}/${wf.folds.length}  train ${s.train.candles.length} bars ${s.train.from}→${s.train.to}  ·  test ${s.test.candles.length} bars ${s.test.from}→${s.test.to}`);
+    console.log(`    baseline  train ${fmt(r.baseTrain)}   test ${fmt(r.baseTest)}`);
+    if (r.best) {
+      console.log(`    best      train ${fmt(r.best.train)}   test ${fmt(r.best.test)}`);
+      console.log(`              at ${JSON.stringify(r.best.params)}`);
+    } else {
+      console.log('    nothing cleared the min-trades bar on train');
+    }
+    console.log(`    fold verdict: ${wf.foldVerdicts[i].toUpperCase()}`);
+  });
 
-  console.log(`\n  ${r.trials} trials · ${r.validN} valid on train · ${r.trainGoodN} with train Sharpe > 1 · ${r.heldUpN} of those held test Sharpe > 1`);
-
-  if (r.best) {
-    console.log(`\n  best (picked by train Sharpe)`);
-    console.log(`    train  ${fmt(r.best.train)}`);
-    console.log(`    test   ${fmt(r.best.test)}`);
-    console.log(`    at     ${JSON.stringify(r.best.params)}`);
-  } else {
-    console.log('\n  nothing cleared the min-trades bar on train');
-  }
-
-  if (r.oracle && r.oracle !== r.best) {
-    console.log(`\n  best possible on test (hindsight — an upper bound, not an achievable result)`);
-    console.log(`    test   ${fmt(r.oracle.test)}`);
-    console.log(`    at     ${JSON.stringify(r.oracle.params)}`);
-  }
-
-  console.log(`\n  verdict: ${verdict(r, minTrades).toUpperCase()}`);
+  console.log(`\n  ${wf.folds.filter((_, i) => wf.foldVerdicts[i] === 'holds').length}/${wf.folds.length} folds hold  ·  avg test Sharpe ${wf.avgTestSharpe?.toFixed(2) ?? '—'}`);
+  console.log(`  aggregate verdict: ${wf.verdict.toUpperCase()}`);
   console.log('');
   for (const l of LEGEND) console.log(`  ${l}`);
 }
 
 // ── --all summary table ────────────────────────────────────────────────────
 
-const HEADERS = ['#', 'strategy', 'tf', 'tr Shrp', 'te Shrp', 'tr ret', 'te ret', 'te maxDD', 'te trd', 'verdict'];
+const HEADERS = ['#', 'strategy', 'tf', 'folds held', 'avg te Shrp', 'verdict'];
 const NAME_W = 30;
 const clip = (s: string) => (s.length <= NAME_W ? s : s.slice(0, NAME_W - 1) + '…');
-const sh = (m?: BacktestMetrics | null) => (m ? shp(m).toFixed(2).replace('-', '−') : '—');
-const rt = (m?: BacktestMetrics | null) => (m ? pct(m.totalReturn) : '—');
-const VLABEL: Record<Verdict, string> = {
-  holds: 'holds', marginal: 'marginal', overfit: 'overfit', weak: 'weak', thin: 'thin', 'no-signal': 'no signal',
+const VLABEL: Record<WFVerdict, string> = {
+  holds: 'holds', marginal: 'marginal', overfit: 'overfit', weak: 'weak', 'no-signal': 'no signal',
 };
 
-function tableRows(rows: { r: SweepResult; tf: string }[], minTrades: number): string[][] {
-  return rows.map((x, i) => {
-    const b = x.r.best;
-    return [
-      String(i + 1),
-      clip(x.r.id),
-      x.tf,
-      b ? sh(b.train) : '—',
-      b ? sh(b.test) : '—',
-      b ? rt(b.train) : '—',
-      b ? rt(b.test) : '—',
-      b?.test ? `${Math.round(b.test.maxDrawdown)}%` : '—',
-      b?.test ? String(b.test.totalTrades) : '—',
-      VLABEL[verdict(x.r, minTrades)],
-    ];
-  });
+function tableRows(rows: { wf: WalkForwardResult; tf: string }[]): string[][] {
+  return rows.map((x, i) => [
+    String(i + 1),
+    clip(x.wf.id),
+    x.tf,
+    `${x.wf.foldVerdicts.filter(v => v === 'holds').length}/${x.wf.folds.length}`,
+    x.wf.avgTestSharpe != null ? x.wf.avgTestSharpe.toFixed(2).replace('-', '−') : '—',
+    VLABEL[x.wf.verdict],
+  ]);
 }
 
-function writeSweepMd(rows: { r: SweepResult; tf: string }[], trials: number, minTrades: number): string {
-  const trainPct = Math.round(TRAIN_FRAC * 100);
+function writeSweepMd(rows: { wf: WalkForwardResult; tf: string }[], trials: number, minTrades: number, folds: number): string {
   const md = [
-    `# Parameter sweep — out-of-sample`,
+    `# Parameter sweep — walk-forward out-of-sample`,
     ``,
     `_Generated ${new Date().toISOString()}_`,
     ``,
-    `${SYMBOL} · ${trials} trials per (spec × timeframe) · min ${minTrades} train trades · split train ${trainPct}% / test ${100 - trainPct}% (chronological).`,
-    `The best config is picked by **train** Sharpe; the **test** columns are that same config on the held-out last third.`,
+    `${SYMBOL} · ${trials} trials per (spec × timeframe × fold) · min ${minTrades} train trades · ${folds} anchored walk-forward folds.`,
+    `Each fold's best config is picked by **train** Sharpe on an expanding window; the **test** Sharpe is that config on the next untouched block. A strategy only counts as holding if it holds on most folds, not one.`,
     ``,
-    mdTable(HEADERS, tableRows(rows, minTrades)),
+    mdTable(HEADERS, tableRows(rows)),
     ``,
     `## Legend`,
     ``,
     ...LEGEND.map(l => `- ${l}`),
-    ``,
-    `## Best-by-train parameters`,
-    ``,
-    ...rows.filter(x => x.r.best).map(x => `- \`${x.r.id}\` @ ${x.tf} — \`${JSON.stringify(x.r.best!.params)}\``),
     ``,
   ].join('\n');
   fs.mkdirSync(RESULTS_DIR, { recursive: true });
@@ -253,13 +302,14 @@ function writeSweepMd(rows: { r: SweepResult; tf: string }[], trials: number, mi
 // ── CLI ────────────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
-const VALUE_FLAGS = ['--trials', '--min-trades', '--tf'];
+const VALUE_FLAGS = ['--trials', '--min-trades', '--tf', '--folds'];
 const flag = (name: string) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
 const positional = args.filter((a, i) => !a.startsWith('--') && !VALUE_FLAGS.includes(args[i - 1]));
 const isAll = args.includes('--all');
 const trials = Number(flag('--trials')) || (isAll ? 200 : 300);
 const minTrades = Number(flag('--min-trades')) || 5;
 const tfArg = flag('--tf');
+const numFolds = Number(flag('--folds')) || DEFAULT_FOLDS;
 
 function candlesFor(tf: string): Candle[] | null {
   return findCached(SOURCE, SYMBOL, tf) ?? null;
@@ -274,33 +324,32 @@ if (isAll) {
   }
   if (assemblable.length === 0) { console.error('no assemblable specs'); process.exit(1); }
 
-  const rows: { r: SweepResult; tf: string }[] = [];
+  const rows: { wf: WalkForwardResult; tf: string }[] = [];
   for (const tf of tfList) {
     const c = candlesFor(tf);
     if (!c || !c.length) { console.warn(`no cached ${SYMBOL} ${tf} — skipping (yarn data:fetch ${SYMBOL} ${tf} 2017-01-01 2025-09-01)`); continue; }
-    const split = splitCandles(c);
-    if (!split) { console.warn(`too few cached ${SYMBOL} ${tf} candles (${c.length}) to split train/test — skipping`); continue; }
+    const folds = buildFolds(c, numFolds);
+    if (folds.length === 0) { console.warn(`too few cached ${SYMBOL} ${tf} candles (${c.length}) for ${numFolds} folds — skipping`); continue; }
     for (const base of assemblable) {
-      process.stderr.write(`  sweeping ${base.id} @ ${tf}[K\r`);
-      rows.push({ r: sweepSpec(base, split, trials, minTrades), tf });
+      process.stderr.write(`  sweeping ${base.id} @ ${tf}[K\r`);
+      rows.push({ wf: sweepWalkForward(base, folds, trials, minTrades), tf });
     }
   }
-  process.stderr.write('[K');
+  process.stderr.write('[K');
   if (rows.length === 0) { console.error('no cached data for any requested timeframe'); process.exit(1); }
 
-  const rank = (x: { r: SweepResult }) => (x.r.best?.test ? shp(x.r.best.test) : -99);
-  rows.sort((a, b) => rank(b) - rank(a));
+  rows.sort((a, b) => (b.wf.holdRate - a.wf.holdRate) || ((b.wf.avgTestSharpe ?? -99) - (a.wf.avgTestSharpe ?? -99)));
 
-  console.log(`\n${SYMBOL} · ${trials} trials/spec · min ${minTrades} train trades · train ${Math.round(TRAIN_FRAC * 100)}% / test ${100 - Math.round(TRAIN_FRAC * 100)}%\n`);
-  console.log(boxTable(HEADERS, tableRows(rows, minTrades)));
+  console.log(`\n${SYMBOL} · ${trials} trials/fold · min ${minTrades} train trades · ${numFolds} anchored walk-forward folds\n`);
+  console.log(boxTable(HEADERS, tableRows(rows)));
   console.log('');
   for (const l of LEGEND) console.log(`  ${l}`);
-  const out = writeSweepMd(rows, trials, minTrades);
+  const out = writeSweepMd(rows, trials, minTrades, numFolds);
   console.log(`\nwrote ${out}`);
 } else {
   const specId = positional[0];
   if (!specId) {
-    console.error('usage: yarn sweep <specId> [--trials N] [--min-trades N] [--tf TF]   |   yarn sweep --all [--tf 1h,4h,1d]');
+    console.error('usage: yarn sweep <specId> [--trials N] [--min-trades N] [--tf TF] [--folds N]   |   yarn sweep --all [--tf 1h,4h,1d]');
     process.exit(1);
   }
   const tf = tfArg ?? process.env.BT_TF ?? '1h';
@@ -308,7 +357,7 @@ if (isAll) {
   if (!c || !c.length) { console.error(`no cached ${SOURCE} ${SYMBOL} ${tf} — run yarn data:fetch first`); process.exit(1); }
   const base = loadSpec(path.join(SPECS_DIR, specId.endsWith('.json') ? specId : `${specId}.json`));
   if ('unassemblable' in assemble(base)) { console.error(`${base.id} is not assemblable — nothing to sweep`); process.exit(1); }
-  const split = splitCandles(c);
-  if (!split) { console.error(`too few cached ${SYMBOL} ${tf} candles (${c.length}) to split train/test`); process.exit(1); }
-  printOne(sweepSpec(base, split, trials, minTrades), split, tf, minTrades);
+  const folds = buildFolds(c, numFolds);
+  if (folds.length === 0) { console.error(`too few cached ${SYMBOL} ${tf} candles (${c.length}) for ${numFolds} folds`); process.exit(1); }
+  printOne(sweepWalkForward(base, folds, trials, minTrades), folds, tf);
 }
