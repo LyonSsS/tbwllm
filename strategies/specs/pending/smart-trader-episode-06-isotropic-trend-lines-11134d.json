@@ -1,0 +1,129 @@
+{
+  "id": "smart-trader-episode-06-isotropic-trend-lines-11134d",
+  "name": "Smart Trader, Episode 06, Isotropic Trend Lines",
+  "source": "https://www.tradingview.com/script/ZSgx4eSy-Smart-Trader-Episode-06-Isotropic-Trend-Lines",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 3
+      },
+      "outputKey": "highest_high3"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 7
+      },
+      "outputKey": "highest_high7"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 13
+      },
+      "outputKey": "highest_high13"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 19
+      },
+      "outputKey": "highest_high19"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 29
+      },
+      "outputKey": "highest_high29"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 47
+      },
+      "outputKey": "highest_high47"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 3
+      },
+      "outputKey": "lowest_low3"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 7
+      },
+      "outputKey": "lowest_low7"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 13
+      },
+      "outputKey": "lowest_low13"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 19
+      },
+      "outputKey": "lowest_low19"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 29
+      },
+      "outputKey": "lowest_low29"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 47
+      },
+      "outputKey": "lowest_low47"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "_alertsActive and _dir == DIR_UP and _dir[1] != DIR_UP",
+      "_alertsActive and _dir == DIR_DOWN and _dir[1] != DIR_DOWN",
+      "_alertsActive and _dir == DIR_FLAT and _dir[1] != DIR_FLAT"
+    ]
+  },
+  "parameters": {
+    "i_calcBar": "Live Bar",
+    "i_period": 13,
+    "i_groups": 5,
+    "i_thresh": 0.5,
+    "i_sigmaLen": 20,
+    "i_chW": 2,
+    "i_chSty": "Solid",
+    "i_pjOff": 7,
+    "i_pjW": 2,
+    "i_pjSty": "Dotted",
+    "i_lang": "English",
+    "i_showCh": true,
+    "i_showFill": true,
+    "i_showDash": true,
+    "i_dashSz": 12,
+    "i_fillTr": 85,
+    "i_showBlk": false,
+    "i_blkTr": 90,
+    "i_showAng": false,
+    "i_showAngLbl": false,
+    "i_enableAlerts": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "11134d5b711a4019",
+  "createdAt": 1790680871385
+}

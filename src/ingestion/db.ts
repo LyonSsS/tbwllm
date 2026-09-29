@@ -26,11 +26,38 @@ db.exec(`
   );
 
   CREATE TABLE IF NOT EXISTS pages (
-    page_num    INTEGER PRIMARY KEY,
-    scraped_at  INTEGER,
-    url_count   INTEGER
+    page_num     INTEGER NOT NULL,
+    listing_path TEXT NOT NULL DEFAULT '/scripts/',
+    scraped_at   INTEGER,
+    url_count    INTEGER,
+    PRIMARY KEY (page_num, listing_path)
   );
 `);
+
+// One-time migration: an older schema had `page_num` as the sole primary
+// key, so "page scraped" was tracked globally regardless of which listing
+// (default vs. e.g. /scripts/editors-picks/) it came from — a second
+// listing source would then wrongly show as "already scraped". Detect the
+// old shape (no listing_path column) and rebuild, preserving existing rows
+// under the historical default path rather than losing that resume state.
+{
+  const cols = db.prepare(`PRAGMA table_info(pages)`).all() as Array<{ name: string }>;
+  if (!cols.some(c => c.name === 'listing_path')) {
+    db.exec(`
+      ALTER TABLE pages RENAME TO pages_old;
+      CREATE TABLE pages (
+        page_num     INTEGER NOT NULL,
+        listing_path TEXT NOT NULL DEFAULT '/scripts/',
+        scraped_at   INTEGER,
+        url_count    INTEGER,
+        PRIMARY KEY (page_num, listing_path)
+      );
+      INSERT INTO pages (page_num, listing_path, scraped_at, url_count)
+        SELECT page_num, '/scripts/', scraped_at, url_count FROM pages_old;
+      DROP TABLE pages_old;
+    `);
+  }
+}
 
 export type ScriptStatus =
   | 'pending'
@@ -56,15 +83,15 @@ export interface ScriptRow {
 
 // ─── Pages ───────────────────────────────────────────────────────────────────
 
-export function markPageScraped(pageNum: number, urlCount: number): void {
+export function markPageScraped(pageNum: number, urlCount: number, listingPath = '/scripts/'): void {
   db.prepare(`
-    INSERT OR REPLACE INTO pages (page_num, scraped_at, url_count)
-    VALUES (?, ?, ?)
-  `).run(pageNum, Date.now(), urlCount);
+    INSERT OR REPLACE INTO pages (page_num, listing_path, scraped_at, url_count)
+    VALUES (?, ?, ?, ?)
+  `).run(pageNum, listingPath, Date.now(), urlCount);
 }
 
-export function isPageScraped(pageNum: number): boolean {
-  const row = db.prepare('SELECT page_num FROM pages WHERE page_num = ?').get(pageNum);
+export function isPageScraped(pageNum: number, listingPath = '/scripts/'): boolean {
+  const row = db.prepare('SELECT page_num FROM pages WHERE page_num = ? AND listing_path = ?').get(pageNum, listingPath);
   return row !== undefined;
 }
 

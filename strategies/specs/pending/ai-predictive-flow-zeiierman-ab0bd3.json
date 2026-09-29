@@ -1,0 +1,39 @@
+{
+  "id": "ai-predictive-flow-zeiierman-ab0bd3",
+  "name": "AI Predictive Flow (Zeiierman)",
+  "source": "https://www.tradingview.com/script/qaaxkW1P-AI-Predictive-Flow-Zeiierman",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "osc": {
+      "type": "EMA"
+    },
+    "sig": {
+      "type": "EMA",
+      "params": {
+        "period": "sigLn"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(osc, sig) and sig >= 0",
+      "osc >= 0 and osc[1] < 0",
+      "ta.crossunder(osc, sig) and sig <= 0",
+      "osc <= 0 and osc[1] > 0"
+    ]
+  },
+  "parameters": {
+    "len": 10,
+    "mem": 20,
+    "k": 5,
+    "smth": 5,
+    "sigLn": 5
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "ab0bd31990de1cd2",
+  "createdAt": 1790680880009
+}

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import {
   createContext, scrapeScriptUrls, scrapeScriptSource, randomDelay,
-  ScraperBlockedError, Pacer,
+  ScraperBlockedError, Pacer, SCRIPTS_PATH,
 } from './scraper.js';
 import { analyzePineScript } from './analyzer.js';
 import { enrichWithLLM, buildSpecFromStatic } from './parser.js';
@@ -82,7 +82,7 @@ export async function runPipeline(options: {
 
   try {
     for (let pageNum = startPage; pageNum <= endPage; pageNum++) {
-      if (isPageScraped(pageNum)) {
+      if (isPageScraped(pageNum, SCRIPTS_PATH)) {
         console.log(`[pipeline] Page ${pageNum} already scraped, skipping`);
         continue;
       }
@@ -101,7 +101,7 @@ export async function runPipeline(options: {
         break;
       }
 
-      if (!dryRun) markPageScraped(pageNum, urls.length);
+      if (!dryRun) markPageScraped(pageNum, urls.length, SCRIPTS_PATH);
 
       // Register all URLs
       if (!dryRun) {

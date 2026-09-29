@@ -1,0 +1,141 @@
+{
+  "id": "dynamic-equity-allocation-model-f1ca23",
+  "name": "Dynamic Equity Allocation Model",
+  "source": "https://www.tradingview.com/script/HjgCUw6g-Dynamic-Equity-Allocation-Model",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 10
+      },
+      "outputKey": "ema10"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 50
+      },
+      "outputKey": "sma50"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 200
+      },
+      "outputKey": "sma200"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 252
+      },
+      "outputKey": "sma252"
+    },
+    {
+      "type": "HIGHEST_HIGH",
+      "params": {
+        "period": 252
+      },
+      "outputKey": "highest_high252"
+    },
+    {
+      "type": "LOWEST_LOW",
+      "params": {
+        "period": 252
+      },
+      "outputKey": "lowest_low252"
+    },
+    {
+      "type": "ROC",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "roc20"
+    },
+    {
+      "type": "ROC",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "roc5"
+    },
+    {
+      "type": "ROC",
+      "params": {
+        "period": 1
+      },
+      "outputKey": "roc1"
+    },
+    {
+      "type": "STDDEV",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "stddev20"
+    },
+    {
+      "type": "STDDEV",
+      "params": {
+        "period": 60
+      },
+      "outputKey": "stddev60"
+    },
+    {
+      "type": "STDDEV",
+      "params": {
+        "period": 252
+      },
+      "outputKey": "stddev252"
+    }
+  ],
+  "bindings": {
+    "smoothed_allocation": {
+      "type": "SMA",
+      "params": {
+        "period": "smoothing_period"
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "smoothed_allocation >= 80 and smoothed_allocation[1] < 80",
+      "smoothed_allocation <= 20 and smoothed_allocation[1] > 20",
+      "is_crisis and not is_crisis[1]"
+    ]
+  },
+  "parameters": {
+    "model_type": "Adaptive",
+    "use_crisis_detection": true,
+    "use_regime_model": true,
+    "target_portfolio_volatility": 12,
+    "max_portfolio_drawdown": 15,
+    "risk_lookback": 252,
+    "w_regime": 35,
+    "w_risk": 25,
+    "w_valuation": 20,
+    "w_sentiment": 15,
+    "w_macro": 5,
+    "crisis_vix_threshold": 40,
+    "crisis_drawdown_threshold": 15,
+    "crisis_credit_spread": 500,
+    "smoothing_period": 3,
+    "background_intensity": 95,
+    "color_scheme": "EdgeTools",
+    "use_dark_mode": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "f1ca2384bb29a761",
+  "createdAt": 1790681413559
+}

@@ -1,0 +1,33 @@
+{
+  "id": "stop-loss-clustering-breakouts-kioseff-trading-0f2662",
+  "name": "Stop Loss Clustering (Breakouts) [Kioseff Trading]",
+  "source": "https://www.tradingview.com/script/CJX3k6l2-Stop-Loss-Cascades-Breakouts-Kioseff-Trading",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "ATR",
+      "params": {
+        "period": 14
+      },
+      "outputKey": "atr14"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "radiateB",
+      "radiateS"
+    ]
+  },
+  "parameters": {
+    "model": "defval = Absorbtion Extremes",
+    "intensity": false,
+    "forceTypicalMove": false
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "0f266230251f2c7f",
+  "createdAt": 1790681042258
+}

@@ -1,0 +1,38 @@
+{
+  "id": "unknown-strategy-30b38d",
+  "name": "Unknown Strategy",
+  "source": "https://www.tradingview.com/script/eQk0bwY4-analytics-tables",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 21
+      },
+      "outputKey": "sma21"
+    },
+    {
+      "type": "SMA",
+      "params": {
+        "period": 49
+      },
+      "outputKey": "sma49"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH"
+  },
+  "parameters": {
+    "seasonalTableExtend": false,
+    "statsTablePosY": "defval = TOP",
+    "statsTablePosX": "defval = RIGHT",
+    "metricsTablePosY": "defval = BOTTOM",
+    "metricsTablePosX": "defval = RIGHT"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "30b38d3cb7df29e9",
+  "createdAt": 1790681490871
+}

@@ -1,0 +1,66 @@
+{
+  "id": "volume-spread-analysis-iq-tradingiq-0441b5",
+  "name": "Volume Spread Analysis IQ [TradingIQ]",
+  "source": "https://www.tradingview.com/script/9MpC4ifP-Volume-Spread-Analysis-IQ-TradingIQ",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "SMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "sma20"
+    },
+    {
+      "type": "STDDEV",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "stddev20"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH"
+  },
+  "parameters": {
+    "simpleMode": false,
+    "noNeon": false,
+    "maType": "defval = SMA",
+    "trendRule": true,
+    "bgLookbackIn": "Medium",
+    "oiBinanceUSDT": true,
+    "oiBinanceUSD": true,
+    "oiBinanceBUSD": true,
+    "oiBitmexUSD": true,
+    "oiBitmexUSDT": true,
+    "oiKrakenUSD": true,
+    "bodySense": "Standard",
+    "wickSense": "Standard",
+    "closeSense": "Standard",
+    "spreadSense": "Standard",
+    "lowVolSense": "Standard",
+    "highVolSense": "Standard",
+    "bgSense": "Standard",
+    "noDemandTrad": false,
+    "noSupplyTrad": false,
+    "shakeOutTrad": false,
+    "upThrustTrad": false,
+    "advSmallBodyThresh": 0.1,
+    "advLongWickThresh": 0.45,
+    "advCloseThresh": 0.6,
+    "advNarrowRankMax": 30,
+    "advWideRankMin": 70,
+    "advUltraWideRankMin": 90,
+    "advLowVolRankMax": 30,
+    "advHighVolRankMin": 70,
+    "advUltraHighRankMin": 90,
+    "advBgThresh": 2,
+    "advAppearThresh": 1
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "0441b5b05a499a86",
+  "createdAt": 1790680800464
+}

@@ -1,0 +1,15 @@
+{
+  "id": "tasc-2026-03-one-percent-a-week-497d16",
+  "name": "TASC 2026.03 One Percent A Week",
+  "source": "https://www.tradingview.com/script/nVECqIQx-TASC-2026-03-One-Percent-A-Week",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH"
+  },
+  "parsedBy": "static",
+  "confidence": 0.34,
+  "rawHash": "497d16fdb7ed4702",
+  "createdAt": 1790681111370
+}

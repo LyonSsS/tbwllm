@@ -1,0 +1,34 @@
+{
+  "id": "trend-target-ribbon-boswaves-458730",
+  "name": "Trend Target Ribbon [BOSWaves]",
+  "source": "https://www.tradingview.com/script/tnQ7FvvW-Trend-Target-Ribbon-BOSWaves",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "almaLen": 34,
+    "almaSigma": 6,
+    "devLen": 34,
+    "devMult": 0.65,
+    "slopeLen": 3,
+    "slopeMin": 0.08,
+    "atrLen": 14,
+    "stopLookback": 12,
+    "minStopAtr": 0.75,
+    "maxStopAtr": 3,
+    "targetCount": 4,
+    "zonePct": 0.06,
+    "approachR": 0.65,
+    "extendBars": 30,
+    "keepPositions": 4,
+    "paintBars": true
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "458730551f624387",
+  "createdAt": 1790680564570
+}

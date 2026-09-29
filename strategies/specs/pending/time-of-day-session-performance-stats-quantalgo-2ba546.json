@@ -1,0 +1,35 @@
+{
+  "id": "time-of-day-session-performance-stats-quantalgo-2ba546",
+  "name": "Time-of-Day/Session Performance Stats [QuantAlgo]",
+  "source": "https://www.tradingview.com/script/Yr3kT0uI-Time-of-Day-Session-Performance-Stats-QuantAlgo",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "currentHour == array.get(rankByBias, 0)",
+      "currentHour == array.get(rankByBias, array.size(rankByBias) - 1)"
+    ]
+  },
+  "parameters": {
+    "timezoneSel": "UTC",
+    "lookbackDays": 90,
+    "maxBarsScan": 5000,
+    "minHourBars": 10,
+    "rangeUnitSel": "Percent",
+    "includeSel": "All Bars",
+    "weekdaysOnly": false,
+    "boardsPosSel": "Middle Center",
+    "sessionPosSel": "Bottom Left",
+    "focusPosSel": "Bottom Right",
+    "bgSourceSel": "Session Ranking",
+    "barSourceSel": "Session Ranking",
+    "textSizeSel": "Tiny",
+    "colorPreset": "Custom"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "2ba54609a92a3e44",
+  "createdAt": 1790680653222
+}

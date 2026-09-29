@@ -1,0 +1,28 @@
+{
+  "id": "liquidity-void-detector-zeiierman-f16031",
+  "name": "Liquidity Void Detector (Zeiierman)",
+  "source": "https://www.tradingview.com/script/q1hXS0v6-Liquidity-Void-Detector-Zeiierman",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(osc, longThr)",
+      "ta.crossunder(osc, shortThr)"
+    ]
+  },
+  "parameters": {
+    "L": 30,
+    "vzLen": 60,
+    "vzThr": -0.5,
+    "rLen": 60,
+    "fadeNoLow": 0.01,
+    "longThr": 1,
+    "shortThr": -1
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "rawHash": "f16031b51b8dadac",
+  "createdAt": 1790681548204
+}

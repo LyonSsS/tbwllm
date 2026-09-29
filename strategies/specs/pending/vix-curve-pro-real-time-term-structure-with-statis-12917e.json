@@ -1,0 +1,24 @@
+{
+  "id": "vix-curve-pro-real-time-term-structure-with-statis-12917e",
+  "name": "VIX Curve Pro - Real-Time Term Structure with Statistics",
+  "source": "https://www.tradingview.com/script/DRX2SbYV-VIX-Curve-Pro-Real-Time-Term-Structure-with-Statistics",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(ratio_1m_6m, 0.95)",
+      "ta.crossunder(ratio_1m_6m, 0.75)"
+    ]
+  },
+  "parameters": {
+    "lookback": 252,
+    "curveThickness": 4,
+    "pointSpacing": 12
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "12917e678f30a1cc",
+  "createdAt": 1790681033430
+}

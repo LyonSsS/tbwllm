@@ -1,0 +1,36 @@
+{
+  "id": "redk-multi-modal-trailingstop-v1-0-e17731",
+  "name": "RedK Multi-Modal TrailingStop v1.0",
+  "source": "https://www.tradingview.com/script/ZxCXrnij-RedK-Multi-Modal-TrailingStop-RedK-MMTStop",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(close, stopLine)",
+      "ta.crossunder(close, stopLine)"
+    ]
+  },
+  "parameters": {
+    "TStop_mode": "ATR / Supertrend",
+    "atrLen": 10,
+    "atrMult": 3,
+    "useMTF": false,
+    "chLen": 22,
+    "chAtrLen": 14,
+    "chMult": 3,
+    "dcLen": 20,
+    "sdLen": 20,
+    "sdMult": 2,
+    "pctOff": 5,
+    "critAtrLen": 14,
+    "safeZone": 2,
+    "tblSizeOpt": "Small",
+    "tblPosOpt": "Top Right"
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "e177314b830e86cc",
+  "createdAt": 1790680557192
+}

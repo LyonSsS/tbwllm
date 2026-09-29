@@ -1,0 +1,26 @@
+{
+  "id": "hyperfork-matrix-819e23",
+  "name": "Hyperfork Matrix",
+  "source": "https://www.tradingview.com/script/Sq5Xt0eZ-Hyperfork-Matrix",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": []
+  },
+  "parameters": {
+    "start_pivot_type": "Auto",
+    "use_log": false,
+    "pitchfork_type": "title=Pitchfork Type",
+    "extend_dir": "title=Extend Direction",
+    "price_range_min": 0,
+    "price_range_max": 1000000,
+    "lattice_pivot": "A",
+    "lattice_source": "Pitchfork & Parallels"
+  },
+  "parsedBy": "static",
+  "confidence": 0.3,
+  "rawHash": "819e23637f45c528",
+  "createdAt": 1790681011168
+}

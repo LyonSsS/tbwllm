@@ -1,0 +1,47 @@
+{
+  "id": "per-bak-self-organized-criticality-a08d75",
+  "name": "Per Bak Self-Organized Criticality",
+  "source": "https://www.tradingview.com/script/bZo4yadb-Per-Bak-Self-Organized-Criticality",
+  "version": "1",
+  "strategyType": "mtf_scored",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 2
+      },
+      "outputKey": "ema2"
+    }
+  ],
+  "bindings": {
+    "slope_smoothed": {
+      "type": "EMA",
+      "params": {
+        "period": 2
+      }
+    }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "ta.crossover(slope_smoothed, alert_critical)",
+      "ta.crossover(slope_smoothed, alert_elevated)",
+      "ta.crossunder(slope_smoothed, alert_building) and regime_safe"
+    ]
+  },
+  "parameters": {
+    "lookback": 252,
+    "skew_weight": 34,
+    "vix_weight": 26,
+    "credit_weight": 18,
+    "pc_weight": 22,
+    "alert_building": 40,
+    "alert_elevated": 55,
+    "alert_critical": 70
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "a08d7570332e0bc3",
+  "createdAt": 1790681265888
+}

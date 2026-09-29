@@ -1,0 +1,59 @@
+{
+  "id": "market-microstructure-analytics-01372e",
+  "name": "Market Microstructure Analytics",
+  "source": "https://www.tradingview.com/script/34R4Mh5W-Market-Microstructure-Analytics",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "indicators": [
+    {
+      "type": "EMA",
+      "params": {
+        "period": 5
+      },
+      "outputKey": "ema5"
+    },
+    {
+      "type": "EMA",
+      "params": {
+        "period": 20
+      },
+      "outputKey": "ema20"
+    }
+  ],
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "lsi_stress_on and i_alerts",
+      "lsi_stress_off and i_alerts",
+      "as_event and i_alerts"
+    ]
+  },
+  "parameters": {
+    "i_lookback": 20,
+    "i_smooth": 5,
+    "i_regime_win": 100,
+    "i_w_cap": 0.7,
+    "i_winsor": 3,
+    "i_show_roll": true,
+    "i_show_cs": true,
+    "i_show_ar": true,
+    "i_show_eff": false,
+    "i_show_comp": true,
+    "i_show_park": false,
+    "i_show_hl": false,
+    "i_show_bands": true,
+    "i_show_dash": true,
+    "i_color_src": "LSI",
+    "i_glow": true,
+    "i_scheme": "EdgeTools",
+    "i_dark": true,
+    "i_lw": 2,
+    "i_alerts": false,
+    "i_thresh": 2
+  },
+  "parsedBy": "static",
+  "confidence": 0.54,
+  "rawHash": "01372eb8f61f579f",
+  "createdAt": 1790680975360
+}

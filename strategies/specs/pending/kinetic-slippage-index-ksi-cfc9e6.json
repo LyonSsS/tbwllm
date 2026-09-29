@@ -1,0 +1,24 @@
+{
+  "id": "kinetic-slippage-index-ksi-cfc9e6",
+  "name": "Kinetic Slippage Index (KSI)",
+  "source": "https://www.tradingview.com/script/CUjAnbtS-Kinetic-Slippage-Index-KSI",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "isSpike"
+    ]
+  },
+  "parameters": {
+    "atrLength": 14,
+    "volEmaLength": 20,
+    "sigLength": 9,
+    "sigSpike": 0
+  },
+  "parsedBy": "static",
+  "confidence": 0.5,
+  "rawHash": "cfc9e6069d7c0ae6",
+  "createdAt": 1790680580379
+}

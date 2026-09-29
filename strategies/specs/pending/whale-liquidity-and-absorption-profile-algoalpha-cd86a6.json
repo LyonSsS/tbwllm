@@ -1,0 +1,29 @@
+{
+  "id": "whale-liquidity-and-absorption-profile-algoalpha-cd86a6",
+  "name": "Whale Liquidity and Absorption Profile [AlgoAlpha]",
+  "source": "https://www.tradingview.com/script/cWm8UcfQ-Whale-Liquidity-and-Absorption-Profile-AlgoAlpha",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "not na(strongBuyingPrice1) or not na(strongBuyingPrice2) or not na(strongBuyingPrice3) or not na(strongBuyingPrice4)",
+      "not na(strongSellingPrice1) or not na(strongSellingPrice2) or not na(strongSellingPrice3) or not na(strongSellingPrice4)"
+    ]
+  },
+  "parameters": {
+    "lookback": 200,
+    "intragran": 10,
+    "allowSeconds": false,
+    "strengthFilter": 97,
+    "strongOnly": false,
+    "profileBins": 35,
+    "detectValueArea": false,
+    "valueAreaPercent": 30
+  },
+  "parsedBy": "static",
+  "confidence": 0.42,
+  "rawHash": "cd86a6e466315fda",
+  "createdAt": 1790680817793
+}
