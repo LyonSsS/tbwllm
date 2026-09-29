@@ -1,0 +1,45 @@
+{
+  "id": "freqtrade-berlinguyinca-adxsmas",
+  "name": "AdxSmas",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/AdxSmas.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1h",
+  "bindings": {
+    "adx": {
+      "type": "ADX",
+      "params": {
+        "period": 14
+      }
+    },
+    "short": {
+      "type": "SMA",
+      "params": {
+        "period": 3
+      }
+    },
+    "long": {
+      "type": "SMA",
+      "params": {
+        "period": 6
+      }
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(adx > 25) and (ta.crossover(short, long))"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(adx < 25) and (ta.crossover(long, short))"
+    ],
+    "stopLoss": "entry * (1 + -0.25)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245229
+}

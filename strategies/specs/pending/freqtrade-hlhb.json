@@ -1,0 +1,42 @@
+{
+  "id": "freqtrade-hlhb",
+  "name": "hlhb",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/hlhb.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "4h",
+  "bindings": {
+    "ema5": {
+      "type": "EMA",
+      "params": {
+        "period": 5
+      }
+    },
+    "ema10": {
+      "type": "EMA",
+      "params": {
+        "period": 10
+      }
+    },
+    "adx": {
+      "type": "ADX"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(ta.crossover(rsi, 50)) and (ta.crossover(ema5, ema10)) and (adx > 25) and (volume > 0)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(ta.crossunder(rsi, 50)) and (ta.crossunder(ema5, ema10)) and (adx > 25) and (volume > 0)"
+    ],
+    "stopLoss": "entry * (1 + -0.3211)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245234
+}

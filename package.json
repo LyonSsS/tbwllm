@@ -15,6 +15,8 @@
     "ingest:dry": "tsx src/ingestion/cli.ts --dry-run",
     "ingest:static": "tsx src/ingestion/cli.ts --no-llm",
     "reanalyze": "tsx src/ingestion/reanalyze.ts",
+    "ingest:freqtrade:fetch": "tsx src/ingestion/freqtradeFetch.ts",
+    "ingest:freqtrade": "tsx src/ingestion/freqtradeCli.ts",
     "assemble": "tsx src/assembly/cli.ts",
     "data:fetch": "tsx src/data/cli.ts",
     "backtest": "tsx src/backtest/run.ts",

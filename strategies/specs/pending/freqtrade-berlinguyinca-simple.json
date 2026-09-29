@@ -1,0 +1,36 @@
+{
+  "id": "freqtrade-berlinguyinca-simple",
+  "name": "Simple",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/Simple.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "rsi": {
+      "type": "RSI",
+      "params": {
+        "period": 7
+      }
+    },
+    "macd": {
+      "type": "MACD"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(macd.macd > 0) and (macd.macd > macd.signal) and (bb_upperband > bb_upperband[1]) and (rsi > 70)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "rsi > 80"
+    ],
+    "stopLoss": "entry * (1 + -0.25)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245233
+}

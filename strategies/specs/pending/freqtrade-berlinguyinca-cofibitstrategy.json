@@ -1,0 +1,35 @@
+{
+  "id": "freqtrade-berlinguyinca-cofibitstrategy",
+  "name": "CofiBitStrategy",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/CofiBitStrategy.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "adx": {
+      "type": "ADX"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(open < ema_low) and (ta.crossover(fastk, fastd)) and (fastk < buy_fastx) and (fastd < buy_fastx) and (adx > buy_adx)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "( (open >= ema_high) ) or ( (ta.crossover(fastk, sell_fastx)) or (ta.crossover(fastd, sell_fastx)) )"
+    ],
+    "stopLoss": "entry * (1 + -0.25)"
+  },
+  "parameters": {
+    "buy_fastx": 25,
+    "buy_adx": 25,
+    "sell_fastx": 75
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245231
+}

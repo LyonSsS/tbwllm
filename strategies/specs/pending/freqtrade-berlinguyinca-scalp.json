@@ -1,0 +1,30 @@
+{
+  "id": "freqtrade-berlinguyinca-scalp",
+  "name": "Scalp",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/Scalp.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1m",
+  "bindings": {
+    "adx": {
+      "type": "ADX"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(open < ema_low) and (adx > 30) and ( (fastk < 30) and (fastd < 30) and (ta.crossover(fastk, fastd)) )"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "( (open >= ema_high) ) or ( (ta.crossover(fastk, 70)) or (ta.crossover(fastd, 70)) )"
+    ],
+    "stopLoss": "entry * (1 + -0.04)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245233
+}

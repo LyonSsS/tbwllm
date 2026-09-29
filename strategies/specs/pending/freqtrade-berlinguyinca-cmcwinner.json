@@ -1,0 +1,30 @@
+{
+  "id": "freqtrade-berlinguyinca-cmcwinner",
+  "name": "CMCWinner",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/CMCWinner.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "15m",
+  "bindings": {
+    "cci": {
+      "type": "CCI"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(cci[1] < -100) and (mfi[1] < 20) and (cmo[1] < -50)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(cci[1] > 100) and (mfi[1] > 80) and (cmo[1] > 50)"
+    ],
+    "stopLoss": "entry * (1 + -0.05)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245230
+}

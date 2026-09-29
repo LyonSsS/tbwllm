@@ -1,0 +1,45 @@
+{
+  "id": "freqtrade-strategy001",
+  "name": "Strategy001",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/Strategy001.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "ema20": {
+      "type": "EMA",
+      "params": {
+        "period": 20
+      }
+    },
+    "ema50": {
+      "type": "EMA",
+      "params": {
+        "period": 50
+      }
+    },
+    "ema100": {
+      "type": "EMA",
+      "params": {
+        "period": 100
+      }
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "ta.crossover(ema20, ema50) and (ha_close > ema20) and (ha_open < ha_close)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "ta.crossover(ema50, ema100) and (ha_close < ema20) and (ha_open > ha_close)"
+    ],
+    "stopLoss": "entry * (1 + -0.10)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245226
+}

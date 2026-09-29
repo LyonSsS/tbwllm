@@ -1,0 +1,40 @@
+{
+  "id": "freqtrade-berlinguyinca-bbandrsi",
+  "name": "BbandRsi",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/BbandRsi.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1h",
+  "bindings": {
+    "rsi": {
+      "type": "RSI",
+      "params": {
+        "period": 14
+      }
+    },
+    "bb": {
+      "type": "BB",
+      "params": {
+        "period": 20,
+        "stdDev": 2
+      }
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(rsi < 30) and (close < bb.lower)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "rsi > 70"
+    ],
+    "stopLoss": "entry * (1 + -0.25)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245229
+}

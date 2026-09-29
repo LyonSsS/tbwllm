@@ -1,0 +1,45 @@
+{
+  "id": "freqtrade-informativesample",
+  "name": "InformativeSample",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/InformativeSample.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "ema20": {
+      "type": "EMA",
+      "params": {
+        "period": 20
+      }
+    },
+    "ema50": {
+      "type": "EMA",
+      "params": {
+        "period": 50
+      }
+    },
+    "ema100": {
+      "type": "EMA",
+      "params": {
+        "period": 100
+      }
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(ema20 > ema50) and (close_15m > sma20_15m)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(ema20 < ema50) and (close_15m < sma20_15m)"
+    ],
+    "stopLoss": "entry * (1 + -0.10)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245226
+}

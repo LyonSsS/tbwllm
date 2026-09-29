@@ -1,0 +1,45 @@
+{
+  "id": "freqtrade-berlinguyinca-quickie",
+  "name": "Quickie",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/Quickie.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "5m",
+  "bindings": {
+    "sma_200": {
+      "type": "SMA",
+      "params": {
+        "period": 200
+      }
+    },
+    "sma_50": {
+      "type": "SMA",
+      "params": {
+        "period": 200
+      }
+    },
+    "adx": {
+      "type": "ADX"
+    },
+    "macd": {
+      "type": "MACD"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(adx > 30) and (tema < bb_middleband) and (tema > tema[1]) and (sma_200 > close)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(adx > 70) and (tema > bb_middleband) and (tema < tema[1])"
+    ],
+    "stopLoss": "entry * (1 + -0.25)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245232
+}

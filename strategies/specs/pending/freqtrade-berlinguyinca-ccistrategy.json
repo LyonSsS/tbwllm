@@ -1,0 +1,42 @@
+{
+  "id": "freqtrade-berlinguyinca-ccistrategy",
+  "name": "CCIStrategy",
+  "source": "https://github.com/freqtrade/freqtrade-strategies/blob/main/user_data/strategies/berlinguyinca/CCIStrategy.py",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "crypto",
+  "timeframe": "1m",
+  "bindings": {
+    "cci_one": {
+      "type": "CCI",
+      "params": {
+        "period": 170
+      }
+    },
+    "cci_two": {
+      "type": "CCI",
+      "params": {
+        "period": 34
+      }
+    },
+    "rsi": {
+      "type": "RSI"
+    }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "(cci_one < -100) and (cci_two < -100) and (cmf < -0.1) and (mfi < 25) and (resample_medium > resample_short) and (resample_long < close)"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "(cci_one > 100) and (cci_two > 100) and (cmf > 0.3) and (resample_sma < resample_medium) and (resample_medium < resample_short)"
+    ],
+    "stopLoss": "entry * (1 + -0.02)"
+  },
+  "parsedBy": "static",
+  "confidence": 0.7,
+  "notes": "Auto-translated from a freqtrade IStrategy (long-only — freqtrade's enter_long/exit_long; short side not translated).",
+  "createdAt": 1790679245230
+}
