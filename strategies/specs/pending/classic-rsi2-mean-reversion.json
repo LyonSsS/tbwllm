@@ -1,0 +1,33 @@
+{
+  "id": "classic-rsi2-mean-reversion",
+  "name": "RSI(2) Mean Reversion (Connors)",
+  "source": "Classic — Larry Connors' RSI(2) mean-reversion system, long-only pullback-in-an-uptrend variant",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "rsi2": { "type": "RSI", "params": { "period": "rsiPeriod" } },
+    "trendSma": { "type": "SMA", "params": { "period": "trendLen" } }
+  },
+  "entry": {
+    "direction": "BUY",
+    "conditions": [
+      "close > trendSma and rsi2 < rsiBuyLevel"
+    ]
+  },
+  "exit": {
+    "conditions": [
+      "rsi2 > rsiSellLevel"
+    ]
+  },
+  "parameters": {
+    "rsiPeriod": 2,
+    "trendLen": 200,
+    "rsiBuyLevel": 10,
+    "rsiSellLevel": 70
+  },
+  "parsedBy": "manual",
+  "confidence": 1,
+  "notes": "Hand-authored baseline, not scraped. Buys a short-term oversold dip (2-period RSI) only while price is above the long-term trend filter (200-period SMA); exits once RSI recovers. Long-only by design — RSI(2) is a pullback-in-an-uptrend system, not a symmetric trend-follower.",
+  "createdAt": 1790676928530
+}

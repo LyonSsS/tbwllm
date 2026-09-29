@@ -1,0 +1,26 @@
+{
+  "id": "classic-supertrend-flip",
+  "name": "SuperTrend Flip",
+  "source": "Classic — SuperTrend indicator (Olivier Seban), trend-flip system widely used for crypto trend-following",
+  "version": "1",
+  "strategyType": "condition",
+  "assetClass": "any",
+  "bindings": {
+    "st": { "type": "SUPERTREND", "params": { "period": "stLen", "multiplier": "stMult" } }
+  },
+  "entry": {
+    "direction": "BOTH",
+    "conditions": [
+      "st.dir > 0 and st.dir[1] <= 0",
+      "st.dir < 0 and st.dir[1] >= 0"
+    ]
+  },
+  "parameters": {
+    "stLen": 10,
+    "stMult": 3
+  },
+  "parsedBy": "manual",
+  "confidence": 1,
+  "notes": "Hand-authored baseline, not scraped. Long when SuperTrend flips bullish, short (stop-and-reverse) when it flips bearish — always in the market. Modern trend-following classic, especially popular in crypto.",
+  "createdAt": 1790676928530
+}
